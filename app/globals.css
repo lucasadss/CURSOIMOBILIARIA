@@ -1,0 +1,286 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   IMOVIX — Design System
+   Dark, editorial, sober. One brand variable (--color-brand) drives the accent,
+   used only for the primary CTA, active state and small indicators.
+   ========================================================================== */
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, sans-serif;
+
+  /* --- Surfaces: warm graphite (the "operational" dark zone) ---------- */
+  --color-canvas: #0c0b0a;
+  --color-panel: #141210;
+  --color-panel-2: #191613;
+  --color-elevated: #211d19;
+  --color-hairline: rgba(246, 240, 232, 0.07);
+  --color-hairline-strong: rgba(246, 240, 232, 0.13);
+
+  /* --- Ink: warm off-white ------------------------------------------- */
+  --color-ink: #f4f1ec;
+  --color-ink-muted: #a09a90;
+  --color-ink-faint: #6c665e;
+
+  /* --- Brand accent: soft terracotta (swap these 5 to re-theme) ----- */
+  --color-brand: #b0806a;
+  --color-brand-hover: #bd8c76;
+  --color-brand-ink: #1e1a17;
+  --color-brand-subtle: rgba(176, 128, 106, 0.14);
+  --color-brand-border: rgba(176, 128, 106, 0.34);
+
+  /* --- Feedback ------------------------------------------------------- */
+  --color-positive: #6b8a63;
+  --color-warning: #c39a45;
+  --color-danger: #c05e46;
+
+  /* --- Type scale (px in comments) --------------------------------- */
+  --text-2xs: 0.6875rem;   /* 11 */
+  --text-2xs--line-height: 1rem;
+  --text-xs: 0.75rem;      /* 12 */
+  --text-xs--line-height: 1.15rem;
+  --text-sm: 0.8125rem;    /* 13 */
+  --text-sm--line-height: 1.3rem;
+  --text-base: 0.875rem;   /* 14 */
+  --text-base--line-height: 1.45rem;
+  --text-md: 0.9375rem;    /* 15 */
+  --text-md--line-height: 1.45rem;
+  --text-lg: 1.125rem;     /* 18 */
+  --text-lg--line-height: 1.5rem;
+  --text-xl: 1.3125rem;    /* 21 */
+  --text-xl--line-height: 1.6rem;
+  --text-2xl: 1.625rem;    /* 26 */
+  --text-2xl--line-height: 1.9rem;
+  --text-3xl: 2.125rem;    /* 34 */
+  --text-3xl--line-height: 2.3rem;
+  --text-4xl: 2.5rem;      /* 40 */
+  --text-4xl--line-height: 2.6rem;
+
+  /* --- Radii: modest, never pill ----------------------------------- */
+  --radius-sm: 0.375rem;   /* 6  */
+  --radius-md: 0.5rem;     /* 8  */
+  --radius-lg: 0.625rem;   /* 10 */
+  --radius-xl: 0.875rem;   /* 14 */
+
+  /* --- Content widths --------------------------------------------- */
+  --container-wide: 1360px;   /* discovery grids & rows        */
+  --container-app: 1200px;    /* workspace, reading + aside    */
+  --container-prose: 800px;   /* single-column forms & chat    */
+  --container-narrow: 720px;  /* faq, support                 */
+
+  /* --- Motion ------------------------------------------------------- */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --- Elevation (single, restrained) ----------------------------- */
+  --shadow-panel: 0 1px 2px rgba(0, 0, 0, 0.35), 0 10px 30px -16px rgba(0, 0, 0, 0.55);
+  --shadow-pop: 0 4px 12px rgba(0, 0, 0, 0.35), 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-hairline);
+  }
+
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /* --------------------------------------------------------------------
+     Light zone — a warm off-white "members area" band. Redefines the
+     surface/ink/hairline tokens for its subtree only; every token-driven
+     utility (bg-canvas, text-ink, border-hairline, shadow-panel…) adapts
+     automatically. Used to separate TRAINING (editorial, light) from
+     HERO and TOOLS (operational, dark).
+     ------------------------------------------------------------------ */
+  .zone-light {
+    color-scheme: light;
+    --color-canvas: #f2eee8;
+    --color-panel: #f7f4ef;
+    --color-panel-2: #e9e3d9;
+    --color-elevated: #ffffff;
+    --color-hairline: rgba(24, 24, 24, 0.10);
+    --color-hairline-strong: rgba(24, 24, 24, 0.20);
+    --color-ink: #181818;
+    --color-ink-muted: #4b5357;
+    --color-ink-faint: #857f75;
+    --color-brand-subtle: rgba(176, 128, 106, 0.16);
+    --shadow-panel: 0 1px 2px rgba(40, 32, 24, 0.05),
+      0 14px 34px -18px rgba(40, 32, 24, 0.20);
+    --shadow-pop: 0 4px 14px rgba(40, 32, 24, 0.10),
+      0 28px 56px -28px rgba(40, 32, 24, 0.28);
+
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+  }
+  .zone-light *::-webkit-scrollbar-thumb {
+    background: rgba(24, 24, 24, 0.14);
+    background-clip: content-box;
+  }
+  .zone-light *::-webkit-scrollbar-thumb:hover {
+    background: rgba(24, 24, 24, 0.24);
+    background-clip: content-box;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-weight: 500;
+    letter-spacing: -0.013em;
+  }
+
+  ::selection {
+    background: var(--color-brand-subtle);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 3px;
+  }
+
+  /* Scrollbars — quiet */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.18);
+    background-clip: content-box;
+  }
+}
+
+@layer components {
+  /* Standard page containers — one set, used everywhere */
+  .container-wide {
+    margin-inline: auto;
+    max-width: var(--container-wide);
+    padding-inline: 1rem;
+  }
+  .container-app {
+    margin-inline: auto;
+    max-width: var(--container-app);
+    padding-inline: 1rem;
+  }
+  .container-prose {
+    margin-inline: auto;
+    max-width: var(--container-prose);
+    padding-inline: 1rem;
+  }
+  .container-narrow {
+    margin-inline: auto;
+    max-width: var(--container-narrow);
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container-wide, .container-app, .container-prose, .container-narrow {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .container-wide, .container-app, .container-prose, .container-narrow {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* Quiet section label — sentence case, no uppercase */
+  .section-label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-ink-muted);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* --- Discrete entrance animations ------------------------------------- */
+@keyframes ii-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes ii-rise {
+  from { opacity: 0; transform: translateY(3px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes ii-slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+@keyframes ii-slide-in-left {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-fade {
+  animation: ii-fade-in 0.2s var(--ease-out) both;
+}
+.animate-rise {
+  animation: ii-rise 0.26s var(--ease-out) both;
+}
+
+/* Landing testimonials — seamless auto-scroll to the left. Track holds the
+   items twice; -50% completes one full cycle. Pauses on hover. */
+@keyframes ll-marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ll-marquee {
+  overflow: hidden;
+}
+.ll-marquee-track {
+  animation: ll-marquee-left 48s linear infinite;
+}
+.ll-marquee:hover .ll-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .ll-marquee {
+    overflow-x: auto;
+  }
+  .ll-marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+}
