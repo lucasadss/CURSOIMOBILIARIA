@@ -12,6 +12,8 @@ export const C = {
   brandHover: "#D85D1D",
   brandSoft: "#B96F4B",
   olive: "#6E775F",
+  green: "#2F7D46",
+  greenSoft: "#E9F4EC",
   textLight: "#F7F4EF",
   textMutedDark: "#A8A39B",
   textDark: "#191817",
