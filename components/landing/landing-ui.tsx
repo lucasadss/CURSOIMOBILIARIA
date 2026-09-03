@@ -1,4 +1,5 @@
 import * as React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
@@ -152,16 +153,22 @@ export function Wordmark({
   tone?: Tone;
   className?: string;
 }) {
+  // The logo image is white-on-transparent, so it only reads on dark surfaces.
+  if (tone === "light") {
+    return (
+      <span className={cn("text-[0.95rem] font-bold tracking-[-0.01em] text-[#191817]", className)}>
+        IMOV<span style={{ color: C.brand }}>IX</span>
+      </span>
+    );
+  }
   return (
-    <span
-      className={cn(
-        "text-[0.95rem] font-bold tracking-[-0.01em]",
-        tone === "dark" ? "text-[#F7F4EF]" : "text-[#191817]",
-        className,
-      )}
-    >
-      IMOV<span style={{ color: C.brand }}>IX</span>
-    </span>
+    <Image
+      src="/landing/logo-imovix.png"
+      alt="IMOVIX"
+      width={2028}
+      height={425}
+      className={cn("h-7 w-auto sm:h-8", className)}
+    />
   );
 }
 
