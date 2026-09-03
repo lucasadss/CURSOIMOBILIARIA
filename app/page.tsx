@@ -5,9 +5,7 @@ import { LandingExamples } from "@/components/landing/landing-examples";
 import { LandingNotEditor } from "@/components/landing/landing-not-editor";
 import { LandingHow } from "@/components/landing/landing-how";
 import { LandingBenefits } from "@/components/landing/landing-benefits";
-import { LandingPlatform } from "@/components/landing/landing-platform";
 import { LandingCompare } from "@/components/landing/landing-compare";
-import { LandingProof } from "@/components/landing/landing-proof";
 import { LandingNoAi } from "@/components/landing/landing-no-ai";
 import { LandingAssistant } from "@/components/landing/landing-assistant";
 import { LandingAudience } from "@/components/landing/landing-audience";
@@ -39,9 +37,7 @@ export default function LandingPage() {
         <LandingNotEditor />
         <LandingHow />
         <LandingBenefits />
-        <LandingPlatform />
         <LandingCompare />
-        <LandingProof />
         <LandingNoAi />
         <LandingAssistant />
         <LandingAudience />

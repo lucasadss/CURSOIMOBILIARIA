@@ -16,7 +16,7 @@ const WITH = ["Escolher", "Personalizar", "Copiar", "Gerar"];
 
 export function LandingCompare() {
   return (
-    <Section tone="light">
+    <Section tone="dark">
       <SectionHead title="Você pode continuar fazendo tudo do jeito difícil" />
 
       <div className="mt-12 grid gap-5 sm:grid-cols-2">
