@@ -1,4 +1,5 @@
 import { Check } from "lucide-react";
+import { HERO } from "@/lib/assets";
 import { OFFER } from "@/lib/product";
 import { Wordmark, Cta, Hl, C } from "./landing-ui";
 
@@ -47,6 +48,25 @@ export function LandingHero() {
               {b}
             </span>
           ))}
+        </div>
+
+        <div className="relative mx-auto mt-12 w-full max-w-[300px] sm:mt-14 sm:max-w-[320px]">
+          <div className="overflow-hidden rounded-2xl border border-[rgba(247,244,239,0.12)] bg-[#161616]">
+            <video
+              className="aspect-[9/16] w-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              poster={HERO.image ?? undefined}
+            >
+              <source src="/landing/hero-video.mp4" type="video/mp4" />
+            </video>
+          </div>
+          <p className="mt-3 text-xs" style={{ color: "var(--muted)" }}>
+            Foto comum de um lote, apresentada como vídeo.
+          </p>
         </div>
       </div>
     </section>
