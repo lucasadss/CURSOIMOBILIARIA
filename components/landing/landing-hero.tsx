@@ -15,7 +15,7 @@ export function LandingHero() {
       className="px-5 pb-16 pt-8 text-center sm:px-8 sm:pb-20 sm:pt-10 md:pb-24 md:pt-14"
     >
       <div className="mx-auto w-full max-w-[850px]">
-        <Wordmark />
+        <Wordmark className="mx-auto" />
 
         <h1 className="mt-10 text-balance text-[2rem] font-extrabold leading-[1.15] tracking-[-0.02em] sm:mt-12 sm:text-[2.75rem] md:mt-14 md:text-[3.25rem]">
           Venda mais transformando uma foto comum em um{" "}
