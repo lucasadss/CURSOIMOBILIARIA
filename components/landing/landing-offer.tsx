@@ -21,7 +21,11 @@ function OfferCta({ className }: { className?: string }) {
 
 export function LandingOffer() {
   return (
-    <Section tone="dark" id="oferta" className="border-y border-[color:var(--hairline-strong)]">
+    <Section
+      tone="dark"
+      id="oferta"
+      className="border-y border-[color:var(--hairline-strong)] py-14 md:py-16"
+    >
       <p className="mx-auto max-w-[34rem] text-sm sm:text-base" style={{ color: "var(--muted)" }}>
         Você poderia gastar esse valor em{" "}
         <span className="font-semibold" style={{ color: C.brand }}>
@@ -30,7 +34,7 @@ export function LandingOffer() {
         . Aqui você cria quantos quiser.
       </p>
 
-      <div className="relative mx-auto mt-10 max-w-[920px]">
+      <div className="relative mx-auto mt-8 max-w-[920px]">
         <div className="absolute left-1/2 top-0 z-10 -translate-x-1/2 -translate-y-1/2">
           <span
             className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white shadow-md"
@@ -47,14 +51,14 @@ export function LandingOffer() {
         >
           <div className="h-1.5 w-full" style={{ background: C.brand }} />
 
-          <div className="px-6 py-12 text-center sm:px-12 sm:py-16">
+          <div className="px-6 py-10 text-center sm:px-10 sm:py-12">
             <h3 className="text-2xl font-bold tracking-[-0.01em] sm:text-3xl">IMOVIX PRO</h3>
             <p className="mx-auto mt-3 max-w-[32rem] text-sm leading-relaxed sm:text-base" style={{ color: "var(--muted)" }}>
               Tudo que você precisa para transformar fotos de imóveis em vídeos que chamam
               atenção e ajudam você a vender mais.
             </p>
 
-            <div className="mt-10">
+            <div className="mt-8">
               <p className="text-xs font-semibold uppercase tracking-[0.16em]" style={{ color: "var(--muted)" }}>
                 Valor completo
               </p>
@@ -62,10 +66,10 @@ export function LandingOffer() {
                 {PRICE.anchor}
               </p>
 
-              <p className="mt-5 text-xs font-bold uppercase tracking-[0.16em]" style={{ color: C.brand }}>
+              <p className="mt-4 text-xs font-bold uppercase tracking-[0.16em]" style={{ color: C.brand }}>
                 Hoje por
               </p>
-              <p className="mt-1 text-[64px] font-extrabold leading-none tracking-[-0.02em] sm:text-[76px]">
+              <p className="mt-1 text-[56px] font-extrabold leading-none tracking-[-0.02em] sm:text-[68px]">
                 {PRICE.display}
               </p>
               <p className="mt-3 text-sm font-medium" style={{ color: "var(--muted)" }}>
@@ -73,16 +77,16 @@ export function LandingOffer() {
               </p>
 
               <span
-                className="mt-4 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold"
+                className="mt-3 inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold"
                 style={{ background: C.greenSoft, color: C.green }}
               >
                 Economize {PRICE.savings}
               </span>
             </div>
 
-            <OfferCta className="mt-9 sm:hidden" />
+            <OfferCta className="mt-8 sm:hidden" />
 
-            <div className="mt-10 grid grid-cols-2 justify-items-center gap-x-4 gap-y-3 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-7">
+            <div className="mt-8 grid grid-cols-2 justify-items-center gap-x-4 gap-y-3 sm:flex sm:flex-wrap sm:justify-center sm:gap-x-7">
               {QUICK_BENEFITS.map((item) => (
                 <span key={item} className="inline-flex items-center gap-1.5 text-sm font-medium">
                   <Check className="size-4 shrink-0" style={{ color: C.green }} strokeWidth={2.5} />
@@ -91,12 +95,12 @@ export function LandingOffer() {
               ))}
             </div>
 
-            <div className="mt-12">
+            <div className="mt-10">
               <p className="text-lg font-bold uppercase tracking-[0.02em] sm:text-xl">
                 E você ainda leva <span style={{ color: C.brand }}>4 bônus</span>
               </p>
 
-              <div className="mt-6 grid gap-4 text-left sm:grid-cols-2">
+              <div className="mt-5 grid gap-3.5 text-left sm:grid-cols-2">
                 {BONUSES.map((b, i) => {
                   const Icon = BONUS_ICONS[i];
                   return (
@@ -135,7 +139,7 @@ export function LandingOffer() {
             </div>
 
             <div
-              className="mt-12 flex flex-col items-center justify-center gap-4 rounded-2xl border p-6 sm:flex-row sm:gap-10"
+              className="mt-10 flex flex-col items-center justify-center gap-4 rounded-2xl border p-5 sm:flex-row sm:gap-10"
               style={{ background: "rgba(232,106,36,0.1)", borderColor: "rgba(232,106,36,0.25)" }}
             >
               <div>
@@ -157,10 +161,10 @@ export function LandingOffer() {
               </div>
             </div>
 
-            <OfferCta className="mt-10 hidden sm:block" />
+            <OfferCta className="mt-8 hidden sm:block" />
 
             <p
-              className="mt-5 flex items-center justify-center gap-1.5 text-xs font-medium"
+              className="mt-4 flex items-center justify-center gap-1.5 text-xs font-medium"
               style={{ color: "var(--muted)" }}
             >
               <Lock className="size-3.5" strokeWidth={2.25} />
