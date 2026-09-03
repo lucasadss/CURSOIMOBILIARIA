@@ -21,7 +21,7 @@ function OfferCta({ className }: { className?: string }) {
 
 export function LandingOffer() {
   return (
-    <Section tone="light" id="oferta">
+    <Section tone="dark" id="oferta" className="border-y border-[color:var(--hairline-strong)]">
       <p className="mx-auto max-w-[34rem] text-sm sm:text-base" style={{ color: "var(--muted)" }}>
         Você poderia gastar esse valor em{" "}
         <span className="font-semibold" style={{ color: C.brand }}>
@@ -42,8 +42,8 @@ export function LandingOffer() {
         </div>
 
         <div
-          className="overflow-hidden rounded-[28px] border shadow-[0_40px_90px_-35px_rgba(25,24,23,0.28)]"
-          style={{ borderColor: "var(--hairline)", background: "var(--surface)" }}
+          className="overflow-hidden rounded-[28px] border shadow-[0_40px_90px_-35px_rgba(0,0,0,0.6)]"
+          style={{ borderColor: "var(--hairline)", background: "#171717" }}
         >
           <div className="h-1.5 w-full" style={{ background: C.brand }} />
 
@@ -103,12 +103,12 @@ export function LandingOffer() {
                     <div
                       key={b.title}
                       className="flex flex-col gap-2.5 rounded-2xl border p-4 transition-[border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-[color:var(--hairline-strong)]"
-                      style={{ borderColor: "var(--hairline)", background: "var(--surface-2)" }}
+                      style={{ borderColor: "var(--hairline)", background: "#1A1A1A" }}
                     >
                       <div className="flex items-center gap-2.5">
                         <span
                           className="flex size-8 shrink-0 items-center justify-center rounded-full"
-                          style={{ background: "rgba(232,106,36,0.1)" }}
+                          style={{ background: "rgba(232,106,36,0.16)" }}
                         >
                           <Icon className="size-4" style={{ color: C.brand }} strokeWidth={2} />
                         </span>
@@ -135,8 +135,8 @@ export function LandingOffer() {
             </div>
 
             <div
-              className="mt-12 flex flex-col items-center justify-center gap-4 rounded-2xl p-6 sm:flex-row sm:gap-10"
-              style={{ background: "rgba(232,106,36,0.06)" }}
+              className="mt-12 flex flex-col items-center justify-center gap-4 rounded-2xl border p-6 sm:flex-row sm:gap-10"
+              style={{ background: "rgba(232,106,36,0.1)", borderColor: "rgba(232,106,36,0.25)" }}
             >
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--muted)" }}>
