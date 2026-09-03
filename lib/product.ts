@@ -22,25 +22,27 @@ export const PRICE = {
 
 /** Bonus items shown as "incluso grátis" next to their individual value, to build perceived value. */
 export const BONUSES = [
-  { title: "Treinamento rápido dentro da plataforma", value: "R$ 29" },
-  { title: "Biblioteca de templates prontos", value: "R$ 39" },
-  { title: "Kit Do Vídeo à Venda: legendas, CTAs e roteiro de fechamento no WhatsApp", value: "R$ 49" },
-  { title: "Assistente de IA para criação dos vídeos", value: "R$ 79" },
+  {
+    title: "Treinamento completo",
+    description: "Aprenda a usar a plataforma passo a passo.",
+    value: "R$ 29",
+  },
+  {
+    title: "Biblioteca de templates",
+    description: "Modelos prontos para acelerar suas criações.",
+    value: "R$ 39",
+  },
+  {
+    title: "Assistente de IA",
+    description: "Ajuda para criar vídeos fora dos modelos padrão.",
+    value: "R$ 79",
+  },
+  {
+    title: "Kit Do Vídeo à Venda",
+    description: "Legendas, CTAs e roteiro para fechamento no WhatsApp.",
+    value: "R$ 49",
+  },
 ];
-
-/** Mini value breakdown shown near the price to reinforce the anchor. */
-export const VALUE_SUMMARY = [
-  { label: "Plataforma completa", value: "R$ 79" },
-  { label: "Treinamento", value: "R$ 29" },
-  { label: "Templates", value: "R$ 39" },
-  { label: "Kit de vendas", value: "R$ 49" },
-];
-
-/** Cost of a single outsourced video versus the full platform, for the value comparison strip. */
-export const COMPARISON = {
-  competitor: { label: "1 vídeo editado por terceiros", value: "R$ 80 a R$ 200+" },
-  imovix: { label: "IMOVIX completa", value: "R$ 47 uma única vez" },
-};
 
 export const OFFER = {
   cta: "Quero acessar a IMOVIX agora",
