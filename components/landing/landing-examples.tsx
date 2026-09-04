@@ -4,26 +4,10 @@ import { cn } from "@/lib/utils";
 import { Section, SectionHead, C, Hl } from "./landing-ui";
 
 const BIG = [
-  {
-    file: "exemplo-possibilidade-de-um-terreno",
-    name: "Possibilidade de um terreno",
-    line: "Mostre como aquele lote pode ficar depois de construído.",
-  },
-  {
-    file: "exemplo-construcao-do-zero",
-    name: "Construção do zero",
-    line: "Acompanhe a obra evoluindo do terreno até a casa pronta.",
-  },
-  {
-    file: "exemplo-por-dentro-da-casa",
-    name: "Por dentro da casa",
-    line: "Leve o cliente para um tour pelos ambientes sem sair do anúncio.",
-  },
-  {
-    file: "exemplo-antes-e-depois",
-    name: "Antes e depois",
-    line: "Mostre a transformação de um jeito impossível de ignorar.",
-  },
+  { file: "exemplo-possibilidade-de-um-terreno", name: "Possibilidade de um terreno" },
+  { file: "exemplo-construcao-do-zero", name: "Construção do zero" },
+  { file: "exemplo-por-dentro-da-casa", name: "Por dentro da casa" },
+  { file: "exemplo-antes-e-depois", name: "Antes e depois" },
 ];
 
 const SMALL = [
@@ -35,12 +19,10 @@ const SMALL = [
 function ExampleCard({
   file,
   name,
-  line,
   small,
 }: {
   file: string;
   name: string;
-  line?: string;
   small?: boolean;
 }) {
   return (
@@ -64,9 +46,6 @@ function ExampleCard({
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/5" />
       <div className="absolute inset-x-0 bottom-0 p-3.5">
         <p className={cn("font-semibold text-white", small ? "text-xs" : "text-sm")}>{name}</p>
-        {!small && line ? (
-          <p className="mt-1 line-clamp-2 text-xs text-white/70">{line}</p>
-        ) : null}
       </div>
     </div>
   );
@@ -89,7 +68,7 @@ export function LandingExamples() {
           <ExampleCard key={c.file} {...c} />
         ))}
       </div>
-      <div className="mx-auto mt-4 grid max-w-3xl grid-cols-4 gap-4">
+      <div className="mx-auto mt-4 grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
         {SMALL.map((c) => (
           <ExampleCard key={c.file} {...c} small />
         ))}
