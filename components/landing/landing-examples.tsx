@@ -19,6 +19,21 @@ const SMALL = [
   { slug: "decoracao-de-interiores", name: "Decoração" },
 ];
 
+/**
+ * Vídeos de exemplo. Coloque o arquivo .mp4 (H.264, mudo, curto e em loop)
+ * em /public/landing/ e descomente a linha do slug correspondente aqui.
+ * Enquanto o slug não estiver listado, o card continua mostrando a imagem.
+ */
+const VIDEOS: Record<string, string> = {
+  // "casa-em-terreno": "/landing/exemplo-casa-em-terreno.mp4",
+  // "metragem-do-terreno": "/landing/exemplo-metragem-do-terreno.mp4",
+  // "mobiliando-comodos": "/landing/exemplo-mobiliando-comodos.mp4",
+  // "antes-e-depois-geral": "/landing/exemplo-antes-e-depois-geral.mp4",
+  // "voo-de-drone": "/landing/exemplo-voo-de-drone.mp4",
+  // "timelapse-de-construcao": "/landing/exemplo-timelapse-de-construcao.mp4",
+  // "decoracao-de-interiores": "/landing/exemplo-decoracao-de-interiores.mp4",
+};
+
 function ExampleCard({
   slug,
   name,
@@ -32,6 +47,7 @@ function ExampleCard({
 }) {
   const m = getModuleBySlug(slug);
   const cover = m ? moduleCover(toSummary(m)) : null;
+  const video = VIDEOS[slug];
   return (
     <div
       className={cn(
@@ -39,7 +55,19 @@ function ExampleCard({
         small ? "aspect-square" : "aspect-[4/5]",
       )}
     >
-      {cover ? (
+      {video ? (
+        <video
+          className="absolute inset-0 size-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          poster={cover?.src}
+        >
+          <source src={video} type="video/mp4" />
+        </video>
+      ) : cover ? (
         <CoverImage
           cover={cover}
           seed={slug}
@@ -50,12 +78,14 @@ function ExampleCard({
         <div className="size-full" style={{ background: "var(--surface-2)" }} />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/5" />
-      <span
-        className="absolute left-1/2 top-1/2 flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-white shadow-lg transition-transform duration-200 group-hover:scale-105"
-        style={{ background: C.brand }}
-      >
-        <Play className="size-4 translate-x-0.5" fill="currentColor" />
-      </span>
+      {video ? null : (
+        <span
+          className="absolute left-1/2 top-1/2 flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-white shadow-lg transition-transform duration-200 group-hover:scale-105"
+          style={{ background: C.brand }}
+        >
+          <Play className="size-4 translate-x-0.5" fill="currentColor" />
+        </span>
+      )}
       <div className="absolute inset-x-0 bottom-0 p-3.5">
         <p className={cn("font-semibold text-white", small ? "text-xs" : "text-sm")}>{name}</p>
         {!small && line ? (
