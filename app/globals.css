@@ -10,25 +10,25 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, sans-serif;
 
-  /* --- Surfaces: warm graphite (the "operational" dark zone) ---------- */
-  --color-canvas: #0c0b0a;
-  --color-panel: #141210;
-  --color-panel-2: #191613;
-  --color-elevated: #211d19;
-  --color-hairline: rgba(246, 240, 232, 0.07);
-  --color-hairline-strong: rgba(246, 240, 232, 0.13);
+  /* --- Surfaces: same near-black as the landing page ------------------ */
+  --color-canvas: #0d0d0d;
+  --color-panel: #161616;
+  --color-panel-2: #1d1d1b;
+  --color-elevated: #242422;
+  --color-hairline: rgba(247, 244, 239, 0.10);
+  --color-hairline-strong: rgba(247, 244, 239, 0.18);
 
-  /* --- Ink: warm off-white ------------------------------------------- */
-  --color-ink: #f4f1ec;
-  --color-ink-muted: #a09a90;
+  /* --- Ink: warm off-white, matches the landing page ------------------ */
+  --color-ink: #f7f4ef;
+  --color-ink-muted: #a8a39b;
   --color-ink-faint: #6c665e;
 
-  /* --- Brand accent: soft terracotta (swap these 5 to re-theme) ----- */
-  --color-brand: #b0806a;
-  --color-brand-hover: #bd8c76;
-  --color-brand-ink: #1e1a17;
-  --color-brand-subtle: rgba(176, 128, 106, 0.14);
-  --color-brand-border: rgba(176, 128, 106, 0.34);
+  /* --- Brand accent: IMOVIX orange, matches the landing page --------- */
+  --color-brand: #e86a24;
+  --color-brand-hover: #d85d1d;
+  --color-brand-ink: #ffffff;
+  --color-brand-subtle: rgba(232, 106, 36, 0.14);
+  --color-brand-border: rgba(232, 106, 36, 0.34);
 
   /* --- Feedback ------------------------------------------------------- */
   --color-positive: #6b8a63;
@@ -97,16 +97,16 @@
      ------------------------------------------------------------------ */
   .zone-light {
     color-scheme: light;
-    --color-canvas: #f2eee8;
-    --color-panel: #f7f4ef;
-    --color-panel-2: #e9e3d9;
+    --color-canvas: #f3efe8;
+    --color-panel: #ffffff;
+    --color-panel-2: #e8e1d7;
     --color-elevated: #ffffff;
     --color-hairline: rgba(24, 24, 24, 0.10);
     --color-hairline-strong: rgba(24, 24, 24, 0.20);
-    --color-ink: #181818;
-    --color-ink-muted: #4b5357;
+    --color-ink: #191817;
+    --color-ink-muted: #68635d;
     --color-ink-faint: #857f75;
-    --color-brand-subtle: rgba(176, 128, 106, 0.16);
+    --color-brand-subtle: rgba(232, 106, 36, 0.16);
     --shadow-panel: 0 1px 2px rgba(40, 32, 24, 0.05),
       0 14px 34px -18px rgba(40, 32, 24, 0.20);
     --shadow-pop: 0 4px 14px rgba(40, 32, 24, 0.10),
