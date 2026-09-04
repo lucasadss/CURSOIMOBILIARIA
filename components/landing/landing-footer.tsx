@@ -11,7 +11,7 @@ export function LandingFooter() {
         <nav className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm">
           <a href="#exemplos" className="transition-colors hover:text-[#F7F4EF]">Exemplos</a>
           <a href="#como-funciona" className="transition-colors hover:text-[#F7F4EF]">Como funciona</a>
-          <a href="#treinamento" className="transition-colors hover:text-[#F7F4EF]">Treinamento</a>
+          <a href="#bonus" className="transition-colors hover:text-[#F7F4EF]">Bônus</a>
           <a href="#faq" className="transition-colors hover:text-[#F7F4EF]">Dúvidas</a>
         </nav>
         <p className="text-xs">© {new Date().getFullYear()} IMOVIX</p>

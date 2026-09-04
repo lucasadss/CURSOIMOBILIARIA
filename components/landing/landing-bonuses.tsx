@@ -4,7 +4,7 @@ import { Section, SectionHead, C } from "./landing-ui";
 
 export function LandingBonuses() {
   return (
-    <Section tone="dark">
+    <Section tone="dark" id="bonus">
       <SectionHead
         kicker="Para turbinar seus resultados"
         title="Bônus exclusivos"
