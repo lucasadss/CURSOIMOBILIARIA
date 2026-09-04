@@ -1,5 +1,4 @@
 import { Check } from "lucide-react";
-import { HERO } from "@/lib/assets";
 import { OFFER } from "@/lib/product";
 import { Wordmark, Cta, Hl, C } from "./landing-ui";
 
@@ -59,14 +58,11 @@ export function LandingHero() {
               muted
               playsInline
               preload="auto"
-              poster={HERO.image ?? undefined}
+              poster="/landing/hero-video-poster.jpg"
             >
               <source src="/landing/hero-video.mp4" type="video/mp4" />
             </video>
           </div>
-          <p className="mt-3 text-xs" style={{ color: "var(--muted)" }}>
-            Foto comum de um lote, apresentada como vídeo.
-          </p>
         </div>
       </div>
     </section>
