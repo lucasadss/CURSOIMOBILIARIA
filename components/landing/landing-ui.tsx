@@ -2,6 +2,7 @@ import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Reveal } from "./reveal";
 
 export const C = {
   bgDark: "#0D0D0D",
@@ -68,14 +69,14 @@ export function Section({
       style={toneVars[tone]}
       className={cn("px-5 py-20 sm:px-8 md:py-28", className)}
     >
-      <div
+      <Reveal
         className={cn(
           "mx-auto w-full max-w-[1200px]",
           center && "text-center",
         )}
       >
         {children}
-      </div>
+      </Reveal>
     </section>
   );
 }

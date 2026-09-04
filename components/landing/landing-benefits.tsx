@@ -1,4 +1,5 @@
 import { Clock, Laptop, Smartphone } from "lucide-react";
+import { AutoplayVideo } from "./autoplay-video";
 import { Section, SectionHead, C } from "./landing-ui";
 
 const CARDS = [
@@ -29,16 +30,7 @@ export function LandingBenefits() {
       />
 
       <div className="relative mx-auto mt-12 max-w-[760px] overflow-hidden rounded-2xl border border-[color:var(--hairline)]">
-        <video
-          className="aspect-video w-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-        >
-          <source src="/landing/routine-demo.mp4" type="video/mp4" />
-        </video>
+        <AutoplayVideo className="aspect-video w-full object-cover" src="/landing/routine-demo.mp4" />
         <span className="absolute left-3 top-3 rounded-md bg-black/55 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm">
           Antes
         </span>

@@ -88,6 +88,12 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
   /* --------------------------------------------------------------------
      Light zone — a warm off-white "members area" band. Redefines the
      surface/ink/hairline tokens for its subtree only; every token-driven

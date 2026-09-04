@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ArrowRight, Eye } from "lucide-react";
+import { AutoplayVideo } from "./autoplay-video";
 import { Section, SectionHead, Hl, C } from "./landing-ui";
 
 export function LandingPatternBreak() {
@@ -54,16 +55,7 @@ export function LandingPatternBreak() {
             </span>
           </div>
           <div className="aspect-[4/3]">
-            <video
-              className="size-full object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="metadata"
-            >
-              <source src="/landing/comparison-video.mp4" type="video/mp4" />
-            </video>
+            <AutoplayVideo className="size-full object-cover" src="/landing/comparison-video.mp4" />
           </div>
         </div>
       </div>

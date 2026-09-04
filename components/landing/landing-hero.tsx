@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { OFFER } from "@/lib/product";
+import { AutoplayVideo } from "./autoplay-video";
 import { Wordmark, Cta, Hl, C } from "./landing-ui";
 
 const MICRO_BENEFITS = [
@@ -32,17 +33,11 @@ export function LandingHero() {
 
         <div className="relative mx-auto mt-8 w-full max-w-[300px] sm:mt-10 sm:max-w-[320px]">
           <div className="overflow-hidden rounded-2xl border border-[rgba(247,244,239,0.12)] bg-[#161616]">
-            <video
+            <AutoplayVideo
               className="aspect-[9/16] w-full object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
+              src="/landing/hero-video.mp4"
               poster="/landing/hero-video-poster.jpg"
-            >
-              <source src="/landing/hero-video.mp4" type="video/mp4" />
-            </video>
+            />
           </div>
         </div>
 

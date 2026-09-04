@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { AutoplayVideo } from "./autoplay-video";
 import { Section, SectionHead, C, Hl } from "./landing-ui";
 
 const BIG = [
@@ -28,21 +29,15 @@ function ExampleCard({
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-2xl border border-[color:var(--hairline)]",
+        "group relative overflow-hidden rounded-2xl border border-[color:var(--hairline)] transition-transform duration-300 hover:-translate-y-1",
         small ? "aspect-square" : "aspect-[4/5]",
       )}
     >
-      <video
+      <AutoplayVideo
         className="absolute inset-0 size-full object-cover"
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="metadata"
+        src={`/landing/${file}.mp4`}
         poster={`/landing/${file}.jpg`}
-      >
-        <source src={`/landing/${file}.mp4`} type="video/mp4" />
-      </video>
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/5" />
       <div className="absolute inset-x-0 bottom-0 p-3.5">
         <p className={cn("font-semibold text-white", small ? "text-xs" : "text-sm")}>{name}</p>
