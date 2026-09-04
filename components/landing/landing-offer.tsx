@@ -9,7 +9,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { PRICE, OFFER, BONUSES } from "@/lib/product";
-import { Section, Cta, C } from "./landing-ui";
+import { Section, Cta, Wordmark, C } from "./landing-ui";
 
 const INCLUDES = [
   "Plataforma IMOVIX completa, com mais de 20 modelos",
@@ -35,19 +35,22 @@ export function LandingOffer() {
           className="overflow-hidden rounded-3xl border shadow-[0_40px_90px_-40px_rgba(0,0,0,0.65)]"
           style={{ borderColor: "var(--hairline)", background: "#171717" }}
         >
+          <div className="h-1 w-full" style={{ background: C.brand }} />
+
           <div
-            className="px-6 py-5 text-center sm:px-8"
-            style={{ background: `linear-gradient(180deg, ${C.brand}, ${C.brandHover})` }}
+            className="px-6 py-6 text-center sm:px-8"
+            style={{ background: "linear-gradient(180deg, rgba(232,106,36,0.12), rgba(232,106,36,0))" }}
           >
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-black/25 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-white">
+            <span
+              className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em]"
+              style={{ background: "rgba(232,106,36,0.16)", color: C.brand }}
+            >
               <Sparkles className="size-3" strokeWidth={2.25} />
               Oferta de lançamento
             </span>
-            <p className="mt-2 text-lg font-extrabold tracking-[-0.01em] text-white sm:text-xl">
-              IMOVIX PRO
-            </p>
-            <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white/85">
-              Acesso completo + os 4 bônus
+            <Wordmark className="mx-auto mt-4 h-8 sm:h-9" />
+            <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--muted)" }}>
+              Acesso completo à plataforma + os 4 bônus
             </p>
           </div>
 
