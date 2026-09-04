@@ -1,4 +1,5 @@
-import { AlertTriangle, ArrowRight, Ban, HeartCrack, Image as ImageIcon, ImageOff, TrendingDown } from "lucide-react";
+import Image from "next/image";
+import { AlertTriangle, ArrowRight, Ban, HeartCrack, ImageOff, TrendingDown } from "lucide-react";
 import { OFFER } from "@/lib/product";
 import { Section, Cta, C } from "./landing-ui";
 
@@ -38,16 +39,17 @@ export function LandingProblem() {
       </div>
 
       <div className="mx-auto mt-10 grid max-w-[1000px] gap-8 text-left lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-        <div className="grid grid-cols-3 gap-2.5 sm:gap-3">
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              className="flex aspect-[3/4] items-center justify-center rounded-xl border"
-              style={{ borderColor: "var(--hairline)", background: "var(--surface)" }}
-            >
-              <ImageIcon className="size-7" style={{ color: "var(--muted)" }} strokeWidth={1.5} />
-            </div>
-          ))}
+        <div
+          className="overflow-hidden rounded-xl border"
+          style={{ borderColor: "var(--hairline)" }}
+        >
+          <Image
+            src="/landing/exemplo-posts-comuns.jpg"
+            alt="Prints de posts comuns de imóveis: fotos estáticas, sem edição, com pouco engajamento"
+            width={506}
+            height={300}
+            className="h-auto w-full"
+          />
         </div>
 
         <div>
@@ -88,11 +90,14 @@ export function LandingProblem() {
         </p>
       </div>
 
-      <div className="mx-auto mt-8 flex max-w-[1000px] justify-center">
+      <div className="mx-auto mt-8 flex max-w-[1000px] flex-col items-center">
         <Cta href="#oferta" className="!py-4 !text-base">
           {OFFER.ctaHero}
           <ArrowRight className="size-4" />
         </Cta>
+        <p className="mt-3 text-xs" style={{ color: "var(--muted)" }}>
+          Junte-se a +2.000 profissionais que já usam IA
+        </p>
       </div>
     </Section>
   );
