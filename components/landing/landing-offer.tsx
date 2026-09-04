@@ -54,18 +54,13 @@ export function LandingOffer() {
               Acesso completo à plataforma + os 3 bônus
             </p>
 
-            <div
-              className="mx-auto mt-5 overflow-hidden rounded-2xl border"
-              style={{ borderColor: "var(--hairline)" }}
-            >
-              <Image
-                src="/landing/plano-mockup.png"
-                alt="Plataforma IMOVIX e os bônus inclusos: assistente de IA, treinamento completo, biblioteca de templates, kit do vídeo à venda e suporte prioritário"
-                width={1100}
-                height={825}
-                className="h-auto w-full"
-              />
-            </div>
+            <Image
+              src="/landing/plano-mockup.png"
+              alt="Plataforma IMOVIX e os bônus inclusos: assistente de IA, treinamento completo, biblioteca de templates, kit do vídeo à venda e suporte prioritário"
+              width={1100}
+              height={825}
+              className="mx-auto mt-5 h-auto w-full"
+            />
           </div>
 
           <div className="px-6 py-6 sm:px-8 sm:py-7">
