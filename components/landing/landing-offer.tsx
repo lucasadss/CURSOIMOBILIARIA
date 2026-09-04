@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {
   ArrowRight,
   Check,
@@ -52,6 +53,19 @@ export function LandingOffer() {
             <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--muted)" }}>
               Acesso completo à plataforma + os 3 bônus
             </p>
+
+            <div
+              className="mx-auto mt-5 overflow-hidden rounded-2xl border"
+              style={{ borderColor: "var(--hairline)" }}
+            >
+              <Image
+                src="/landing/plano-mockup.png"
+                alt="Plataforma IMOVIX e os bônus inclusos: assistente de IA, treinamento completo, biblioteca de templates, kit do vídeo à venda e suporte prioritário"
+                width={1100}
+                height={825}
+                className="h-auto w-full"
+              />
+            </div>
           </div>
 
           <div className="px-6 py-6 sm:px-8 sm:py-7">
