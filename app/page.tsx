@@ -13,6 +13,7 @@ import { LandingTraining } from "@/components/landing/landing-training";
 import { LandingTestimonials } from "@/components/landing/landing-testimonials";
 import { LandingIncluded } from "@/components/landing/landing-included";
 import { LandingOffer } from "@/components/landing/landing-offer";
+import { LandingGuarantee } from "@/components/landing/landing-guarantee";
 import { LandingSupport } from "@/components/landing/landing-support";
 import { LandingFaq } from "@/components/landing/landing-faq";
 import { LandingCta } from "@/components/landing/landing-cta";
@@ -45,6 +46,7 @@ export default function LandingPage() {
         <LandingTestimonials />
         <LandingIncluded />
         <LandingOffer />
+        <LandingGuarantee />
         <LandingSupport />
         <LandingFaq />
         <LandingCta />
