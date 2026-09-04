@@ -15,6 +15,8 @@ export const C = {
   olive: "#6E775F",
   green: "#34D399",
   greenSoft: "rgba(52,211,153,0.14)",
+  red: "#DC4444",
+  redSoft: "rgba(220,68,68,0.1)",
   textLight: "#F7F4EF",
   textMutedDark: "#A8A39B",
   textDark: "#191817",

@@ -8,7 +8,7 @@ import { LandingBenefits } from "@/components/landing/landing-benefits";
 import { LandingCompare } from "@/components/landing/landing-compare";
 import { LandingNoAi } from "@/components/landing/landing-no-ai";
 import { LandingAssistant } from "@/components/landing/landing-assistant";
-import { LandingAudience } from "@/components/landing/landing-audience";
+import { LandingProblem } from "@/components/landing/landing-problem";
 import { LandingBonuses } from "@/components/landing/landing-bonuses";
 import { LandingTestimonials } from "@/components/landing/landing-testimonials";
 import { LandingIncluded } from "@/components/landing/landing-included";
@@ -41,7 +41,7 @@ export default function LandingPage() {
         <LandingCompare />
         <LandingNoAi />
         <LandingAssistant />
-        <LandingAudience />
+        <LandingProblem />
         <LandingBonuses />
         <LandingTestimonials />
         <LandingIncluded />
