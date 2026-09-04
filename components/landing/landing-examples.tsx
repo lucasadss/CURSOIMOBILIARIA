@@ -1,53 +1,48 @@
 import Link from "next/link";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { getModuleBySlug, toSummary } from "@/lib/modules";
-import { moduleCover } from "@/lib/assets";
-import { CoverImage } from "@/components/common/cover-image";
 import { Section, SectionHead, C, Hl } from "./landing-ui";
 
 const BIG = [
-  { slug: "casa-em-terreno", name: "Casa em Terreno", line: "Mostre como aquele lote pode ficar depois de construído." },
-  { slug: "metragem-do-terreno", name: "Metragem do Terreno", line: "Destaque visualmente os limites e a área do imóvel." },
-  { slug: "mobiliando-comodos", name: "Mobiliando Cômodos", line: "Transforme um ambiente vazio em uma apresentação mais atraente." },
-  { slug: "antes-e-depois-geral", name: "Antes e Depois", line: "Mostre a transformação de um jeito impossível de ignorar." },
+  {
+    file: "exemplo-possibilidade-de-um-terreno",
+    name: "Possibilidade de um terreno",
+    line: "Mostre como aquele lote pode ficar depois de construído.",
+  },
+  {
+    file: "exemplo-construcao-do-zero",
+    name: "Construção do zero",
+    line: "Acompanhe a obra evoluindo do terreno até a casa pronta.",
+  },
+  {
+    file: "exemplo-por-dentro-da-casa",
+    name: "Por dentro da casa",
+    line: "Leve o cliente para um tour pelos ambientes sem sair do anúncio.",
+  },
+  {
+    file: "exemplo-antes-e-depois",
+    name: "Antes e depois",
+    line: "Mostre a transformação de um jeito impossível de ignorar.",
+  },
 ];
 
 const SMALL = [
-  { slug: "voo-de-drone", name: "Voo de Drone" },
-  { slug: "timelapse-de-construcao", name: "Timelapse" },
-  { slug: "decoracao-de-interiores", name: "Decoração" },
+  { file: "exemplo-construcao-completa", name: "Construção completa" },
+  { file: "exemplo-mobiliando-comodos", name: "Mobiliando cômodos" },
+  { file: "exemplo-reforma-interior", name: "Reforma de interior" },
 ];
 
-/**
- * Vídeos de exemplo. Coloque o arquivo .mp4 (H.264, mudo, curto e em loop)
- * em /public/landing/ e descomente a linha do slug correspondente aqui.
- * Enquanto o slug não estiver listado, o card continua mostrando a imagem.
- */
-const VIDEOS: Record<string, string> = {
-  // "casa-em-terreno": "/landing/exemplo-casa-em-terreno.mp4",
-  // "metragem-do-terreno": "/landing/exemplo-metragem-do-terreno.mp4",
-  // "mobiliando-comodos": "/landing/exemplo-mobiliando-comodos.mp4",
-  // "antes-e-depois-geral": "/landing/exemplo-antes-e-depois-geral.mp4",
-  // "voo-de-drone": "/landing/exemplo-voo-de-drone.mp4",
-  // "timelapse-de-construcao": "/landing/exemplo-timelapse-de-construcao.mp4",
-  // "decoracao-de-interiores": "/landing/exemplo-decoracao-de-interiores.mp4",
-};
-
 function ExampleCard({
-  slug,
+  file,
   name,
   line,
   small,
 }: {
-  slug: string;
+  file: string;
   name: string;
   line?: string;
   small?: boolean;
 }) {
-  const m = getModuleBySlug(slug);
-  const cover = m ? moduleCover(toSummary(m)) : null;
-  const video = VIDEOS[slug];
   return (
     <div
       className={cn(
@@ -55,37 +50,18 @@ function ExampleCard({
         small ? "aspect-square" : "aspect-[4/5]",
       )}
     >
-      {video ? (
-        <video
-          className="absolute inset-0 size-full object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="metadata"
-          poster={cover?.src}
-        >
-          <source src={video} type="video/mp4" />
-        </video>
-      ) : cover ? (
-        <CoverImage
-          cover={cover}
-          seed={slug}
-          sizes={small ? "(max-width: 768px) 40vw, 220px" : "(max-width: 768px) 45vw, 340px"}
-          showSceneLabel={false}
-        />
-      ) : (
-        <div className="size-full" style={{ background: "var(--surface-2)" }} />
-      )}
+      <video
+        className="absolute inset-0 size-full object-cover"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        poster={`/landing/${file}.jpg`}
+      >
+        <source src={`/landing/${file}.mp4`} type="video/mp4" />
+      </video>
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/5" />
-      {video ? null : (
-        <span
-          className="absolute left-1/2 top-1/2 flex size-11 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-white shadow-lg transition-transform duration-200 group-hover:scale-105"
-          style={{ background: C.brand }}
-        >
-          <Play className="size-4 translate-x-0.5" fill="currentColor" />
-        </span>
-      )}
       <div className="absolute inset-x-0 bottom-0 p-3.5">
         <p className={cn("font-semibold text-white", small ? "text-xs" : "text-sm")}>{name}</p>
         {!small && line ? (
@@ -110,12 +86,12 @@ export function LandingExamples() {
 
       <div className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-4">
         {BIG.map((c) => (
-          <ExampleCard key={c.slug} {...c} />
+          <ExampleCard key={c.file} {...c} />
         ))}
       </div>
       <div className="mx-auto mt-4 grid max-w-3xl grid-cols-4 gap-4">
         {SMALL.map((c) => (
-          <ExampleCard key={c.slug} {...c} small />
+          <ExampleCard key={c.file} {...c} small />
         ))}
         <div
           className="flex aspect-square flex-col items-center justify-center rounded-2xl border border-dashed p-2 text-center"
