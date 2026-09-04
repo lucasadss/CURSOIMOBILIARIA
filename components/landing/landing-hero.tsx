@@ -30,6 +30,22 @@ export function LandingHero() {
           escrever prompts.
         </p>
 
+        <div className="relative mx-auto mt-8 w-full max-w-[300px] sm:mt-10 sm:max-w-[320px]">
+          <div className="overflow-hidden rounded-2xl border border-[rgba(247,244,239,0.12)] bg-[#161616]">
+            <video
+              className="aspect-[9/16] w-full object-cover"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="auto"
+              poster="/landing/hero-video-poster.jpg"
+            >
+              <source src="/landing/hero-video.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+
         <Cta
           href="#oferta"
           className="mt-8 w-full !py-4 !text-base sm:mt-10 sm:w-fit sm:min-w-[320px] sm:max-w-[420px] sm:!py-5 sm:!text-lg"
@@ -47,22 +63,6 @@ export function LandingHero() {
               {b}
             </span>
           ))}
-        </div>
-
-        <div className="relative mx-auto mt-12 w-full max-w-[300px] sm:mt-14 sm:max-w-[320px]">
-          <div className="overflow-hidden rounded-2xl border border-[rgba(247,244,239,0.12)] bg-[#161616]">
-            <video
-              className="aspect-[9/16] w-full object-cover"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              poster="/landing/hero-video-poster.jpg"
-            >
-              <source src="/landing/hero-video.mp4" type="video/mp4" />
-            </video>
-          </div>
         </div>
       </div>
     </section>
