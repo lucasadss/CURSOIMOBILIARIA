@@ -24,23 +24,21 @@ export const PRICE = {
 export const BONUSES = [
   {
     title: "Treinamento completo",
-    description: "Aprenda a usar a plataforma passo a passo.",
+    description: "Aprenda a usar a plataforma passo a passo, no seu ritmo.",
     value: "R$ 29",
+    image: "/landing/bonus-treinamento.png",
   },
   {
     title: "Biblioteca de templates",
-    description: "Modelos prontos para acelerar suas criações.",
+    description: "Modelos, legendas e roteiros prontos para acelerar suas criações.",
     value: "R$ 39",
-  },
-  {
-    title: "Assistente de IA",
-    description: "Ajuda para criar vídeos fora dos modelos padrão.",
-    value: "R$ 79",
+    image: "/landing/bonus-templates.png",
   },
   {
     title: "Kit Do Vídeo à Venda",
-    description: "Legendas, CTAs e roteiro para fechamento no WhatsApp.",
+    description: "Legendas prontas, CTAs e roteiro de fechamento no WhatsApp.",
     value: "R$ 49",
+    image: "/landing/bonus-kit-video.png",
   },
 ];
 

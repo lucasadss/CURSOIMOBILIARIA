@@ -50,7 +50,7 @@ export function LandingOffer() {
             </span>
             <Wordmark className="mx-auto mt-4 h-8 sm:h-9" />
             <p className="mt-3 text-[11px] font-semibold uppercase tracking-[0.14em]" style={{ color: "var(--muted)" }}>
-              Acesso completo à plataforma + os 4 bônus
+              Acesso completo à plataforma + os 3 bônus
             </p>
           </div>
 
