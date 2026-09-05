@@ -17,13 +17,20 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://imovix.com.br"),
+  // TODO: point this at the custom domain once it's registered and connected
+  // in Vercel (imovix.com.br currently doesn't resolve). Until then this must
+  // stay the real deployment URL, or every canonical/OG/Twitter URL below
+  // resolves to a dead domain.
+  metadataBase: new URL("https://imovix-app.vercel.app"),
   title: {
     default: "IMOVIX · Venda mais apresentando melhor os seus imóveis",
     template: "%s · IMOVIX",
   },
   description:
     "Transforme fotos de imóveis, terrenos e obras em imagens e vídeos sem precisar aprender edição ou IA.",
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: "IMOVIX · Venda mais apresentando melhor os seus imóveis",
     description:
