@@ -35,7 +35,7 @@ export function ContinueWatching({ training }: { training: Training }) {
     <ContentRow
       title="Continue assistindo"
       align="center"
-      itemWidth="w-[240px] sm:w-[280px]"
+      itemWidth="w-[300px] sm:w-[400px] lg:w-[460px]"
     >
       {items.map(({ lesson, module }) => (
         <LessonCard
@@ -44,7 +44,7 @@ export function ContinueWatching({ training }: { training: Training }) {
           module={module}
           lesson={lesson}
           orientation="landscape"
-          sizes="(max-width: 640px) 62vw, 280px"
+          sizes="(max-width: 640px) 82vw, 460px"
         />
       ))}
     </ContentRow>

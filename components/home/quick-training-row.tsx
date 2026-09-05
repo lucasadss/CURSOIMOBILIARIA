@@ -17,7 +17,7 @@ export function QuickTrainingRow() {
       title="Treinamento rápido"
       subtitle="Aprenda a usar a plataforma e criar seus primeiros resultados."
       align="center"
-      itemWidth="w-[168px] sm:w-[200px]"
+      itemWidth="w-[210px] sm:w-[250px] lg:w-[280px]"
     >
       {lessons.map(({ lesson, module }) => (
         <LessonCard
@@ -26,7 +26,7 @@ export function QuickTrainingRow() {
           module={module}
           lesson={lesson}
           orientation="portrait"
-          sizes="(max-width: 640px) 44vw, 200px"
+          sizes="(max-width: 640px) 58vw, 280px"
         />
       ))}
     </ContentRow>

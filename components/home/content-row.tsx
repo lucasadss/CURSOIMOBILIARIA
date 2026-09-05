@@ -13,7 +13,7 @@ export function ContentRow({
   href,
   align = "start",
   children,
-  itemWidth = "w-[220px] sm:w-[240px]",
+  itemWidth = "w-[280px] sm:w-[340px]",
 }: {
   title: string;
   /** small editorial label above the title (accent colour) */
@@ -55,7 +55,7 @@ export function ContentRow({
   const centered = align === "center";
 
   const arrows = scrollable ? (
-    <div className="hidden gap-1 opacity-0 transition-opacity duration-200 group-hover/row:opacity-100 md:flex">
+    <div className="hidden gap-1 md:flex">
       <button
         type="button"
         onClick={() => embla?.scrollPrev()}

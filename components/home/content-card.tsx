@@ -84,7 +84,7 @@ export function ContentCard({
         </div>
       </div>
 
-      <p className="mt-2 truncate text-sm text-ink">{module.name}</p>
+      <p className="mt-2.5 truncate text-md font-medium text-ink">{module.name}</p>
     </Link>
   );
 }

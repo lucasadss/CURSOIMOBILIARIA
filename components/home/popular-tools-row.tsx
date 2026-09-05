@@ -26,13 +26,13 @@ export function PopularToolsRow() {
     <ContentRow
       title="Mais usadas"
       href="/app/explorar"
-      itemWidth="w-[264px] sm:w-[300px]"
+      itemWidth="w-[300px] sm:w-[380px] lg:w-[440px]"
     >
       {items.map((m) => (
         <ContentCard
           key={m.slug}
           module={m}
-          sizes="(max-width: 640px) 72vw, 300px"
+          sizes="(max-width: 640px) 82vw, 440px"
         />
       ))}
     </ContentRow>
