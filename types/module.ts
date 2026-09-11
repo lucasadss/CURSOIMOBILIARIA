@@ -156,6 +156,12 @@ export interface ModuleDefinition {
   featured?: boolean;
   isNew?: boolean;
   startHere?: boolean;
+  /**
+   * Excluded from catalog listings (category grids, Explorar, search) while
+   * still fully reachable by direct link, dependsOn/nextModule chains and
+   * favorites. Use for modules that don't have a real cover photo yet.
+   */
+  hidden?: boolean;
 }
 
 export interface ModuleSummary

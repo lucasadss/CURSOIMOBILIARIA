@@ -38,7 +38,15 @@ export function toSummary(m: ModuleDefinition): ModuleSummary {
   };
 }
 
-export const MODULE_SUMMARIES: ModuleSummary[] = ALL_MODULES.map(toSummary);
+/**
+ * Catalog-facing summaries — excludes modules still marked `hidden` (no real
+ * cover photo yet). Use getModuleBySlug/ALL_MODULES for anything that needs
+ * every module regardless of listing status (direct links, dependsOn chains,
+ * favorites).
+ */
+export const MODULE_SUMMARIES: ModuleSummary[] = ALL_MODULES.filter(
+  (m) => !m.hidden,
+).map(toSummary);
 
 export function getModulesByCategory(category: CategorySlug): ModuleSummary[] {
   return MODULE_SUMMARIES.filter((m) => m.category === category);

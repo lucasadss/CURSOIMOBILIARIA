@@ -44,7 +44,7 @@ export default function FavoritosPage() {
       {!hydrated ? (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
           {Array.from({ length: 8 }).map((_, i) => (
-            <Skeleton key={i} className="aspect-[16/9]" />
+            <Skeleton key={i} className="aspect-[3/4]" />
           ))}
         </div>
       ) : items.length === 0 ? (

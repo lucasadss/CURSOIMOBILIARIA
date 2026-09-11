@@ -72,6 +72,7 @@ interface StubInput {
   thumbnailPosition?: string;
   promptRole?: string;
   structuredExtras?: Record<string, unknown>;
+  hidden?: boolean;
 }
 
 const DEFAULT_VIDEO_NEGATIVES = [
@@ -123,6 +124,7 @@ function stub(i: StubInput): ModuleDefinition {
     thumbnailPosition: i.thumbnailPosition,
     promptRole: i.promptRole,
     structuredExtras: i.structuredExtras,
+    hidden: i.hidden,
   };
 }
 
@@ -151,6 +153,7 @@ const antesEDepoisDecoracao = stub({
   description: "Pegue a foto atual e gere a versão decorada, lado a lado com o original.",
   category: "interiores",
   type: "image-custom",
+  hidden: true, // no real cover photo yet — remove once one is added
   images: [{ key: "before", label: "Antes", hint: "Foto real do ambiente hoje, sem edição.", promptLabel: "Before" }],
   instructions: [
     "Envie a foto do ambiente como ele está agora — sem móveis extras fora de quadro.",
@@ -235,6 +238,7 @@ const casaEmTerrenoVideo = stub({
   description: "Anime a transição do terreno vazio até a casa pronta implantada nele.",
   category: "terrenos",
   type: "video-two-images",
+  hidden: true, // no real cover photo yet — remove once one is added
   accessLevel: "pro",
   images: [
     {
@@ -1035,6 +1039,7 @@ const casaEmEmpreendimento = stub({
   description: "Insere a casa em um contexto de condomínio ou loteamento planejado, em vista aérea.",
   category: "terrenos",
   type: "image-custom",
+  hidden: true, // no real cover photo yet — remove once one is added
   isNew: true,
   images: [{ key: "reference", label: "Planta ou imagem do projeto", hint: "Planta baixa, mapa do loteamento ou foto do terreno.", promptLabel: "Site plan or project image" }],
   instructions: [
@@ -1095,6 +1100,7 @@ const vistaDeDrone = stub({
   description: "Recria o terreno ou imóvel a partir de um ponto de vista aéreo.",
   category: "terrenos",
   type: "image-custom",
+  hidden: true, // no real cover photo yet — remove once one is added
   images: [{ key: "reference", label: "Foto do imóvel ou terreno", hint: "Qualquer ângulo — a IA reprojeta para a vista aérea.", promptLabel: "Property or lot photo" }],
   instructions: ["Funciona a partir de qualquer foto do imóvel — não precisa já ser aérea."],
   toolGuide: flowGuide(
@@ -1134,6 +1140,7 @@ const metragemEmTerrenoVideo = stub({
   description: "Vídeo aéreo com o contorno da metragem se desenhando sobre o lote durante um sobrevoo.",
   category: "terrenos",
   type: "video-two-images",
+  hidden: true, // no real cover photo yet — remove once one is added
   accessLevel: "pro",
   images: [
     { key: "original", label: "Imagem original", hint: "Foto aérea sem overlay.", promptLabel: "Original image" },
