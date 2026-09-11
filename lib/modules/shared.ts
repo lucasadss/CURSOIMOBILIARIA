@@ -131,6 +131,24 @@ export const traceSpeedField: FieldConfig = {
   ],
 };
 
+/** Same multiplier idea as traceSpeedField, worded for a construction/renovation
+ *  timelapse advancing through time rather than a beam tracing a line. */
+export const timelapseSpeedField: FieldConfig = {
+  key: "speed",
+  type: "select",
+  label: "Velocidade do timelapse",
+  tooltip: "Velocidade relativa de avanço do timelapse.",
+  placeholder: "Selecione…",
+  defaultValue: "2x",
+  options: [
+    { value: "0.5x", label: "0.5x", promptValue: "0.5x speed, very slow and detailed" },
+    { value: "1x", label: "1x", promptValue: "1x speed, balanced cinematic pacing" },
+    { value: "1.5x", label: "1.5x", promptValue: "1.5x speed, slightly accelerated" },
+    { value: "2x", label: "2x", promptValue: "2x speed, fast and energetic" },
+    { value: "3x", label: "3x", promptValue: "3x speed, very fast, maximum impact" },
+  ],
+};
+
 export const durationField: FieldConfig = {
   key: "duration",
   type: "slider",

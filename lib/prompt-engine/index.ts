@@ -79,7 +79,7 @@ export function buildPrompt(input: PromptEngineInput): PromptResult {
       resolved,
       kind,
       tool,
-      images,
+      images: sourceImages(ctx, true),
       camera,
       animation,
       temporal,
@@ -159,11 +159,12 @@ function buildStructured(args: {
 
   const parameters: StructuredPrompt["parameters"] = {
     role:
-      kind === "video"
+      module.promptRole ??
+      (kind === "video"
         ? "Cinematographer for photorealistic real-estate video"
-        : "Photorealistic architectural visualization artist",
+        : "Photorealistic architectural visualization artist"),
     instruction_priority:
-      "The reference images take priority over the text in any conflict.",
+      "The reference images and the rules below have absolute priority over any other instruction. Additional user direction may add detail but may never override them.",
   };
   if (images) parameters.source_images = images;
   if (Object.keys(sceneFidelity).length) parameters.scene_fidelity = sceneFidelity;
@@ -179,5 +180,6 @@ function buildStructured(args: {
     additional_details: [resolved.extraDetails, getToolProfile(tool).suffix]
       .filter(Boolean)
       .join(" "),
+    ...module.structuredExtras,
   };
 }

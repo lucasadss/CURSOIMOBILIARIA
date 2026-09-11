@@ -31,6 +31,14 @@ export interface ImageSlot {
   hint?: string;
   /** English phrase sent to the model instead of `label`, for prompt accuracy. */
   promptLabel?: string;
+  /**
+   * Fuller sentence describing what this image *means* and what rule it
+   * locks in (e.g. "Starting state. Camera angle locked to this frame.").
+   * Used only in structured_json's source_images, where the extra length
+   * earns its keep; falls back to promptLabel/label. Keep plain_text's
+   * source-images line terse — it stays on promptLabel.
+   */
+  promptRole?: string;
 }
 
 export interface StepRef {
@@ -117,6 +125,23 @@ export interface ModuleDefinition {
   fidelity?: FidelityRules;
   /** per-tool template overrides */
   toolOverrides?: Partial<Record<TargetTool, string>>;
+
+  /**
+   * Overrides parameters.role in structured_json. Falls back to a generic
+   * "cinematographer"/"visualization artist" line by kind when absent. Worth
+   * setting for tasks the model could easily misread as "regenerate the
+   * scene" instead of what they actually are — e.g. a compositing/overlay
+   * reveal, or a specific professional role like "drone pilot".
+   */
+  promptRole?: string;
+  /**
+   * Extra top-level keys merged into the structured_json output verbatim,
+   * for a module whose task benefits from bespoke structure a generic
+   * schema can't express well (e.g. an explicit construction phase list, a
+   * drawing order, a glow spec). Sparingly used — most modules don't need
+   * this; the shared parameters.* shape already covers them.
+   */
+  structuredExtras?: Record<string, unknown>;
 
   /** guided flow */
   steps?: StepRef[];

@@ -139,8 +139,8 @@ describe("Contorno da Casa", () => {
   });
 
   it("forbids redrawing or recoloring the outline as a hard negative", () => {
-    expect(module.hardNegatives).toContain("redrawing the outline");
-    expect(module.hardNegatives).toContain("changing the trace's color");
+    expect(module.hardNegatives).toContain("redrawing the outline with a different path, thickness or style than the second image");
+    expect(module.hardNegatives).toContain("changing the trace's color, even temporarily");
   });
 
   it("produces parseable JSON with camera fidelity locked", () => {

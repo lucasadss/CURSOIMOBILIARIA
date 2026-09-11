@@ -12,9 +12,9 @@ import {
   qualityField,
   showAreaField,
   soundEffectsField,
-  speedField,
   styleOptions,
   timeOfDay,
+  timelapseSpeedField,
   weatherField,
 } from "./shared";
 
@@ -449,7 +449,7 @@ const timelapseConstrucao: ModuleDefinition = {
     walkthroughHref: "/app/treinamento/videos-que-convertem",
   },
   beginnerFields: [
-    { ...speedField, label: "Velocidade do timelapse" },
+    timelapseSpeedField,
     musicField,
     extraDetails,
   ],

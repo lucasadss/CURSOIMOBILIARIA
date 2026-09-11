@@ -18,13 +18,26 @@ function hasField(ctx: RuleContext, key: string): boolean {
    about what the module is actually saying.
    ========================================================================== */
 
-export function sourceImages(ctx: RuleContext): Record<string, string> | undefined {
+/**
+ * `detailed` (structured_json only) swaps in the slot's fuller `promptRole`
+ * sentence when the module set one, instead of the terse label used in
+ * plain_text — a richer per-image instruction is worth the extra length in
+ * JSON but would make the plain_text sentence unwieldy.
+ */
+export function sourceImages(
+  ctx: RuleContext,
+  detailed = false,
+): Record<string, string> | undefined {
   if (ctx.module.requiredImages.length === 0) return undefined;
   const out: Record<string, string> = {};
   ctx.module.requiredImages.forEach((slot, i) => {
-    const label = slot.promptLabel ?? slot.label;
-    out[slot.key] =
-      `${label} — ${i < ctx.imageCount ? "provided" : "pending"}`;
+    const provided = i < ctx.imageCount ? "provided" : "pending";
+    if (detailed && slot.promptRole) {
+      out[slot.key] = `${slot.promptRole} (${provided})`;
+    } else {
+      const label = slot.promptLabel ?? slot.label;
+      out[slot.key] = `${label} — ${provided}`;
+    }
   });
   return out;
 }
@@ -56,7 +69,10 @@ export function cameraInfo(ctx: RuleContext): Record<string, string> | undefined
 export function animationInfo(ctx: RuleContext): Record<string, string> | undefined {
   if (ctx.kind !== "video") return undefined;
   const speed =
-    ctx.resolved.speed ?? ctx.resolved.animationSpeed ?? ctx.resolved.pushInSpeed;
+    ctx.resolved.speed ??
+    ctx.resolved.animationSpeed ??
+    ctx.resolved.pushInSpeed ??
+    ctx.resolved.peakSpeed;
   const style = ctx.resolved.transitionStyle ?? ctx.resolved.glowStyle;
   if (!speed && !style) return undefined;
   const out: Record<string, string> = {};

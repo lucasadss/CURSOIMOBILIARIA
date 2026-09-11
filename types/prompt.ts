@@ -63,6 +63,8 @@ export interface StructuredPrompt {
     hard_negatives?: string[];
   };
   additional_details: string;
+  /** module.structuredExtras, merged in verbatim when a module sets it. */
+  [key: string]: unknown;
 }
 
 export interface PromptResult {

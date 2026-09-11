@@ -26,6 +26,7 @@ import {
   speedField,
   stabilizationField,
   timeOfDay,
+  timelapseSpeedField,
   traceSpeedField,
   transformLevel,
   weatherField,
@@ -68,6 +69,8 @@ interface StubInput {
   isNew?: boolean;
   thumbnailAlt?: string;
   thumbnailPosition?: string;
+  promptRole?: string;
+  structuredExtras?: Record<string, unknown>;
 }
 
 const DEFAULT_VIDEO_NEGATIVES = [
@@ -117,6 +120,8 @@ function stub(i: StubInput): ModuleDefinition {
     isNew: i.isNew,
     thumbnailAlt: i.thumbnailAlt,
     thumbnailPosition: i.thumbnailPosition,
+    promptRole: i.promptRole,
+    structuredExtras: i.structuredExtras,
   };
 }
 
@@ -231,54 +236,88 @@ const casaEmTerrenoVideo = stub({
   type: "video-two-images",
   accessLevel: "pro",
   images: [
-    { key: "empty", label: "Terreno vazio", hint: "A mesma foto usada em Casa em Terreno.", promptLabel: "Empty lot" },
-    { key: "built", label: "Casa pronta", hint: "Resultado gerado no módulo Casa em Terreno.", promptLabel: "Finished house" },
+    {
+      key: "empty",
+      label: "Terreno vazio",
+      hint: "A mesma foto usada em Casa em Terreno.",
+      promptLabel: "Empty lot",
+      promptRole: "Starting state. Camera angle locked permanently to this frame — the clip must begin here, unchanged.",
+    },
+    {
+      key: "built",
+      label: "Casa pronta",
+      hint: "Resultado gerado no módulo Casa em Terreno.",
+      promptLabel: "Finished house",
+      promptRole: "Ending state. The final frame of the clip must be identical to this image — same facade, proportions and position on the lot.",
+    },
   ],
   allowStructuredJson: true,
+  defaultFormat: "structured_json",
   instructions: [
     "Use a foto original do terreno e o resultado do módulo Casa em Terreno, nessa ordem.",
-    "O movimento de câmera é sutil — o foco é a transição do lote para a construção.",
+    "A câmera fica travada — o foco é a obra evoluindo, não o movimento de câmera.",
   ],
   toolGuide: flowGuide(
     ["Vídeo", "Elementos", "Omni Flash"],
     [
       "Modo Vídeo no Google Flow.",
       "Envie o terreno vazio como primeiro frame e a casa pronta como referência final.",
-      "Cole o prompt e gere — câmera com leve movimento contínuo.",
+      "Cole o prompt e gere — câmera travada, foco na obra.",
     ],
   ),
-  beginner: [speedField, musicField, extraDetails],
+  beginner: [timelapseSpeedField, musicField, extraDetails],
   advanced: [
     durationField,
     soundEffectsField,
-    cameraMovementField,
     crewField,
     weatherField,
   ],
-  template: `Animate the transition from the empty lot (first image) to the finished house (second image), with {{speed}}, {{cameraMovement}}.
-The final house must remain strictly faithful to the second image — same facade, proportions and position on the lot.
-Workers and machinery visible during the transition: {{crew}}. Weather: {{weather}}.`,
+  promptRole:
+    "You are a cinematic construction-timelapse director. The first image is the empty lot; the second is the finished house. Animate everything in between, in physically logical order.",
+  template: `Construction timelapse from the empty lot to the finished house shown in the second image, {{speed}}: foundation poured, structural walls rising, roof assembled, facade cladding, windows installed, landscaping planted — each phase advancing in logical order.
+Natural time-of-day cycling as construction advances — morning through midday, afternoon and warm sunset — with interior lights gradually turning on and exterior lighting activating as the house nears completion.
+The finished house must remain strictly faithful to the second image — same facade, proportions and position on the lot. Workers and machinery visible throughout: {{crew}}. Weather: {{weather}}.`,
   systemRules: [
+    "camera locked to the exact angle and perspective of the first image — never moves, rotates, tilts or zooms at any point",
     "the video's last frame must match the supplied \"finished house\" photo exactly",
     "lot boundaries and the public road stay identical across every frame",
-    "the camera's axis, lens and architectural reading stay consistent even while it moves",
+    "never build anything other than the house shown in the second image",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
+    "any camera movement at all",
     "final house different from the supplied reference image",
     "altering the lot boundaries",
+    "ending on anything other than the exact, unmodified second image",
   ],
   fidelity: {
-    preserveCamera: true,
+    lockedCamera: true,
     noPropertyChanges: true,
   },
-  cameraMode: "controlled-motion",
+  cameraMode: "locked",
   dependsOn: "casa-em-terreno",
   nextModule: "voo-de-drone",
   steps: [
     { label: "Casa no terreno (imagem)", moduleSlug: "casa-em-terreno" },
     { label: "Casa no terreno (vídeo)", moduleSlug: "casa-em-terreno-video" },
   ],
+  structuredExtras: {
+    construction: {
+      phases: [
+        "foundation poured",
+        "structural walls rising",
+        "roof assembled",
+        "facade cladding",
+        "windows installed",
+        "landscaping planted",
+      ],
+      order: "each phase advances in physically logical order, never out of sequence",
+    },
+    lighting: {
+      transitions: "natural time-of-day cycling — morning through midday, afternoon and warm sunset — as construction advances",
+      final_reveal: "interior lights gradually turn on and exterior lighting activates as the house nears completion",
+    },
+  },
 });
 
 /* ============================================================================
@@ -293,8 +332,20 @@ const metragemAnimada = stub({
   type: "video-two-images",
   accessLevel: "pro",
   images: [
-    { key: "original", label: "Terreno original", hint: "Foto aérea sem overlay.", promptLabel: "Original lot" },
-    { key: "outlined", label: "Terreno com contorno", hint: "Resultado do módulo Metragem do Terreno.", promptLabel: "Lot with outline" },
+    {
+      key: "original",
+      label: "Terreno original",
+      hint: "Foto aérea sem overlay.",
+      promptLabel: "Original lot",
+      promptRole: "Exact starting frame and untouched background plate. The clip must begin with these pixels unchanged, with no contour and no text visible.",
+    },
+    {
+      key: "outlined",
+      label: "Terreno com contorno",
+      hint: "Resultado do módulo Metragem do Terreno.",
+      promptLabel: "Lot with outline",
+      promptRole: "Exact final frame, and the only source for the contour's path, thickness, color, glow and area label. The clip must end with these pixels unchanged.",
+    },
   ],
   defaultFormat: "structured_json",
   instructions: [
@@ -312,23 +363,38 @@ const metragemAnimada = stub({
   beginner: [
     traceSpeedField,
     soundEffectsField,
-    showAreaField,
+    {
+      ...showAreaField,
+      booleanText: {
+        on: "reveal the area label exactly as it already appears in the second image, pixel for pixel — never recalculate, translate or restyle it",
+        off: "do not reveal any area label",
+      },
+    },
     extraDetails,
   ],
   advanced: [durationField, beamColorField],
-  template: `Animate the {{beamColor}} light beam tracing the lot's perimeter, {{speed}}, until it exactly closes the outline already defined in the second image.
-On closing, reveal the area over the lot: {{showArea}}.
-The background aerial photo stays 100% static — camera locked, no other part of the scene changes.`,
+  promptRole:
+    "You are a precision frame-compositing renderer, not a creative scene generator. Your only job is to reveal, over time, the exact overlay that already exists in the second image — never redraw, restyle or reinterpret it.",
+  template: `This is a compositing reveal, not a new generation: progressively reveal the exact contour already visible in the second image over the first image, using a reveal mask along its existing pixels.
+Sample the beam's path, thickness, color and glow directly from the second image and keep them identical from the first visible pixel to the final frame — color {{beamColor}}, pace {{speed}}.
+On closing, {{showArea}}.
+The background aerial photo stays 100% static and pixel-identical to the source images throughout the clip — camera locked, nothing else in the scene changes.`,
   systemRules: [
     "camera fully locked — no pan, zoom or reframing",
-    "the final outline must match the second image exactly, with no redrawing",
-    "preserve the outline's color and position as defined in the reference",
-    "do not create any text beyond the area label, unless requested",
+    "this is a compositing reveal of existing pixels from the second image, not a newly generated or redrawn line",
+    "the beam's path, thickness, color and glow are sampled from the second image and never vary during the reveal",
+    "revealed pixels stay visible and lit once the beam passes them — nothing fades or disappears after being drawn",
+    "hold the exact, unmodified second image for the final moment of the clip so the ending is verifiably identical to it",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
-    "redrawing the outline with a different path than the reference",
+    "redrawing the outline with a different path, color or style than the second image",
+    "a temporary or intermediate outline color before settling on the final one",
     "fake shadows or reflections from the beam on the ground",
+    "inventing, estimating, calculating or translating the area value or unit",
+    "writing any area label, unit or text not already present in the second image",
+    "any revealed line or label disappearing again before the clip ends",
+    "ending on anything other than the exact, unmodified second image",
   ],
   fidelity: {
     preserveStructure: true,
@@ -342,6 +408,13 @@ The background aerial photo stays 100% static — camera locked, no other part o
     { label: "Criar metragem", moduleSlug: "metragem-do-terreno" },
     { label: "Animar metragem", moduleSlug: "metragem-animada" },
   ],
+  structuredExtras: {
+    compositing: {
+      mode: "progressive reveal mask along existing pixels, not a newly generated or redrawn line",
+      background: "keep the property, lot, vegetation and lighting frozen and pixel-consistent with the source images for the entire clip",
+      overlay_source: "the contour's path, thickness, color, glow and area label all come from the second image — sample and reveal them, never recreate them",
+    },
+  },
 });
 
 /* ============================================================================
@@ -368,7 +441,7 @@ const timelapseReformaInterior = stub({
       "Gere com câmera travada, do início ao fim.",
     ],
   ),
-  beginner: [speedField, musicField, extraDetails],
+  beginner: [timelapseSpeedField, musicField, extraDetails],
   advanced: [
     durationField,
     soundEffectsField,
@@ -577,7 +650,7 @@ const buildingRevealingVideo = stub({
     ["Vídeo", "Elementos", "Omni Flash"],
     ["Modo Vídeo no Google Flow.", "Envie a imagem do Building Revealing como primeiro frame.", "Câmera fixa — só o plano de luz se move."],
   ),
-  beginner: [speedField, musicField, extraDetails],
+  beginner: [traceSpeedField, musicField, extraDetails],
   advanced: [durationField, soundEffectsField, timeOfDay, glowStyleField],
   template: `Animate the {{glowStyle}} plane of light sweeping the scene, {{speed}}, until the complete building materializes, exactly as in the reference image.
 Fixed camera from start to finish. {{timeOfDay}}.
@@ -614,7 +687,7 @@ const timelapseConstrucaoSimples = stub({
     ["Modo Vídeo no Google Flow.", "Envie o terreno e o projeto finalizado, nessa ordem.", "Gere com câmera travada."],
   ),
   beginner: [extraDetails],
-  advanced: [durationField, speedField, {
+  advanced: [durationField, timelapseSpeedField, {
     key: "milestones",
     type: "segmented-control",
     label: "Marcos visíveis",
@@ -804,7 +877,7 @@ const construcaoCompleta = stub({
         },
       ],
     },
-    speedField,
+    timelapseSpeedField,
     musicField,
     extraDetails,
   ],
@@ -988,15 +1061,43 @@ const vooDeDrone = stub({
   accessLevel: "pro",
   isNew: true,
   images: [
-    { key: "start", label: "Ponto inicial", hint: "De onde o voo começa.", promptLabel: "Starting point" },
-    { key: "end", label: "Ponto final", hint: "Onde o voo termina.", promptLabel: "Ending point" },
+    {
+      key: "start",
+      label: "Ponto inicial",
+      hint: "De onde o voo começa.",
+      promptLabel: "Starting point",
+      promptRole: "Starting position. The flight begins here, hovering completely still. Angle, height and direction must match this frame exactly.",
+    },
+    {
+      key: "end",
+      label: "Ponto final",
+      hint: "Onde o voo termina.",
+      promptLabel: "Ending point",
+      promptRole: "Ending position. The flight ends here, hovering completely still. Angle, height and direction must match this frame exactly.",
+    },
   ],
   instructions: ["As duas imagens definem início e fim do voo — a IA constrói o trajeto entre elas."],
   toolGuide: flowGuide(
     ["Vídeo", "Elementos", "Omni Flash"],
     ["Modo Vídeo no Google Flow.", "Envie o ponto inicial e o ponto final do voo, nessa ordem.", "Gere com movimento fluido e velocidade moderada."],
   ),
-  beginner: [{ ...speedField, key: "peakSpeed", label: "Velocidade de pico" }, extraDetails],
+  beginner: [
+    {
+      key: "peakSpeed",
+      type: "select",
+      label: "Velocidade de pico",
+      tooltip: "Velocidade relativa no ponto mais rápido do voo, entre os dois pontos.",
+      placeholder: "Selecione…",
+      defaultValue: "2x",
+      options: [
+        { value: "1x", label: "1x", promptValue: "a normal, realistic peak speed" },
+        { value: "1.5x", label: "1.5x", promptValue: "a moderately accelerated peak speed" },
+        { value: "2x", label: "2x", promptValue: "a fast, energetic peak speed" },
+        { value: "3x", label: "3x", promptValue: "a maximum, aggressive peak speed" },
+      ],
+    },
+    extraDetails,
+  ],
   advanced: [
     { key: "acceleration", type: "select", label: "Aceleração", defaultValue: "gradual", options: [
       { value: "gradual", label: "Gradual", promptValue: "gradual smooth acceleration from rest" },
@@ -1015,10 +1116,14 @@ const vooDeDrone = stub({
     durationField,
     stabilizationField,
   ],
-  template: `Continuous drone flight from the supplied starting point to the ending point, {{trajectory}}, {{altitude}}, {{peakSpeed}} peak speed.
+  promptRole:
+    "You are a drone pilot. Fly from the starting point to the ending point exactly as defined by the two uploaded images, in a single continuous, physically realistic flight.",
+  template: `Continuous drone flight from the supplied starting point to the ending point, {{trajectory}}, {{altitude}}.
+Flight profile: {{acceleration}}, reaching {{peakSpeed}} through the middle of the flight, then {{deceleration}}, arriving completely still at the ending point.
 Use the two images strictly as the start and end of the movement — never as cuts.`,
   systemRules: [
     "continuous movement from start to finish, no cuts — the camera movement is essential and must not be suppressed",
+    "never arrive at the ending point at full speed — always decelerate smoothly on arrival, hovering still in the exact final frame",
     "do not deform the property or alter the architecture during the flight",
     "avoid speeds that would look physically implausible for a real drone",
   ],
@@ -1026,10 +1131,20 @@ Use the two images strictly as the start and end of the movement — never as cu
     ...DEFAULT_VIDEO_NEGATIVES,
     "deforming the property during the movement",
     "unrealistic speed for a drone",
+    "camera shake or wobble",
+    "motion blur",
+    "changing the environment, property or lighting between the two images",
+    "cutting or reframing mid-flight",
   ],
   fidelity: { preserveStructure: true, noPropertyChanges: true },
   cameraMode: "free-motion",
   thumbnailAlt: "Vista aérea vertical de um bairro residencial denso, telhados e piscinas",
+  structuredExtras: {
+    flight: {
+      profile: "starts slow, accelerates through the middle, decelerates gently on arrival — never a constant speed throughout",
+      arrival: "the drone must always end hovering completely still, in the exact frame of the ending point image",
+    },
+  },
 });
 
 /* ============================================================================
@@ -1044,8 +1159,20 @@ const contornoDaCasa = stub({
   type: "video-two-images",
   accessLevel: "pro",
   images: [
-    { key: "original", label: "Imagem original", hint: "Foto real da casa.", promptLabel: "Original image" },
-    { key: "outlined", label: "Imagem com contorno", hint: "Referência de como o traço deve ficar.", promptLabel: "Image with outline" },
+    {
+      key: "original",
+      label: "Imagem original",
+      hint: "Foto real da casa.",
+      promptLabel: "Original image",
+      promptRole: "Exact starting frame and untouched background plate. The clip must begin with these pixels unchanged, with no trace visible.",
+    },
+    {
+      key: "outlined",
+      label: "Imagem com contorno",
+      hint: "Referência de como o traço deve ficar.",
+      promptLabel: "Image with outline",
+      promptRole: "Exact final frame, and the only source for the trace's path, thickness, color and glow. The clip must end with these pixels unchanged.",
+    },
   ],
   defaultFormat: "structured_json",
   instructions: ["Envie a foto original e uma referência do contorno já desenhado sobre a casa."],
@@ -1055,21 +1182,38 @@ const contornoDaCasa = stub({
   ),
   beginner: [beamColorField, glowStyleField, traceSpeedField, extraDetails],
   advanced: [durationField, soundEffectsField],
-  template: `Animate the {{beamColor}} light trace, {{glowStyle}} style, tracing the house's outer outline, {{speed}}, until it closes the complete silhouette, exactly as in the second image.
-Static background image from start to finish. Do not redraw the outline, do not change its color and do not create any text.`,
+  promptRole:
+    "You are a precision frame-compositing renderer, not a creative scene generator. Your only job is to reveal, over time, the exact light trace that already exists in the second image — never redraw, restyle or reinterpret it.",
+  template: `This is a compositing reveal, not a new generation: progressively reveal the exact light trace already visible in the second image over the first image, following every corner and curve of its path in one continuous fluid motion — starting at the ground-level property boundary, then the roofline, then any secondary structures or pathways already outlined there.
+Sample the trace's color, thickness and glow directly from the second image and keep them identical throughout — color {{beamColor}}, {{glowStyle}} style, pace {{speed}}.
+Once a segment is revealed it stays lit for the rest of the clip — nothing fades or disappears as the trace continues.
+Static background from start to finish. Do not redraw the outline, change its color or create any text.`,
   systemRules: [
     "camera locked — property and background completely frozen",
-    "reveal only the trace overlay, never alter the house itself",
-    "the final outline matches the second image exactly, with no redrawing",
+    "this is a compositing reveal of the existing trace from the second image, not a newly generated or redrawn line",
+    "trace the property boundary first, then the roofline, then any secondary structures or pathways already outlined in the second image",
+    "once revealed, a segment of the trace stays lit for the rest of the clip — never fades or disappears",
+    "the final frame matches the second image exactly, with no redrawing",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
-    "redrawing the outline",
-    "changing the trace's color",
+    "redrawing the outline with a different path, thickness or style than the second image",
+    "changing the trace's color, even temporarily",
+    "a harsh or generic neon effect that doesn't match the second image's glow",
+    "any revealed segment of the trace fading or disappearing before the clip ends",
     "inventing an outline different from the reference",
+    "ending on anything other than the exact, unmodified second image",
   ],
   fidelity: { preserveStructure: true, lockedCamera: true, noPropertyChanges: true },
   cameraMode: "locked",
+  structuredExtras: {
+    drawing_order: [
+      "ground-level property boundary",
+      "roofline",
+      "any secondary structures or pathways already outlined in the second image",
+    ],
+    persistence: "each segment of the trace remains lit once revealed — nothing fades or disappears as the beam continues",
+  },
 });
 
 export const STUB_MODULES: ModuleDefinition[] = [
