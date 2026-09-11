@@ -32,7 +32,7 @@ describe("Decoração de Interiores", () => {
 
   it("includes every declared hard negative", () => {
     const res = buildPrompt({ module, values, tool: "google-flow", format: "plain_text", imageCount: 1 });
-    expect(res.text).toMatch(/Evitar:/);
+    expect(res.text).toMatch(/Avoid:/);
     for (const negative of module.hardNegatives ?? []) {
       expect(res.text).toContain(negative);
     }
@@ -61,7 +61,7 @@ describe("Casa em Terreno", () => {
 
   it("names the single reference image slot in the source-image line", () => {
     const res = buildPrompt({ module, values, tool: "google-flow", format: "plain_text", imageCount: 1 });
-    expect(res.text).toContain("Foto do terreno");
+    expect(res.text).toContain("Lot photo");
   });
 
   it("resolves its guided-flow dependency and next step to real modules", () => {
@@ -96,7 +96,7 @@ describe("Metragem Animada", () => {
   it("locks the camera and forbids redrawing the outline", () => {
     const res = buildPrompt({ module, values: {}, tool: "google-flow", format: "plain_text", imageCount: 2 });
     expect(module.fidelity?.lockedCamera).toBe(true);
-    expect(res.text.toLowerCase()).toContain("travada");
+    expect(res.text.toLowerCase()).toContain("locked");
   });
 
   it("resolves its dependency to a real module", () => {
@@ -125,9 +125,9 @@ describe("Voo de Drone", () => {
     const values: FieldValues = { peakSpeed: "media", trajectory: "orbital" };
     const flow = buildPrompt({ module, values, tool: "google-flow", format: "plain_text", imageCount: 2 });
     const runway = buildPrompt({ module, values, tool: "runway", format: "plain_text", imageCount: 2 });
-    expect(runway.text).toContain("Um único movimento de câmera contínuo por plano");
-    expect(flow.text).not.toContain("Um único movimento de câmera contínuo por plano");
-    expect(flow.text).toContain("Priorizar fielmente as imagens de referência");
+    expect(runway.text).toContain("One single continuous camera movement per shot");
+    expect(flow.text).not.toContain("One single continuous camera movement per shot");
+    expect(flow.text).toContain("Prioritize the attached reference images faithfully");
   });
 });
 
@@ -139,8 +139,8 @@ describe("Contorno da Casa", () => {
   });
 
   it("forbids redrawing or recoloring the outline as a hard negative", () => {
-    expect(module.hardNegatives).toContain("redesenhar o contorno");
-    expect(module.hardNegatives).toContain("alterar a cor do traço");
+    expect(module.hardNegatives).toContain("redrawing the outline");
+    expect(module.hardNegatives).toContain("changing the trace's color");
   });
 
   it("produces parseable JSON with camera fidelity locked", () => {
@@ -176,12 +176,12 @@ describe("Construção Completa (fluxo em 2 etapas)", () => {
       imageCount: 2,
     });
     expect(stage1.text).not.toBe(stage2.text);
-    expect(stage1.text).toContain("Etapa 1 de 2");
-    expect(stage2.text).toContain("Etapa 2 de 2");
+    expect(stage1.text).toContain("Stage 1 of 2");
+    expect(stage2.text).toContain("Stage 2 of 2");
   });
 
   it("never generates the prompt beyond the selected stage (hard negative present)", () => {
-    expect(module.hardNegatives).toContain("avançar a obra além da segunda imagem enviada");
+    expect(module.hardNegatives).toContain("progressing the construction beyond the second uploaded image");
   });
 });
 

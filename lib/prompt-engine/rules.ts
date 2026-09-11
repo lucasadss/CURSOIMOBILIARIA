@@ -22,8 +22,9 @@ export function sourceImages(ctx: RuleContext): Record<string, string> | undefin
   if (ctx.module.requiredImages.length === 0) return undefined;
   const out: Record<string, string> = {};
   ctx.module.requiredImages.forEach((slot, i) => {
+    const label = slot.promptLabel ?? slot.label;
     out[slot.key] =
-      `${slot.label} — ${i < ctx.imageCount ? "fornecida" : "pendente"}`;
+      `${label} — ${i < ctx.imageCount ? "provided" : "pending"}`;
   });
   return out;
 }
@@ -43,11 +44,11 @@ export function cameraInfo(ctx: RuleContext): Record<string, string> | undefined
   const out: Record<string, string> = {};
   if (angle) out.angle = angle;
   if (locked) {
-    out.movement = "nenhum — travada, sem pan, zoom ou reenquadramento";
+    out.movement = "none — locked, no pan, zoom or reframing";
   } else if (ctx.kind === "video") {
-    out.movement = explicitMovement ?? "sutil e contínuo, sem cortes";
+    out.movement = explicitMovement ?? "subtle and continuous, no cuts";
   } else {
-    out.movement = "estático";
+    out.movement = "static";
   }
   return out;
 }
@@ -67,12 +68,12 @@ export function animationInfo(ctx: RuleContext): Record<string, string> | undefi
 export function temporalConsistency(ctx: RuleContext): string[] | undefined {
   if (ctx.kind !== "video") return undefined;
   const lines = [
-    "manter geometria, materiais e proporções idênticos em todos os frames",
-    "sem morphing, flicker ou deriva de textura entre quadros",
+    "keep geometry, materials and proportions identical across every frame",
+    "no morphing, flicker or texture drift between frames",
   ];
   if (ctx.module.requiredImages.length >= 2) {
     lines.push(
-      "interpolar de forma contínua entre as imagens de referência fornecidas, sem saltos abruptos",
+      "interpolate smoothly between the supplied reference images, with no abrupt jumps",
     );
   }
   return lines;
@@ -82,8 +83,8 @@ export function audioInfo(ctx: RuleContext): Record<string, string> | undefined 
   if (ctx.kind !== "video") return undefined;
   if (!hasField(ctx, "music") && !hasField(ctx, "soundEffects")) return undefined;
   const out: Record<string, string> = {};
-  out.music = ctx.resolved.music ?? "nenhuma";
-  out.sfx = ctx.resolved.soundEffects ?? "nenhum";
+  out.music = ctx.resolved.music ?? "none";
+  out.sfx = ctx.resolved.soundEffects ?? "none";
   return out;
 }
 
@@ -96,39 +97,46 @@ export function formatSourceImagesLine(
   images: Record<string, string> | undefined,
 ): string | undefined {
   if (!images) return undefined;
-  return `Imagens de referência, nesta ordem — ${Object.values(images).join("; ")}.`;
+  return `Reference images, in this order — ${Object.values(images).join("; ")}.`;
 }
 
 export function formatCameraLine(
   camera: Record<string, string> | undefined,
 ): string | undefined {
   if (!camera) return undefined;
+  // Values are already complete descriptive phrases (e.g. "none — locked, no
+  // pan, zoom or reframing"), so no "angle"/"camera movement" suffix is
+  // appended — that would just repeat words the phrase already ends with.
   const bits: string[] = [];
-  if (camera.angle) bits.push(`ângulo ${camera.angle}`);
-  if (camera.movement) bits.push(`movimento de câmera ${camera.movement}`);
-  return bits.length ? `Câmera: ${bits.join(", ")}.` : undefined;
+  if (camera.angle) bits.push(camera.angle);
+  if (camera.movement) bits.push(camera.movement);
+  return bits.length ? `Camera: ${bits.join("; ")}.` : undefined;
 }
 
 export function formatAnimationLine(
   animation: Record<string, string> | undefined,
 ): string | undefined {
   if (!animation) return undefined;
+  // Same reasoning as formatCameraLine: speed/style values already read as
+  // full phrases (often already ending in "pacing" or "style").
   const bits: string[] = [];
-  if (animation.speed) bits.push(`ritmo ${animation.speed}`);
-  if (animation.style) bits.push(`estilo ${animation.style}`);
-  return bits.length ? `Animação: ${bits.join(", ")}.` : undefined;
+  if (animation.speed) bits.push(animation.speed);
+  if (animation.style) bits.push(animation.style);
+  return bits.length ? `Animation: ${bits.join("; ")}.` : undefined;
 }
 
 export function formatTemporalLine(lines: string[] | undefined): string | undefined {
   if (!lines?.length) return undefined;
-  return `Consistência temporal: ${lines.join("; ")}.`;
+  return `Temporal consistency: ${lines.join("; ")}.`;
 }
 
 export function formatAudioLine(
   audio: Record<string, string> | undefined,
 ): string | undefined {
   if (!audio) return undefined;
-  return `Áudio: trilha ${audio.music}; efeitos ${audio.sfx}.`;
+  // No "soundtrack"/"effects" labels: values like "no sound effects" already
+  // say what they are, and prefixing "effects" would repeat that word.
+  return `Audio: ${audio.music}; ${audio.sfx}.`;
 }
 
 /**
@@ -139,7 +147,7 @@ export function formatAdditionalDirectionLine(
   extraDetails: string | undefined,
 ): string | undefined {
   if (!extraDetails) return undefined;
-  return `Direção adicional do usuário: ${extraDetails}.`;
+  return `Additional direction from the user: ${extraDetails}.`;
 }
 
 /* ============================================================================
@@ -161,14 +169,14 @@ export function toolClosingNote(
 ): string | undefined {
   if (kind === "video" && (tool === "runway" || tool === "pika" || tool === "sora")) {
     // A locked-camera module must never receive a movement-continuity note —
-    // that would directly contradict "câmera travada" (section 15 conflicts).
+    // that would directly contradict "locked camera" (section 15 conflicts).
     if (module.fidelity?.lockedCamera) {
-      return "Câmera travada do início ao fim do clipe — nenhum movimento de câmera; o dinamismo vem apenas do elemento descrito na cena.";
+      return "Camera locked from the first to the last frame of the clip — no camera movement at all; motion comes only from the element described in the scene.";
     }
-    return "Um único movimento de câmera contínuo por plano; sem cortes e sem alterar a geometria entre frames.";
+    return "One single continuous camera movement per shot; no cuts and no geometry changes between frames.";
   }
   if (tool === "google-flow") {
-    return "Priorizar fielmente as imagens de referência anexadas sobre qualquer ambiguidade do texto.";
+    return "Prioritize the attached reference images faithfully over any ambiguity in the text.";
   }
   return undefined;
 }

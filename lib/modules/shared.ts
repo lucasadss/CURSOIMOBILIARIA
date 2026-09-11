@@ -178,6 +178,7 @@ export const oneReferenceImage: ImageSlot[] = [
     key: "reference",
     label: "Imagem de referência",
     hint: "Foto real do imóvel, cômodo ou terreno.",
+    promptLabel: "Reference image",
   },
 ];
 

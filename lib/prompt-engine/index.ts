@@ -105,13 +105,13 @@ export function buildPrompt(input: PromptEngineInput): PromptResult {
     formatCameraLine(camera),
     formatAnimationLine(animation),
     formatTemporalLine(temporal),
-    fidelity.length ? `Fidelidade à referência: ${fidelity.join("; ")}.` : undefined,
+    fidelity.length ? `Fidelity to the reference: ${fidelity.join("; ")}.` : undefined,
     formatAudioLine(audio),
-    rules.length ? `Regras: ${rules.join("; ")}.` : undefined,
-    negatives.length ? `Evitar: ${negatives.join(", ")}.` : undefined,
+    rules.length ? `Rules: ${rules.join("; ")}.` : undefined,
+    negatives.length ? `Avoid: ${negatives.join(", ")}.` : undefined,
     formatAdditionalDirectionLine(resolved.extraDetails),
     toolClosingNote(tool, kind, module),
-    `Formato ${defaultAspect(tool, kind)}${profile.suffix ? `. ${profile.suffix}` : ""}`,
+    `Format ${defaultAspect(tool, kind)}${profile.suffix ? `. ${profile.suffix}` : ""}`,
   ].filter((p): p is string => Boolean(p));
 
   return {
@@ -154,16 +154,16 @@ function buildStructured(args: {
   const sceneFidelity = fidelityLock(module.fidelity);
   const hardNegatives = [
     ...negatives,
-    ...rules.filter((r) => /^(não|nunca|sem)\b/i.test(r)),
+    ...rules.filter((r) => /^(do not|never|no|without)\b/i.test(r)),
   ];
 
   const parameters: StructuredPrompt["parameters"] = {
     role:
       kind === "video"
-        ? "Diretor de fotografia para vídeo imobiliário fotorrealista"
-        : "Artista de visualização arquitetônica fotorrealista",
+        ? "Cinematographer for photorealistic real-estate video"
+        : "Photorealistic architectural visualization artist",
     instruction_priority:
-      "As imagens de referência têm prioridade sobre o texto em qualquer conflito.",
+      "The reference images take priority over the text in any conflict.",
   };
   if (images) parameters.source_images = images;
   if (Object.keys(sceneFidelity).length) parameters.scene_fidelity = sceneFidelity;

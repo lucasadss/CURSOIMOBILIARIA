@@ -179,8 +179,8 @@ describe("boolean fields read naturally, no scattered if/else (sections 7)", () 
     const off = buildPrompt({ module: m, values: { crew: false }, tool: "google-flow", format: "plain_text", imageCount: 1 });
     expect(on.text).toContain("show realistic workers and construction machinery progressing naturally through the scene");
     expect(off.text).toContain("do not introduce workers or construction machinery");
-    expect(on.text).not.toMatch(/movimento acelerado: sim\b/);
-    expect(off.text).not.toMatch(/movimento acelerado: não\b/);
+    expect(on.text).not.toMatch(/accelerated motion: yes\b/);
+    expect(off.text).not.toMatch(/accelerated motion: no\b/);
   });
 });
 
@@ -188,10 +188,10 @@ describe("extraDetails standardization (section 8)", () => {
   it("produces no line when empty", () => {
     const m = getModuleBySlug("decoracao-de-interiores")!;
     const res = buildPrompt({ module: m, values: {}, tool: "google-flow", format: "plain_text", imageCount: 1 });
-    expect(res.text).not.toMatch(/Direção adicional/);
+    expect(res.text).not.toMatch(/Additional direction/);
   });
 
-  it("formats as 'Direção adicional do usuário' when filled, never spliced mid-rule", () => {
+  it("formats as 'Additional direction from the user' when filled, never spliced mid-rule", () => {
     const m = getModuleBySlug("decoracao-de-interiores")!;
     const res = buildPrompt({
       module: m,
@@ -200,7 +200,7 @@ describe("extraDetails standardization (section 8)", () => {
       format: "plain_text",
       imageCount: 1,
     });
-    expect(res.text).toContain("Direção adicional do usuário: manter o piso de madeira original.");
+    expect(res.text).toContain("Additional direction from the user: manter o piso de madeira original.");
   });
 
   it("lands in additional_details in structured_json, not duplicated in prompt_summary", () => {
@@ -222,6 +222,6 @@ describe("locked camera never receives a movement-continuity tool note (section 
   it("Runway's camera-continuity closing line does not appear for a locked-camera module", () => {
     const m = getModuleBySlug("metragem-animada")!;
     const res = buildPrompt({ module: m, values: {}, tool: "runway", format: "plain_text", imageCount: 2 });
-    expect(res.text).not.toContain("Um único movimento de câmera contínuo por plano");
+    expect(res.text).not.toContain("One single continuous camera movement per shot");
   });
 });

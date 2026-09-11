@@ -29,6 +29,8 @@ export interface ImageSlot {
   key: string;
   label: string;
   hint?: string;
+  /** English phrase sent to the model instead of `label`, for prompt accuracy. */
+  promptLabel?: string;
 }
 
 export interface StepRef {

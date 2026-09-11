@@ -116,21 +116,21 @@ const decoracaoInteriores: ModuleDefinition = {
       },
     },
   ],
-  promptTemplate: `Redecore este {{roomType|ambiente}} no estilo {{style}}, mantendo intactas a arquitetura, as janelas e o piso da foto de referência.
-Iluminação {{lighting}}, capturada em {{cameraAngle}} com lente {{lens}}.
-Paleta predominante: {{palette}}.
-Incluir vegetação de interior discreta: {{greenery}}.
-Acabamento fotorrealista de qualidade {{quality}}.`,
+  promptTemplate: `Redecorate this {{roomType|room}} in {{style}}, keeping the architecture, windows and floor from the reference photo completely intact.
+{{lighting}}, captured at {{cameraAngle}} with a {{lens}} lens.
+Predominant palette: {{palette}}.
+Include discreet interior greenery: {{greenery}}.
+Photorealistic finish, {{quality}} quality.`,
   systemRules: [
-    "renderização fotorrealista, sem aparência de render CGI plastificado",
-    "não alterar a planta, a metragem ou a posição das aberturas",
+    "photorealistic rendering, no plasticky CGI-render look",
+    "do not alter the floor plan, the area or the position of openings",
   ],
   hardNegatives: [
-    "distorção de perspectiva",
-    "móveis flutuantes",
-    "texto ou marca d'água",
-    "pessoas",
-    "janelas ou portas inventadas",
+    "perspective distortion",
+    "floating furniture",
+    "text or watermark",
+    "people",
+    "invented windows or doors",
   ],
   fidelity: {
     preserveStructure: true,
@@ -152,7 +152,7 @@ Acabamento fotorrealista de qualidade {{quality}}.`,
   examples: [
     {
       label: "Sala contemporânea",
-      body: "Redecore esta sala de estar no estilo contemporâneo, mantendo intactas a arquitetura, as janelas e o piso da foto de referência. Iluminação natural suave, capturada em nível dos olhos com lente 35 mm. Paleta predominante: neutros quentes e madeira clara…",
+      body: "Redecorate this living room in contemporary style, keeping the architecture, windows and floor from the reference photo completely intact. Soft natural lighting, captured at eye level with a 35mm lens. Predominant palette: warm neutrals and light wood…",
     },
   ],
 };
@@ -170,7 +170,7 @@ const casaEmTerreno: ModuleDefinition = {
   thumbnailAlt: "Casa moderna de dois pavimentos em um lote urbano, com garagem, gramado e entrada de carros",
   thumbnailPosition: "center 38%",
   requiredImages: [
-    { key: "reference", label: "Foto do terreno", hint: "De frente para o lote, mostrando a testada e o entorno." },
+    { key: "reference", label: "Foto do terreno", hint: "De frente para o lote, mostrando a testada e o entorno.", promptLabel: "Lot photo" },
   ],
   minImages: 1,
   recommendedTool: "google-flow",
@@ -199,8 +199,8 @@ const casaEmTerreno: ModuleDefinition = {
       required: true,
       placeholder: "Selecione…",
       options: [
-        { value: "terrea", label: "Térrea", promptValue: "single-story house" },
-        { value: "sobrado", label: "Sobrado", promptValue: "two-story house" },
+        { value: "terrea", label: "Térrea", promptValue: "single-story" },
+        { value: "sobrado", label: "Sobrado", promptValue: "two-story" },
         { value: "moderna-caixa", label: "Moderna em volumes", promptValue: "modern boxy-volumes architectural style" },
         { value: "contemporanea-madeira", label: "Contemporânea com madeira", promptValue: "contemporary style with wood cladding accents" },
         { value: "colonial-atualizada", label: "Colonial atualizada", promptValue: "updated colonial style with contemporary finishes" },
@@ -248,21 +248,21 @@ const casaEmTerreno: ModuleDefinition = {
       ],
     },
   ],
-  promptTemplate: `Insira uma casa {{houseType}} de {{floors|dois}} pavimento(s) sobre este terreno, alinhada aos limites reais visíveis na foto de referência.
-Fachada {{facade}}. Paisagismo {{landscaping}} no recuo frontal.
-Cena em {{weather}}, {{timeOfDay}}, vista em {{cameraAngle}}.
-Escala coerente com a vizinhança e a rua existentes.
-Acabamento fotorrealista de qualidade {{quality}}.`,
+  promptTemplate: `Place a {{houseType}} house with {{floors|two}} floor(s) on this lot, aligned with the real boundaries visible in the reference photo.
+{{facade}}. {{landscaping}} in the front setback.
+Scene in {{weather}}, {{timeOfDay}}, viewed at {{cameraAngle}}.
+Scale consistent with the existing neighborhood and street.
+Photorealistic finish, {{quality}} quality.`,
   systemRules: [
-    "manter rua, calçada, postes e casas vizinhas exatamente como na referência",
-    "escala arquitetônica plausível para um lote urbano",
+    "keep the street, sidewalk, utility poles and neighboring houses exactly as in the reference",
+    "architecturally plausible scale for an urban lot",
   ],
   hardNegatives: [
-    "alterar os limites do lote",
-    "mudar a rua ou a vizinhança",
-    "prédios altos ao fundo que não existem",
-    "texto ou marca d'água",
-    "pessoas em primeiro plano",
+    "altering the lot boundaries",
+    "changing the street or the neighborhood",
+    "tall background buildings that don't exist",
+    "text or watermark",
+    "people in the foreground",
   ],
   fidelity: {
     preserveCamera: true,
@@ -286,7 +286,7 @@ Acabamento fotorrealista de qualidade {{quality}}.`,
   examples: [
     {
       label: "Sobrado moderno",
-      body: "Insira uma casa moderna em volumes de dois pavimentos sobre este terreno, alinhada aos limites reais visíveis na foto. Fachada branco + madeira. Paisagismo moderado no recuo frontal. Cena em céu limpo, fim de tarde…",
+      body: "Place a modern boxy-volumes architectural style house with 2 floor(s) on this lot, aligned with the real boundaries visible in the reference photo. White stucco and wood-cladding facade. Moderate landscaping in the front setback. Scene in clear sky, golden hour…",
     },
   ],
 };
@@ -303,7 +303,7 @@ const metragemDoTerreno: ModuleDefinition = {
   accessLevel: "free",
   thumbnailAlt: "Vista aérea de talhões de terreno com limites bem definidos, casa isolada ao centro",
   requiredImages: [
-    { key: "reference", label: "Foto aérea do terreno", hint: "Drone ou satélite, com o lote inteiro visível." },
+    { key: "reference", label: "Foto aérea do terreno", hint: "Drone ou satélite, com o lote inteiro visível.", promptLabel: "Aerial lot photo" },
   ],
   minImages: 1,
   recommendedTool: "google-flow",
@@ -379,19 +379,19 @@ const metragemDoTerreno: ModuleDefinition = {
     },
     { ...cameraAngle, defaultValue: "aerea" },
   ],
-  promptTemplate: `Sobre esta foto aérea, trace o perímetro exato do terreno com um feixe de luz na cor {{beamColor}}, estilo {{outlineStyle}}, espessura {{lineWeight}} e brilho a {{glowIntensity}}.
-Escrever a metragem aproximada em {{areaUnit}} dentro do lote: {{showArea}}.
-Não alterar nada da imagem original — apenas sobrepor o contorno e o texto.`,
+  promptTemplate: `Over this aerial photo, trace the lot's exact perimeter with a {{beamColor}} light beam, {{outlineStyle}} style, {{lineWeight}} thickness and {{glowIntensity}} glow intensity.
+Write the approximate area in {{areaUnit}} inside the lot: {{showArea}}.
+Do not alter anything in the original image — only overlay the outline and the text.`,
   systemRules: [
-    "a foto aérea permanece 100% intacta sob o overlay",
-    "o contorno segue as divisas reais visíveis no terreno",
-    "tipografia limpa e legível, sem serifa pesada",
+    "the aerial photo stays 100% intact under the overlay",
+    "the outline follows the real boundaries visible on the lot",
+    "clean, legible typography, no heavy serif",
   ],
   hardNegatives: [
-    "redesenhar o terreno ou a vizinhança",
-    "sombras ou reflexos falsos do feixe no chão",
-    "múltiplos contornos sobrepostos",
-    "marca d'água",
+    "redrawing the lot or the neighborhood",
+    "fake shadows or reflections from the beam on the ground",
+    "multiple overlapping outlines",
+    "watermark",
   ],
   fidelity: {
     preserveStructure: true,
@@ -426,7 +426,7 @@ const timelapseConstrucao: ModuleDefinition = {
   accessLevel: "pro",
   thumbnailAlt: "Casa em construção com estrutura à mostra e canteiro de obras",
   requiredImages: [
-    { key: "reference", label: "Foto do terreno ou obra atual", hint: "Ponto de vista que ficará fixo durante todo o vídeo." },
+    { key: "reference", label: "Foto do terreno ou obra atual", hint: "Ponto de vista que ficará fixo durante todo o vídeo.", promptLabel: "Lot or current construction photo" },
   ],
   minImages: 1,
   recommendedTool: "google-flow",
@@ -475,22 +475,22 @@ const timelapseConstrucao: ModuleDefinition = {
     crewField,
     weatherField,
   ],
-  promptTemplate: `Timelapse acelerado, {{speed}}, construindo uma casa a partir deste terreno com a câmera 100% travada no enquadramento da foto.
-Progressão visível pelas fases: {{stages}}.
-Mostrar trabalhadores e maquinário em movimento acelerado: {{crew}}.
-Céu com passagem de nuvens e sombras se movendo, {{weather}}.
-Duração {{duration}}. Trilha {{music}}. Efeitos sonoros {{soundEffects}}.`,
+  promptTemplate: `Accelerated timelapse, {{speed}}, building a house from this lot with the camera 100% locked to the photo's framing.
+Visible progression through the stages: {{stages}}.
+Show workers and machinery in accelerated motion: {{crew}}.
+Sky with moving clouds and shifting shadows, {{weather}}.
+Duration {{duration}}. Soundtrack {{music}}. Sound effects {{soundEffects}}.`,
   systemRules: [
-    "câmera estática — nenhum pan, zoom ou reenquadramento",
-    "o primeiro frame é idêntico à foto de referência",
-    "geometria do terreno e do entorno constante entre frames",
+    "static camera — no pan, zoom or reframing",
+    "the first frame is identical to the reference photo",
+    "lot and surroundings geometry stays constant across frames",
   ],
   hardNegatives: [
-    "morphing de estruturas",
-    "flicker entre frames",
-    "câmera flutuando ou girando",
-    "a casa surgindo pronta de uma vez",
-    "texto na tela",
+    "structure morphing",
+    "flicker between frames",
+    "camera floating or rotating",
+    "the house appearing fully built all at once",
+    "on-screen text",
   ],
   fidelity: {
     lockedCamera: true,
@@ -526,7 +526,7 @@ const mobiliandoComodos: ModuleDefinition = {
   accessLevel: "pro",
   thumbnailAlt: "Cômodo totalmente mobiliado e iluminado, pronto para anúncio",
   requiredImages: [
-    { key: "reference", label: "Foto do cômodo vazio", hint: "Ambiente sem móveis, com boa luz e ângulo reto." },
+    { key: "reference", label: "Foto do cômodo vazio", hint: "Ambiente sem móveis, com boa luz e ângulo reto.", promptLabel: "Empty room photo" },
   ],
   minImages: 1,
   recommendedTool: "google-flow",
@@ -597,22 +597,22 @@ const mobiliandoComodos: ModuleDefinition = {
       },
     },
   ],
-  promptTemplate: `A partir deste cômodo, anime os móveis entrando em cena {{animationSpeed}}, {{entryOrder}}, até o ambiente ficar completo.
-Móveis no estilo {{furnitureStyle}}, pousando com peso realista e pequena sombra de contato.
-Paredes, piso, janelas e ponto de vista permanecem fixos.
-Leve aproximação de câmera: {{cameraDrift}}.
-Duração {{duration}}. Trilha {{music}}. Efeitos sonoros {{soundEffects}}.`,
+  promptTemplate: `Starting from this room, animate the furniture entering the scene {{animationSpeed}}, {{entryOrder}}, until the room is fully furnished.
+Furniture in {{furnitureStyle}}, landing with realistic weight and a subtle contact shadow.
+Walls, floor, windows and point of view stay fixed.
+Slight camera push-in: {{cameraDrift}}.
+Duration {{duration}}. Soundtrack {{music}}. Sound effects {{soundEffects}}.`,
   systemRules: [
-    "arquitetura do cômodo imóvel durante todo o clipe",
-    "cada objeto mantém escala e material consistentes ao entrar",
-    "movimento com física plausível, sem teletransporte",
+    "the room's architecture stays motionless throughout the clip",
+    "each object keeps consistent scale and material as it enters",
+    "physically plausible movement, no teleporting",
   ],
   hardNegatives: [
-    "paredes ou janelas mudando de lugar",
-    "móveis atravessando uns aos outros",
-    "morphing ou flicker",
-    "mudança de iluminação brusca",
-    "texto na tela",
+    "walls or windows changing position",
+    "furniture clipping through each other",
+    "morphing or flicker",
+    "abrupt lighting changes",
+    "on-screen text",
   ],
   fidelity: {
     preserveStructure: true,

@@ -70,14 +70,14 @@ interface StubInput {
 }
 
 const DEFAULT_VIDEO_NEGATIVES = [
-  "sem tremor ou deriva indesejada de câmera",
-  "sem distorção de lente",
-  "sem morphing de objetos",
-  "sem mudanças de geometria entre frames",
-  "sem flicker",
-  "sem texto ou legendas na tela",
-  "sem logos",
-  "sem marca d'água",
+  "no unwanted camera shake or drift",
+  "no lens distortion",
+  "no object morphing",
+  "no geometry changes between frames",
+  "no flicker",
+  "no on-screen text or captions",
+  "no logos",
+  "no watermark",
 ];
 
 function stub(i: StubInput): ModuleDefinition {
@@ -124,8 +124,8 @@ function stub(i: StubInput): ModuleDefinition {
    ========================================================================== */
 
 const antesDepois: ImageSlot[] = [
-  { key: "before", label: "Antes", hint: "Foto real do ambiente hoje." },
-  { key: "after", label: "Depois", hint: "Referência de como deve ficar (opcional se preencher pelos campos)." },
+  { key: "before", label: "Antes", hint: "Foto real do ambiente hoje.", promptLabel: "Before" },
+  { key: "after", label: "Depois", hint: "Referência de como deve ficar (opcional se preencher pelos campos).", promptLabel: "After" },
 ];
 
 const flowGuide = (path: string[], steps: string[]): ToolGuideConfig => ({
@@ -144,7 +144,7 @@ const antesEDepoisDecoracao = stub({
   description: "Pegue a foto atual e gere a versão decorada, lado a lado com o original.",
   category: "interiores",
   type: "image-custom",
-  images: [{ key: "before", label: "Antes", hint: "Foto real do ambiente hoje, sem edição." }],
+  images: [{ key: "before", label: "Antes", hint: "Foto real do ambiente hoje, sem edição.", promptLabel: "Before" }],
   instructions: [
     "Envie a foto do ambiente como ele está agora — sem móveis extras fora de quadro.",
     "O comparativo final mostra a foto original ao lado do resultado gerado.",
@@ -191,21 +191,21 @@ const antesEDepoisDecoracao = stub({
       },
     },
   ],
-  template: `Gere a versão ‘depois’ deste ambiente no estilo {{desiredStyle}}, nível de transformação {{transformLevel}} de 5.
-Paleta predominante: {{palette}}. Materiais de destaque: {{materials}}.
-Preservar os móveis existentes na composição, apenas reestilizando o entorno: {{keepFurniture}}.
-Manter arquitetura, janelas, piso e ponto de vista idênticos aos da foto original — apenas a ambientação muda.`,
+  template: `Generate the "after" version of this room in {{desiredStyle}}, transformation level {{transformLevel}} of 5.
+Predominant palette: {{palette}}. Featured materials: {{materials}}.
+Preserve the existing furniture in the composition, only restyling the surroundings: {{keepFurniture}}.
+Keep the architecture, windows, floor and point of view identical to the original photo — only the styling changes.`,
   systemRules: [
-    "gerar apenas o lado ‘depois’ — o ‘antes’ é a própria foto enviada, sem reprocessar",
-    "manter exatamente o mesmo enquadramento e distância focal do original",
+    "generate only the \"after\" side — the \"before\" is the uploaded photo itself, unprocessed",
+    "keep exactly the same framing and focal distance as the original",
   ],
   hardNegatives: [
-    "mover portas ou janelas",
-    "alterar as dimensões do ambiente",
-    "criar cômodos adicionais",
-    "deformar móveis que devem ser preservados",
-    "pessoas",
-    "texto ou marca d'água",
+    "moving doors or windows",
+    "altering the room's dimensions",
+    "creating additional rooms",
+    "deforming furniture that should be preserved",
+    "people",
+    "text or watermark",
   ],
   fidelity: {
     preserveStructure: true,
@@ -230,8 +230,8 @@ const casaEmTerrenoVideo = stub({
   type: "video-two-images",
   accessLevel: "pro",
   images: [
-    { key: "empty", label: "Terreno vazio", hint: "A mesma foto usada em Casa em Terreno." },
-    { key: "built", label: "Casa pronta", hint: "Resultado gerado no módulo Casa em Terreno." },
+    { key: "empty", label: "Terreno vazio", hint: "A mesma foto usada em Casa em Terreno.", promptLabel: "Empty lot" },
+    { key: "built", label: "Casa pronta", hint: "Resultado gerado no módulo Casa em Terreno.", promptLabel: "Finished house" },
   ],
   allowStructuredJson: true,
   instructions: [
@@ -254,18 +254,18 @@ const casaEmTerrenoVideo = stub({
     crewField,
     weatherField,
   ],
-  template: `Anime a transição do terreno vazio (primeira imagem) até a casa pronta (segunda imagem), com ritmo {{speed}}, movimento de câmera {{cameraMovement}}.
-A casa final deve permanecer estritamente fiel à segunda imagem — mesma fachada, proporções e posição no lote.
-Trabalhadores e maquinário visíveis durante a transição: {{crew}}. Céu {{weather}}.`,
+  template: `Animate the transition from the empty lot (first image) to the finished house (second image), with {{speed}}, {{cameraMovement}}.
+The final house must remain strictly faithful to the second image — same facade, proportions and position on the lot.
+Workers and machinery visible during the transition: {{crew}}. Weather: {{weather}}.`,
   systemRules: [
-    "a última imagem do vídeo deve corresponder exatamente à foto ‘casa pronta’ fornecida",
-    "limites do lote e via pública idênticos em todos os frames",
-    "o eixo, a lente e a leitura arquitetônica da câmera permanecem consistentes mesmo quando ela se move",
+    "the video's last frame must match the supplied \"finished house\" photo exactly",
+    "lot boundaries and the public road stay identical across every frame",
+    "the camera's axis, lens and architectural reading stay consistent even while it moves",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
-    "casa final diferente da imagem de referência fornecida",
-    "alterar os limites do lote",
+    "final house different from the supplied reference image",
+    "altering the lot boundaries",
   ],
   fidelity: {
     preserveCamera: true,
@@ -292,8 +292,8 @@ const metragemAnimada = stub({
   type: "video-two-images",
   accessLevel: "pro",
   images: [
-    { key: "original", label: "Terreno original", hint: "Foto aérea sem overlay." },
-    { key: "outlined", label: "Terreno com contorno", hint: "Resultado do módulo Metragem do Terreno." },
+    { key: "original", label: "Terreno original", hint: "Foto aérea sem overlay.", promptLabel: "Original lot" },
+    { key: "outlined", label: "Terreno com contorno", hint: "Resultado do módulo Metragem do Terreno.", promptLabel: "Lot with outline" },
   ],
   defaultFormat: "structured_json",
   instructions: [
@@ -315,19 +315,19 @@ const metragemAnimada = stub({
     extraDetails,
   ],
   advanced: [durationField, beamColorField],
-  template: `Anime o feixe de luz {{beamColor}} percorrendo o perímetro do lote {{speed}} até fechar exatamente o contorno já definido na segunda imagem.
-Ao fechar, revelar a metragem sobre o lote: {{showArea}}.
-A foto aérea de fundo permanece 100% estática — câmera travada, nenhuma outra parte da cena muda.`,
+  template: `Animate the {{beamColor}} light beam tracing the lot's perimeter, {{speed}}, until it exactly closes the outline already defined in the second image.
+On closing, reveal the area over the lot: {{showArea}}.
+The background aerial photo stays 100% static — camera locked, no other part of the scene changes.`,
   systemRules: [
-    "câmera totalmente travada — nenhum pan, zoom ou reenquadramento",
-    "o contorno final deve corresponder exatamente ao da segunda imagem, sem redesenhar",
-    "preservar a cor e a posição do contorno definidos na referência",
-    "não criar texto além da metragem, se não solicitado",
+    "camera fully locked — no pan, zoom or reframing",
+    "the final outline must match the second image exactly, with no redrawing",
+    "preserve the outline's color and position as defined in the reference",
+    "do not create any text beyond the area label, unless requested",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
-    "redesenhar o contorno com traçado diferente da referência",
-    "sombras ou reflexos falsos do feixe no chão",
+    "redrawing the outline with a different path than the reference",
+    "fake shadows or reflections from the beam on the ground",
   ],
   fidelity: {
     preserveStructure: true,
@@ -385,18 +385,18 @@ const timelapseReformaInterior = stub({
       },
     },
   ],
-  template: `Timelapse de reforma deste cômodo, câmera travada, ritmo {{speed}}, do estado inicial (primeira imagem) até o acabamento final (segunda imagem).
-Intensidade da transformação {{transformLevel}} de 5. Trabalhadores e ferramentas visíveis: {{crew}}.
-Transição gradual de iluminação entre os dois estados: {{lightingTransition}}.
-O resultado final deve corresponder exatamente à segunda imagem em composição, estrutura e ponto de vista.`,
+  template: `Renovation timelapse of this room, camera locked, {{speed}}, from the initial state (first image) to the final finish (second image).
+Transformation intensity {{transformLevel}} of 5. Workers and tools visible: {{crew}}.
+Gradual lighting transition between the two states: {{lightingTransition}}.
+The final result must match the second image exactly in composition, structure and point of view.`,
   systemRules: [
-    "câmera travada do início ao fim, sem reenquadramento",
-    "o último frame deve corresponder exatamente à imagem ‘depois’ fornecida",
+    "camera locked from start to finish, no reframing",
+    "the last frame must match the supplied \"after\" image exactly",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
-    "resultado final diferente da imagem de referência",
-    "criar cômodos ou aberturas adicionais",
+    "final result different from the reference image",
+    "creating additional rooms or openings",
   ],
   fidelity: {
     preserveStructure: true,
@@ -448,14 +448,14 @@ const reformaCinematografica = stub({
       ],
     },
   ],
-  template: `Transição cinematográfica orgânica da imagem inicial (antes) para a final (depois), com movimento de câmera {{cameraMovement}}.
-Interpolar iluminação, materiais e volumetria de forma gradual, sem morphing brusco — o espectador sente a passagem do tempo, não um corte.
-Grade de cor {{lightingStyle}}. Evitar transformação fantasiosa: manter apenas o que é plausível entre os dois estados reais.`,
+  template: `Organic cinematic transition from the initial image (before) to the final one (after), with {{cameraMovement}}.
+Interpolate lighting, materials and volume gradually, with no abrupt morphing — the viewer feels the passage of time, not a cut.
+{{lightingStyle}}. Avoid fanciful transformation: keep only what is plausible between the two real states.`,
   systemRules: [
-    "a interpolação deve permanecer fisicamente plausível — sem elementos que não existam em nenhuma das duas fotos",
-    "o eixo, a lente e a leitura arquitetônica da câmera permanecem consistentes do início ao fim, mesmo quando ela se move",
+    "the interpolation must stay physically plausible — no elements that don't exist in either photo",
+    "the camera's axis, lens and architectural reading stay consistent from start to finish, even while it moves",
   ],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "elementos fantasiosos que não existem em nenhuma das duas fotos"],
+  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "fanciful elements that don't exist in either photo"],
   fidelity: {
     preserveCamera: true,
   },
@@ -497,9 +497,9 @@ const antesEDepoisGeral = stub({
       ],
     },
   ],
-  template: `Revele o ‘depois’ sobre o ‘antes’ com um wipe {{wipeDirection}}, ritmo {{speed}}.
-Ponto de vista idêntico nas duas imagens — o alinhamento entre elas é o que vende o efeito.`,
-  systemRules: ["as duas imagens permanecem inalteradas — o efeito é só a transição entre elas"],
+  template: `Reveal the "after" over the "before" with a {{wipeDirection}}, {{speed}}.
+Identical point of view in both images — the alignment between them is what sells the effect.`,
+  systemRules: ["both images stay unaltered — the effect is only the transition between them"],
   fidelity: { lockedCamera: true },
   cameraMode: "locked",
 });
@@ -514,7 +514,7 @@ const buildingRevealing = stub({
   description: "Componha a imagem-base de um edifício sendo revelado por um plano de luz.",
   category: "construcao",
   type: "image-custom",
-  images: [{ key: "reference", label: "Terreno ou construção atual", hint: "Foto real do lote ou obra." }],
+  images: [{ key: "reference", label: "Terreno ou construção atual", hint: "Foto real do lote ou obra.", promptLabel: "Lot or current construction" }],
   instructions: [
     "Esta imagem é a base para a animação — o resultado aqui não muda o prédio em si.",
     "Leve o resultado para ‘Building Revealing (Vídeo)’ para animar a revelação.",
@@ -542,14 +542,14 @@ const buildingRevealing = stub({
     { ...beamColorField, label: "Cor (opcional)", required: false },
     { ...cameraAngle, defaultValue: "nivel-olhos" },
   ],
-  template: `Componha um edifício sendo ‘revelado’ por um plano de luz {{glowStyle}} sobre o terreno da referência, cobertura de {{coverageIntensity}}.
-Metade construída em detalhe fotorrealista, metade ainda em wireframe de luz {{beamColor|âmbar}}.
-Não alterar o prédio nem o terreno — apenas compor o efeito de revelação sobre a cena real.`,
+  template: `Compose a building being "revealed" by a {{glowStyle}} plane of light over the reference lot, {{coverageIntensity}} coverage.
+Half built in photorealistic detail, half still in {{beamColor|amber}} light wireframe.
+Do not alter the building or the lot — only compose the reveal effect over the real scene.`,
   systemRules: [
-    "o terreno e o entorno da foto original permanecem inalterados",
-    "o wireframe de luz não invade a via pública nem terrenos vizinhos",
+    "the lot and surroundings from the original photo stay unaltered",
+    "the light wireframe never spills onto the public road or neighboring lots",
   ],
-  hardNegatives: ["redesenhar o terreno", "alterar a vizinhança", "texto ou marca d'água"],
+  hardNegatives: ["redrawing the lot", "altering the neighborhood", "text or watermark"],
   fidelity: { noPropertyChanges: true, preserveCamera: true },
   cameraMode: "static",
   nextModule: "building-revealing-video",
@@ -570,7 +570,7 @@ const buildingRevealingVideo = stub({
   category: "construcao",
   type: "video-single-image",
   accessLevel: "pro",
-  images: [{ key: "reference", label: "Imagem gerada no Building Revealing", hint: "Resultado do módulo Building Revealing." }],
+  images: [{ key: "reference", label: "Imagem gerada no Building Revealing", hint: "Resultado do módulo Building Revealing.", promptLabel: "Building Revealing image" }],
   instructions: ["Use exatamente o resultado gerado em ‘Building Revealing’ como referência."],
   toolGuide: flowGuide(
     ["Vídeo", "Elementos", "Omni Flash"],
@@ -578,14 +578,14 @@ const buildingRevealingVideo = stub({
   ),
   beginner: [speedField, musicField, extraDetails],
   advanced: [durationField, soundEffectsField, timeOfDay, glowStyleField],
-  template: `Anime o plano de luz {{glowStyle}} varrendo a cena {{speed}} até materializar o edifício completo, exatamente como na imagem de referência.
-Câmera fixa do início ao fim. Luz de {{timeOfDay}}.
-Preservar exatamente o prédio e o terreno da imagem base — a única coisa que muda é a revelação progressiva.`,
+  template: `Animate the {{glowStyle}} plane of light sweeping the scene, {{speed}}, until the complete building materializes, exactly as in the reference image.
+Fixed camera from start to finish. {{timeOfDay}}.
+Preserve the building and the lot from the base image exactly — the only thing that changes is the progressive reveal.`,
   systemRules: [
-    "câmera 100% travada",
-    "o edifício final deve corresponder exatamente à imagem de referência, sem redesenhar",
+    "camera 100% locked",
+    "the final building must match the reference image exactly, with no redrawing",
   ],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "edifício final diferente da imagem de referência"],
+  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "final building different from the reference image"],
   fidelity: { lockedCamera: true, noPropertyChanges: true, noInventedElements: true },
   cameraMode: "locked",
   dependsOn: "building-revealing",
@@ -604,8 +604,8 @@ const timelapseConstrucaoSimples = stub({
   type: "video-two-images",
   accessLevel: "pro",
   images: [
-    { key: "empty", label: "Terreno", hint: "Foto do lote vazio." },
-    { key: "final", label: "Projeto finalizado", hint: "Referência de como a obra deve terminar." },
+    { key: "empty", label: "Terreno", hint: "Foto do lote vazio.", promptLabel: "Lot" },
+    { key: "final", label: "Projeto finalizado", hint: "Referência de como a obra deve terminar.", promptLabel: "Finished project" },
   ],
   instructions: ["Versão rápida do timelapse — só 3 marcos, sem estágios detalhados."],
   toolGuide: flowGuide(
@@ -624,10 +624,10 @@ const timelapseConstrucaoSimples = stub({
       { value: "4", label: "4", promptValue: "four milestones: foundation, structure, envelope, finished" },
     ],
   }, crewField, soundEffectsField],
-  template: `Timelapse curto de construção, câmera travada, {{speed}}, passando por {{milestones}} marcos entre o terreno (primeira imagem) e o projeto finalizado (segunda imagem).
-A construção final deve corresponder exatamente à segunda imagem. Trabalhadores e maquinário: {{crew}}.`,
-  systemRules: ["câmera travada", "o resultado final corresponde exatamente à imagem ‘projeto finalizado’"],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "resultado final diferente da referência"],
+  template: `Short construction timelapse, camera locked, {{speed}}, passing through {{milestones}}, between the lot (first image) and the finished project (second image).
+The final construction must match the second image exactly. Workers and machinery: {{crew}}.`,
+  systemRules: ["camera locked", "the final result matches the \"finished project\" image exactly"],
+  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "final result different from the reference"],
   fidelity: { lockedCamera: true, noPropertyChanges: true },
   cameraMode: "locked",
 });
@@ -643,10 +643,10 @@ const apresentacaoProfissional = stub({
   category: "imovel-pronto",
   type: "video-multi-image",
   images: [
-    { key: "room1", label: "Ambiente 1", hint: "Ex.: fachada ou sala." },
-    { key: "room2", label: "Ambiente 2" },
-    { key: "room3", label: "Ambiente 3" },
-    { key: "room4", label: "Ambiente 4 (opcional)" },
+    { key: "room1", label: "Ambiente 1", hint: "Ex.: fachada ou sala.", promptLabel: "Room 1" },
+    { key: "room2", label: "Ambiente 2", promptLabel: "Room 2" },
+    { key: "room3", label: "Ambiente 3", promptLabel: "Room 3" },
+    { key: "room4", label: "Ambiente 4 (opcional)", promptLabel: "Room 4 (optional)" },
   ],
   minImages: 3,
   allowStructuredJson: true,
@@ -689,14 +689,14 @@ const apresentacaoProfissional = stub({
     stabilizationField,
     extraDetails,
   ],
-  template: `Vídeo de apresentação contínuo, percorrendo os ambientes na ordem enviada, ritmo {{presentationPace}}, com cortes limpos.`,
+  template: `Continuous walkthrough video, moving through the rooms in the order they were uploaded: {{presentationPace}}, with clean cuts.`,
   systemRules: [
-    "respeitar exatamente a ordem das imagens enviadas",
-    "nunca misturar elementos de ambientes diferentes em um mesmo frame",
-    "manter a identidade visual do mesmo imóvel do início ao fim (mesma paleta, mesmo acabamento)",
-    "movimento de câmera suave — sem teleporte entre ambientes",
+    "follow the exact order of the uploaded images",
+    "never mix elements from different rooms in the same frame",
+    "keep the same property's visual identity from start to finish (same palette, same finish)",
+    "smooth camera movement — no teleporting between rooms",
   ],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "misturar ambientes diferentes", "pular a ordem enviada"],
+  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "mixing different rooms", "skipping the uploaded order"],
   fidelity: { preserveStructure: true, preserveObjectPlacement: true, preserveCamera: true },
   cameraMode: "controlled-motion",
   thumbnailAlt: "Quarto amplo com cortina translúcida e luz retroiluminada",
@@ -712,7 +712,7 @@ const entradaCinematografica = stub({
   description: "Plano único de entrada pela porta principal, revelando hall e sala em profundidade.",
   category: "imovel-pronto",
   type: "video-single-image",
-  images: [{ key: "reference", label: "Fachada / entrada do imóvel", hint: "Foto da entrada, porta visível e centralizada." }],
+  images: [{ key: "reference", label: "Fachada / entrada do imóvel", hint: "Foto da entrada, porta visível e centralizada.", promptLabel: "Property facade / entrance" }],
   instructions: ["Use uma foto com a porta principal centralizada e bem iluminada."],
   toolGuide: flowGuide(
     ["Vídeo", "Elementos", "Omni Flash"],
@@ -739,19 +739,19 @@ const entradaCinematografica = stub({
     stabilizationField,
     timeOfDay,
   ],
-  template: `Plano único entrando pela porta principal deste imóvel, push-in {{speed}} com intensidade {{intensity}}, revelando hall e sala em profundidade.
-Luz de {{timeOfDay}}. Sem zoom digital — o avanço é físico, de câmera real.`,
+  template: `Single continuous shot entering through this property's main door, {{speed}} push-in at {{intensity}} intensity, revealing the hall and living room in depth.
+{{timeOfDay}}. No digital zoom — the advance is physical, real-camera motion.`,
   systemRules: [
-    "um único plano contínuo, sem cortes",
-    "avanço de câmera física — nunca zoom digital",
-    "o eixo, a lente e a leitura arquitetônica permanecem consistentes durante todo o avanço",
-    "a fachada não se deforma durante o movimento",
+    "a single continuous shot, no cuts",
+    "physical camera advance — never digital zoom",
+    "the axis, lens and architectural reading stay consistent throughout the advance",
+    "the facade does not deform during the movement",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
-    "zoom digital artificial",
-    "deformação da fachada",
-    "mudança de lente no meio do plano",
+    "artificial digital zoom",
+    "facade deformation",
+    "lens change mid-shot",
   ],
   fidelity: { preserveStructure: true, preserveCamera: true },
   cameraMode: "controlled-motion",
@@ -770,8 +770,8 @@ const construcaoCompleta = stub({
   type: "video-two-images",
   accessLevel: "premium",
   images: [
-    { key: "start", label: "Ponto de partida", hint: "Depende da etapa: terreno vazio ou obra em estrutura." },
-    { key: "end", label: "Resultado da etapa", hint: "Como a etapa selecionada deve terminar." },
+    { key: "start", label: "Ponto de partida", hint: "Depende da etapa: terreno vazio ou obra em estrutura.", promptLabel: "Starting point" },
+    { key: "end", label: "Resultado da etapa", hint: "Como a etapa selecionada deve terminar.", promptLabel: "Stage result" },
   ],
   instructions: [
     "Escolha a etapa abaixo — cada uma gera um prompt próprio, com imagens diferentes.",
@@ -793,13 +793,13 @@ const construcaoCompleta = stub({
           value: "terreno-estrutura",
           label: "Terreno → Estrutura",
           promptValue:
-            "Etapa 1 de 2 — do terreno vazio até a estrutura em obra: terraplenagem, fundação, alvenaria e cobertura visíveis progressivamente",
+            "Stage 1 of 2 — from the empty lot to the structure under construction: site grading, foundation, masonry and roofing visible progressively",
         },
         {
           value: "estrutura-entrega",
           label: "Estrutura → Entrega",
           promptValue:
-            "Etapa 2 de 2 — da estrutura em obra até a entrega: acabamento, pintura, esquadrias, paisagismo e limpeza final",
+            "Stage 2 of 2 — from the structure under construction to handover: finishing, paint, window and door frames, landscaping and final cleanup",
         },
       ],
     },
@@ -808,14 +808,14 @@ const construcaoCompleta = stub({
     extraDetails,
   ],
   advanced: [durationField, crewField, weatherField, soundEffectsField],
-  template: `Timelapse de construção, câmera travada, ritmo {{speed}}. {{stage}}.
-O resultado final desta etapa deve corresponder exatamente à segunda imagem enviada.
-Trabalhadores e maquinário visíveis: {{crew}}. Céu {{weather}}.`,
+  template: `Construction timelapse, camera locked, {{speed}}. {{stage}}.
+This stage's final result must match the second uploaded image exactly.
+Workers and machinery visible: {{crew}}. Weather: {{weather}}.`,
   systemRules: [
-    "câmera travada durante toda a etapa",
-    "gerar apenas a etapa selecionada — não avançar além do que a segunda imagem mostra",
+    "camera locked throughout the stage",
+    "generate only the selected stage — do not progress beyond what the second image shows",
   ],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "avançar a obra além da segunda imagem enviada"],
+  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "progressing the construction beyond the second uploaded image"],
   fidelity: { lockedCamera: true, noPropertyChanges: true },
   cameraMode: "locked",
   supportMaterial: [
@@ -838,7 +838,7 @@ const casaEmEmpreendimento = stub({
   category: "terrenos",
   type: "image-custom",
   isNew: true,
-  images: [{ key: "reference", label: "Planta ou imagem do projeto", hint: "Planta baixa, mapa do loteamento ou foto do terreno." }],
+  images: [{ key: "reference", label: "Planta ou imagem do projeto", hint: "Planta baixa, mapa do loteamento ou foto do terreno.", promptLabel: "Site plan or project image" }],
   instructions: [
     "Envie a planta do projeto ou uma foto/mapa do loteamento — quanto mais clara a referência, mais fiel o resultado.",
     "Se a referência já indicar o número de casas, esse número é respeitado.",
@@ -875,14 +875,14 @@ const casaEmEmpreendimento = stub({
     weatherField,
     { key: "realism", type: "slider", label: "Nível de realismo", min: 1, max: 5, step: 1, unit: "/5", defaultValue: 4 },
   ],
-  template: `Gere uma visualização aérea fotorrealista deste empreendimento no estilo {{style}}, densidade {{density}}.
-Vegetação e arborização entre os lotes: {{greenery}}. Cena em {{timeOfDay}}, {{weather}}. Nível de realismo {{realism}} de 5.
-Respeitar exatamente o número e a disposição das casas indicados na referência — não inventar unidades além do projeto.`,
+  template: `Generate a photorealistic aerial visualization of this development in {{desiredStyle}}, {{density}}.
+Greenery and street trees between the lots: {{greenery}}. Scene in {{timeOfDay}}, {{weather}}. Realism level {{realism}} of 5.
+Follow exactly the number and layout of houses shown in the reference — do not invent units beyond the project.`,
   systemRules: [
-    "manter o traçado de ruas e a divisão de lotes exatamente como na referência",
-    "não alterar a quantidade de unidades quando a referência a indicar claramente",
+    "keep the street layout and lot subdivision exactly as in the reference",
+    "do not alter the number of units when the reference clearly indicates it",
   ],
-  hardNegatives: ["inventar casas fora do projeto", "alterar o traçado das vias", "texto ou marca d'água"],
+  hardNegatives: ["inventing houses outside the project", "altering the street layout", "text or watermark"],
   fidelity: { noPropertyChanges: true, noInventedElements: true },
   cameraMode: "static",
 });
@@ -897,7 +897,7 @@ const vistaDeDrone = stub({
   description: "Recria o terreno ou imóvel a partir de um ponto de vista aéreo.",
   category: "terrenos",
   type: "image-custom",
-  images: [{ key: "reference", label: "Foto do imóvel ou terreno", hint: "Qualquer ângulo — a IA reprojeta para a vista aérea." }],
+  images: [{ key: "reference", label: "Foto do imóvel ou terreno", hint: "Qualquer ângulo — a IA reprojeta para a vista aérea.", promptLabel: "Property or lot photo" }],
   instructions: ["Funciona a partir de qualquer foto do imóvel — não precisa já ser aérea."],
   toolGuide: flowGuide(
     ["Imagem", "Referência", "Compor"],
@@ -917,10 +917,10 @@ const vistaDeDrone = stub({
     timeOfDay,
     weatherField,
   ],
-  template: `Recrie esta cena a partir de uma vista de drone em altitude {{altitude}}, ângulo {{droneAngle}}, distância aproximada de {{distance}}.
-Luz de {{timeOfDay}}, {{weather}}. Preservar exatamente o imóvel e o terreno reais — apenas o ponto de vista muda.`,
-  systemRules: ["o imóvel e a vizinhança permanecem idênticos aos da referência, apenas vistos de outro ângulo"],
-  hardNegatives: ["alterar o imóvel", "inventar construções vizinhas", "texto ou marca d'água"],
+  template: `Recreate this scene from a drone view at {{altitude}}, {{droneAngle}} angle, approximately {{distance}} away.
+{{timeOfDay}}, {{weather}}. Preserve the real property and lot exactly — only the point of view changes.`,
+  systemRules: ["the property and neighborhood stay identical to the reference, only seen from a different angle"],
+  hardNegatives: ["altering the property", "inventing neighboring buildings", "text or watermark"],
   fidelity: { noPropertyChanges: true, noInventedElements: true },
   cameraMode: "static",
   nextModule: "voo-de-drone",
@@ -938,8 +938,8 @@ const metragemEmTerrenoVideo = stub({
   type: "video-two-images",
   accessLevel: "pro",
   images: [
-    { key: "original", label: "Imagem original", hint: "Foto aérea sem overlay." },
-    { key: "outlined", label: "Imagem com contorno e metragem", hint: "Resultado do módulo Metragem do Terreno." },
+    { key: "original", label: "Imagem original", hint: "Foto aérea sem overlay.", promptLabel: "Original image" },
+    { key: "outlined", label: "Imagem com contorno e metragem", hint: "Resultado do módulo Metragem do Terreno.", promptLabel: "Image with outline and area" },
   ],
   defaultFormat: "structured_json",
   instructions: ["Combina o sobrevoo com o traçado do contorno — use as mesmas duas imagens do módulo Metragem Animada."],
@@ -962,13 +962,13 @@ const metragemEmTerrenoVideo = stub({
     },
     { key: "sfxIntensity", type: "slider", label: "Intensidade sonora", min: 0, max: 100, step: 10, unit: "%", defaultValue: 30 },
   ],
-  template: `Sobrevoo suave e contínuo do terreno enquanto o contorno de luz se desenha {{speed}} sobre as divisas, terminando exatamente como na segunda imagem.
-Pausa breve com o contorno fechado antes do fim: {{finalPause}}.`,
+  template: `Smooth, continuous flyover of the lot while the light outline draws itself, {{speed}}, over the boundaries, finishing exactly as in the second image.
+Brief pause with the outline closed before the end: {{finalPause}}.`,
   systemRules: [
-    "movimento de sobrevoo suave e constante, sem solavancos",
-    "o contorno final corresponde exatamente à segunda imagem",
+    "smooth, constant flyover movement, no jolts",
+    "the final outline matches the second image exactly",
   ],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "contorno final diferente da referência"],
+  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "final outline different from the reference"],
   fidelity: { noPropertyChanges: true, preserveStructure: true },
   cameraMode: "free-motion",
   dependsOn: "metragem-do-terreno",
@@ -987,8 +987,8 @@ const vooDeDrone = stub({
   accessLevel: "pro",
   isNew: true,
   images: [
-    { key: "start", label: "Ponto inicial", hint: "De onde o voo começa." },
-    { key: "end", label: "Ponto final", hint: "Onde o voo termina." },
+    { key: "start", label: "Ponto inicial", hint: "De onde o voo começa.", promptLabel: "Starting point" },
+    { key: "end", label: "Ponto final", hint: "Onde o voo termina.", promptLabel: "Ending point" },
   ],
   instructions: ["As duas imagens definem início e fim do voo — a IA constrói o trajeto entre elas."],
   toolGuide: flowGuide(
@@ -1014,17 +1014,17 @@ const vooDeDrone = stub({
     durationField,
     stabilizationField,
   ],
-  template: `Voo de drone contínuo do ponto inicial ao ponto final fornecidos, trajetória {{trajectory}}, altitude {{altitude}}, velocidade de pico {{peakSpeed}}.
-Usar as duas imagens estritamente como início e fim do movimento — nunca como cortes.`,
+  template: `Continuous drone flight from the supplied starting point to the ending point, {{trajectory}}, {{altitude}}, {{peakSpeed}} peak speed.
+Use the two images strictly as the start and end of the movement — never as cuts.`,
   systemRules: [
-    "movimento contínuo do início ao fim, sem cortes — o movimento de câmera é essencial e não deve ser suprimido",
-    "não deformar o imóvel nem alterar a arquitetura durante o voo",
-    "evitar velocidade que pareça fisicamente implausível para um drone real",
+    "continuous movement from start to finish, no cuts — the camera movement is essential and must not be suppressed",
+    "do not deform the property or alter the architecture during the flight",
+    "avoid speeds that would look physically implausible for a real drone",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
-    "deformar o imóvel durante o movimento",
-    "velocidade irreal para um drone",
+    "deforming the property during the movement",
+    "unrealistic speed for a drone",
   ],
   fidelity: { preserveStructure: true, noPropertyChanges: true },
   cameraMode: "free-motion",
@@ -1043,8 +1043,8 @@ const contornoDaCasa = stub({
   type: "video-two-images",
   accessLevel: "pro",
   images: [
-    { key: "original", label: "Imagem original", hint: "Foto real da casa." },
-    { key: "outlined", label: "Imagem com contorno", hint: "Referência de como o traço deve ficar." },
+    { key: "original", label: "Imagem original", hint: "Foto real da casa.", promptLabel: "Original image" },
+    { key: "outlined", label: "Imagem com contorno", hint: "Referência de como o traço deve ficar.", promptLabel: "Image with outline" },
   ],
   defaultFormat: "structured_json",
   instructions: ["Envie a foto original e uma referência do contorno já desenhado sobre a casa."],
@@ -1054,18 +1054,18 @@ const contornoDaCasa = stub({
   ),
   beginner: [beamColorField, glowStyleField, { ...speedField, label: "Velocidade do traçado" }, extraDetails],
   advanced: [durationField, soundEffectsField],
-  template: `Anime o traço de luz {{beamColor}}, estilo {{glowStyle}}, percorrendo o contorno externo da casa {{speed}} até fechar a silhueta completa, exatamente como na segunda imagem.
-Imagem de fundo estática do início ao fim. Não redesenhar o contorno, não alterar sua cor e não criar texto.`,
+  template: `Animate the {{beamColor}} light trace, {{glowStyle}} style, tracing the house's outer outline, {{speed}}, until it closes the complete silhouette, exactly as in the second image.
+Static background image from start to finish. Do not redraw the outline, do not change its color and do not create any text.`,
   systemRules: [
-    "câmera travada — propriedade e fundo completamente congelados",
-    "revelar apenas o overlay do traço, nunca alterar a casa em si",
-    "o contorno final corresponde exatamente à segunda imagem, sem redesenhar",
+    "camera locked — property and background completely frozen",
+    "reveal only the trace overlay, never alter the house itself",
+    "the final outline matches the second image exactly, with no redrawing",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
-    "redesenhar o contorno",
-    "alterar a cor do traço",
-    "inventar um contorno diferente da referência",
+    "redrawing the outline",
+    "changing the trace's color",
+    "inventing an outline different from the reference",
   ],
   fidelity: { preserveStructure: true, lockedCamera: true, noPropertyChanges: true },
   cameraMode: "locked",

@@ -31,7 +31,7 @@ export function resolveValues(
 
     if (typeof raw === "boolean") {
       const bt = field?.booleanText;
-      out[key] = bt ? (raw ? bt.on : bt.off) : raw ? "sim" : "não";
+      out[key] = bt ? (raw ? bt.on : bt.off) : raw ? "yes" : "no";
       continue;
     }
 
@@ -49,8 +49,8 @@ export function resolveValues(
 export function formatList(items: string[]): string {
   const clean = items.filter(Boolean);
   if (clean.length <= 1) return clean.join("");
-  if (clean.length === 2) return `${clean[0]} e ${clean[1]}`;
-  return `${clean.slice(0, -1).join(", ")} e ${clean[clean.length - 1]}`;
+  if (clean.length === 2) return `${clean[0]} and ${clean[1]}`;
+  return `${clean.slice(0, -1).join(", ")} and ${clean[clean.length - 1]}`;
 }
 
 /**

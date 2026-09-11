@@ -2,21 +2,21 @@ import type { FidelityRules } from "@/types";
 
 const FIDELITY_COPY: Record<keyof FidelityRules, string> = {
   preserveStructure:
-    "preservar a estrutura arquitetônica existente (paredes, aberturas, laje)",
-  preserveGeometry: "preservar a geometria e as proporções do imóvel",
+    "preserve the existing architectural structure (walls, openings, slab)",
+  preserveGeometry: "preserve the property's geometry and proportions",
   preserveObjectPlacement:
-    "manter a posição de portas, janelas e elementos fixos",
+    "keep the position of doors, windows and fixed elements",
   preserveCamera:
-    "preservar as características da câmera da imagem de referência — mesmo eixo, mesma lente, mesma leitura arquitetônica",
+    "preserve the reference image's camera characteristics — same axis, same lens, same architectural reading",
   lockedCamera:
-    "câmera 100% travada — nenhum movimento, pan, zoom ou reenquadramento",
+    "camera 100% locked — no movement, pan, zoom or reframing",
   preserveLighting:
-    "manter a direção e a temperatura de luz da cena original",
+    "keep the original scene's light direction and color temperature",
   noInventedElements:
-    "não adicionar cômodos, andares, mobília ou elementos que não existem na referência",
+    "do not add rooms, floors, furniture or elements that don't exist in the reference",
   noPropertyChanges:
-    "não alterar o terreno, a metragem ou os limites do lote",
-  noPerspectiveChanges: "não alterar a perspectiva nem o horizonte",
+    "do not alter the lot, its area or its boundaries",
+  noPerspectiveChanges: "do not alter the perspective or the horizon",
 };
 
 export function fidelityLines(rules?: FidelityRules): string[] {
