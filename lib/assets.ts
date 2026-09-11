@@ -29,6 +29,15 @@ export const AVAILABLE_THUMBS: ReadonlySet<string> = new Set<string>([
   "apresentacao-profissional",
   "building-revealing-video",
   "voo-de-drone",
+  // remaining modules with a real photo cover
+  "building-revealing",
+  "reforma-cinematografica",
+  "timelapse-de-reforma-interior",
+  "metragem-animada",
+  "antes-e-depois-geral",
+  "construcao-completa",
+  "timelapse-construcao-simples",
+  "contorno-da-casa",
   // categories
   "categoria-terrenos",
   "categoria-construcao",
@@ -86,8 +95,14 @@ export interface ResolvedCover {
   sceneLabel: string;
 }
 
+/** Slugs whose cover isn't a .jpg (e.g. an animated demo clip). */
+const THUMB_EXT: Record<string, string> = {
+  "contorno-da-casa": "gif",
+};
+
 function thumbPath(slug: string): string | undefined {
-  return AVAILABLE_THUMBS.has(slug) ? `/thumbnails/${slug}.jpg` : undefined;
+  if (!AVAILABLE_THUMBS.has(slug)) return undefined;
+  return `/thumbnails/${slug}.${THUMB_EXT[slug] ?? "jpg"}`;
 }
 
 function previewPath(slug: string): string | undefined {
