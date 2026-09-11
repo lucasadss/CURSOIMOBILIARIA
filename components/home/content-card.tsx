@@ -10,17 +10,18 @@ import { FavoriteButton } from "@/components/common/favorite-button";
 const RATIO_CLASS = {
   wide: "aspect-[16/9]",
   cinematic: "aspect-[3/2]",
+  portrait: "aspect-[3/4]",
 } as const;
 
 export function ContentCard({
   module,
-  ratio = "wide",
+  ratio = "portrait",
   sizes = "(max-width: 640px) 60vw, (max-width: 1024px) 34vw, 320px",
   priority = false,
   className,
 }: {
   module: ModuleSummary;
-  ratio?: "wide" | "cinematic";
+  ratio?: "wide" | "cinematic" | "portrait";
   sizes?: string;
   priority?: boolean;
   className?: string;
