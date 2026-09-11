@@ -14,7 +14,7 @@ export default function CategoryLoading() {
         <Skeleton className="h-4 w-24" />
         <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {Array.from({ length: 10 }).map((_, i) => (
-            <Skeleton key={i} className="aspect-[3/4]" />
+            <Skeleton key={i} className="aspect-[4/5]" />
           ))}
         </div>
       </div>
