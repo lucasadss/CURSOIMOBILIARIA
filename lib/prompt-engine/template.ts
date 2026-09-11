@@ -1,7 +1,9 @@
 import type { FieldConfig, FieldValues } from "@/types";
+import { describeColor } from "./color";
 
 /** label the user picked ← → technical phrase the model receives. */
 function promptText(field: FieldConfig | undefined, value: string): string {
+  if (field?.type === "color") return describeColor(value);
   const opt = field?.options?.find((o) => o.value === value);
   return opt?.promptValue ?? opt?.label ?? value;
 }

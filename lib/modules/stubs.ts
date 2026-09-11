@@ -192,7 +192,7 @@ const antesEDepoisDecoracao = stub({
       },
     },
   ],
-  template: `Generate the "after" version of this room in {{desiredStyle}}, transformation level {{transformLevel}} of 5.
+  template: `Generate the "after" version of this room in {{desiredStyle}}, transformation level {{transformLevel}}.
 Predominant palette: {{palette}}. Featured materials: {{materials}}.
 Preserve the existing furniture in the composition, only restyling the surroundings: {{keepFurniture}}.
 Keep the architecture, windows, floor and point of view identical to the original photo — only the styling changes.`,
@@ -387,7 +387,7 @@ const timelapseReformaInterior = stub({
     },
   ],
   template: `Renovation timelapse of this room, camera locked, {{speed}}, from the initial state (first image) to the final finish (second image).
-Transformation intensity {{transformLevel}} of 5. Workers and tools visible: {{crew}}.
+Transformation intensity {{transformLevel}}. Workers and tools visible: {{crew}}.
 Gradual lighting transition between the two states: {{lightingTransition}}.
 The final result must match the second image exactly in composition, structure and point of view.`,
   systemRules: [
@@ -877,7 +877,7 @@ const casaEmEmpreendimento = stub({
     { key: "realism", type: "slider", label: "Nível de realismo", min: 1, max: 5, step: 1, unit: "/5", defaultValue: 4 },
   ],
   template: `Generate a photorealistic aerial visualization of this development in {{desiredStyle}}, {{density}}.
-Greenery and street trees between the lots: {{greenery}}. Scene in {{timeOfDay}}, {{weather}}. Realism level {{realism}} of 5.
+Greenery and street trees between the lots: {{greenery}}. Scene in {{timeOfDay}}, {{weather}}. Realism level {{realism}}.
 Follow exactly the number and layout of houses shown in the reference — do not invent units beyond the project.`,
   systemRules: [
     "keep the street layout and lot subdivision exactly as in the reference",
