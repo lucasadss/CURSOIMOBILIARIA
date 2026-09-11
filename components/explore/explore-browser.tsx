@@ -151,12 +151,12 @@ export function ExploreBrowser() {
       ) : null}
 
       {showModules && modules.length > 0 && (
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
           {modules.map((m) => (
             <ContentCard
               key={m.slug}
               module={m}
-              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 46vw, 420px"
+              sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 22vw, 220px"
             />
           ))}
         </div>

@@ -56,13 +56,13 @@ export default function HomePage() {
                 key={slug}
                 title={category.name}
                 href={`/app/categoria/${slug}`}
-                itemWidth="w-[300px] sm:w-[380px] lg:w-[440px]"
+                itemWidth="w-[150px] sm:w-[180px] lg:w-[210px]"
               >
                 {items.map((m) => (
                   <ContentCard
                     key={m.slug}
                     module={m}
-                    sizes="(max-width: 640px) 82vw, 440px"
+                    sizes="(max-width: 640px) 40vw, 210px"
                   />
                 ))}
               </ContentRow>

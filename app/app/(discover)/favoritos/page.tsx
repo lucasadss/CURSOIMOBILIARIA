@@ -63,12 +63,12 @@ export default function FavoritosPage() {
           {modules.length > 0 && (
             <section>
               <h2 className="section-label mb-3">Módulos</h2>
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                 {modules.map((m) => (
                   <ContentCard
                     key={m.slug}
                     module={m}
-                    sizes="(max-width: 640px) 47vw, (max-width: 1024px) 30vw, (max-width: 1280px) 22vw, 300px"
+                    sizes="(max-width: 640px) 46vw, (max-width: 1024px) 30vw, (max-width: 1280px) 22vw, 220px"
                   />
                 ))}
               </div>
