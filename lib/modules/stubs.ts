@@ -26,6 +26,7 @@ import {
   speedField,
   stabilizationField,
   timeOfDay,
+  traceSpeedField,
   transformLevel,
   weatherField,
 } from "./shared";
@@ -309,7 +310,7 @@ const metragemAnimada = stub({
     ],
   ),
   beginner: [
-    { ...speedField, label: "Velocidade do traçado" },
+    traceSpeedField,
     soundEffectsField,
     showAreaField,
     extraDetails,
@@ -947,7 +948,7 @@ const metragemEmTerrenoVideo = stub({
     ["Vídeo", "Elementos", "Omni Flash"],
     ["Modo Vídeo no Google Flow.", "Envie a imagem original e a versão com contorno, nessa ordem.", "Gere em JSON estruturado."],
   ),
-  beginner: [{ ...speedField, label: "Velocidade do traçado" }, musicField, extraDetails],
+  beginner: [traceSpeedField, musicField, extraDetails],
   advanced: [
     durationField,
     {
@@ -1052,7 +1053,7 @@ const contornoDaCasa = stub({
     ["Vídeo", "Elementos", "Omni Flash"],
     ["Modo Vídeo no Google Flow.", "Envie a imagem original e a versão com contorno, nessa ordem.", "Câmera travada — só o traço se move."],
   ),
-  beginner: [beamColorField, glowStyleField, { ...speedField, label: "Velocidade do traçado" }, extraDetails],
+  beginner: [beamColorField, glowStyleField, traceSpeedField, extraDetails],
   advanced: [durationField, soundEffectsField],
   template: `Animate the {{beamColor}} light trace, {{glowStyle}} style, tracing the house's outer outline, {{speed}}, until it closes the complete silhouette, exactly as in the second image.
 Static background image from start to finish. Do not redraw the outline, do not change its color and do not create any text.`,

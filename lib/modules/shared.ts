@@ -109,6 +109,28 @@ export const speedField: FieldConfig = {
   ],
 };
 
+/**
+ * For modules where "speed" means a literal animation multiplier (a light
+ * beam or outline being traced across the screen), not a mood/pace. Video
+ * models read explicit multipliers for this kind of motion at least as
+ * reliably as relative terms like "fast", so the promptValue pairs the
+ * multiplier with a short natural-language description for both.
+ */
+export const traceSpeedField: FieldConfig = {
+  key: "speed",
+  type: "select",
+  label: "Velocidade do traçado",
+  tooltip: "Velocidade relativa em que o traço de luz percorre o contorno.",
+  placeholder: "Selecione…",
+  defaultValue: "1x",
+  options: [
+    { value: "0.5x", label: "0.5x", promptValue: "0.5x speed, very slow and deliberate tracing pace" },
+    { value: "1x", label: "1x", promptValue: "1x speed, natural and steady tracing pace" },
+    { value: "2x", label: "2x", promptValue: "2x speed, brisk tracing pace" },
+    { value: "3x", label: "3x", promptValue: "3x speed, fast tracing pace" },
+  ],
+};
+
 export const durationField: FieldConfig = {
   key: "duration",
   type: "slider",

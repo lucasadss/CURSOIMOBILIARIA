@@ -154,12 +154,12 @@ describe("JSON leanness and validity — Metragem Animada, Metragem em Terreno (
     const m = getModuleBySlug("metragem-animada")!;
     const res = buildPrompt({
       module: m,
-      values: { speed: "rapida", showArea: true, beamColor: "#c9662e" },
+      values: { speed: "3x", showArea: true, beamColor: "#c9662e" },
       tool: "google-flow",
       format: "structured_json",
       imageCount: 2,
     });
-    expect(res.text).toContain("brisk, energetic pacing");
+    expect(res.text).toContain("3x speed, fast tracing pace");
   });
 });
 
