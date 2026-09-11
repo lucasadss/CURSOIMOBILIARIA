@@ -149,6 +149,22 @@ export const timelapseSpeedField: FieldConfig = {
   ],
 };
 
+/** Same multiplier idea, worded for a single continuous push-in shot. */
+export const pushInSpeedField: FieldConfig = {
+  key: "pushInSpeed",
+  type: "select",
+  label: "Velocidade do push-in",
+  tooltip: "Velocidade relativa de avanço da câmera.",
+  placeholder: "Selecione…",
+  defaultValue: "1x",
+  options: [
+    { value: "0.5x", label: "0.5x", promptValue: "0.5x speed, very slow and deliberate push-in" },
+    { value: "1x", label: "1x", promptValue: "1x speed, natural and steady push-in" },
+    { value: "2x", label: "2x", promptValue: "2x speed, brisk push-in" },
+    { value: "3x", label: "3x", promptValue: "3x speed, fast push-in" },
+  ],
+};
+
 export const durationField: FieldConfig = {
   key: "duration",
   type: "slider",

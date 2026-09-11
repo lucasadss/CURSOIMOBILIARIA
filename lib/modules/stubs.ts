@@ -28,6 +28,7 @@ import {
   timeOfDay,
   timelapseSpeedField,
   traceSpeedField,
+  pushInSpeedField,
   transformLevel,
   weatherField,
 } from "./shared";
@@ -459,24 +460,41 @@ const timelapseReformaInterior = stub({
       },
     },
   ],
+  promptRole:
+    "You are a cinematic interior-renovation-timelapse director. The second image is the only permitted final result — lock its exact composition and structure before animating, then reveal the renovation progressing toward it, stage by stage.",
   template: `Renovation timelapse of this room, camera locked, {{speed}}, from the initial state (first image) to the final finish (second image).
+Progression, each stage advancing naturally toward the second image: old elements removed, walls prepared with new paint and flooring, large furniture placed, lighting fixtures and smaller furniture added, then decorative styling.
 Transformation intensity {{transformLevel}}. Workers and tools visible: {{crew}}.
 Gradual lighting transition between the two states: {{lightingTransition}}.
 The final result must match the second image exactly in composition, structure and point of view.`,
   systemRules: [
     "camera locked from start to finish, no reframing",
     "the last frame must match the supplied \"after\" image exactly",
+    "never invent a different final look than the second image",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
     "final result different from the reference image",
     "creating additional rooms or openings",
+    "a different renovation style, palette or furniture than the second image",
   ],
   fidelity: {
     preserveStructure: true,
     lockedCamera: true,
+    noInventedElements: true,
   },
   cameraMode: "locked",
+  structuredExtras: {
+    renovation: {
+      phases: [
+        "demolition and removal of old elements",
+        "wall preparation, painting and flooring",
+        "large furniture placement",
+        "lighting fixtures and smaller furniture",
+        "decorative elements and final styling",
+      ],
+    },
+  },
 });
 
 /* ============================================================================
@@ -522,14 +540,22 @@ const reformaCinematografica = stub({
       ],
     },
   ],
+  promptRole:
+    "You are a cinematic architectural-transition director. The final frame of the clip must land exactly on the second image — never a corrected, softened or alternate version of it.",
   template: `Organic cinematic transition from the initial image (before) to the final one (after), with {{cameraMovement}}.
 Interpolate lighting, materials and volume gradually, with no abrupt morphing — the viewer feels the passage of time, not a cut.
 {{lightingStyle}}. Avoid fanciful transformation: keep only what is plausible between the two real states.`,
   systemRules: [
     "the interpolation must stay physically plausible — no elements that don't exist in either photo",
     "the camera's axis, lens and architectural reading stay consistent from start to finish, even while it moves",
+    "the final frame matches the second image exactly, with no last-second correction or swap",
   ],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "fanciful elements that don't exist in either photo"],
+  hardNegatives: [
+    ...DEFAULT_VIDEO_NEGATIVES,
+    "fanciful elements that don't exist in either photo",
+    "a different final result than the second image",
+    "replacing or swapping the result near the end of the clip",
+  ],
   fidelity: {
     preserveCamera: true,
   },
@@ -571,10 +597,20 @@ const antesEDepoisGeral = stub({
       ],
     },
   ],
-  template: `Reveal the "after" over the "before" with a {{wipeDirection}}, {{speed}}.
-Identical point of view in both images — the alignment between them is what sells the effect.`,
-  systemRules: ["both images stay unaltered — the effect is only the transition between them"],
-  fidelity: { lockedCamera: true },
+  promptRole:
+    "You are a precision compositing renderer, not a creative scene generator. The only content in this clip is a clean wipe transition between the two exact reference images — nothing is generated, invented or interpolated.",
+  template: `Reveal the exact "after" image over the exact "before" image with a {{wipeDirection}}, {{speed}} — a clean compositing wipe, not a generated transition.
+Both images stay 100% unaltered throughout the clip; only the wipe boundary moves. Identical point of view in both — their alignment is what sells the effect.`,
+  systemRules: [
+    "both images stay 100% unaltered — the only motion is the wipe boundary itself",
+    "no interpolation, morphing or blending between the two images — the wipe is a hard, clean edge",
+  ],
+  hardNegatives: [
+    ...DEFAULT_VIDEO_NEGATIVES,
+    "blending, morphing or cross-dissolving between the two images",
+    "any generated or invented content not present in either image",
+  ],
+  fidelity: { lockedCamera: true, noInventedElements: true },
   cameraMode: "locked",
 });
 
@@ -644,7 +680,13 @@ const buildingRevealingVideo = stub({
   category: "construcao",
   type: "video-single-image",
   accessLevel: "pro",
-  images: [{ key: "reference", label: "Imagem gerada no Building Revealing", hint: "Resultado do módulo Building Revealing.", promptLabel: "Building Revealing image" }],
+  images: [{
+    key: "reference",
+    label: "Imagem gerada no Building Revealing",
+    hint: "Resultado do módulo Building Revealing.",
+    promptLabel: "Building Revealing image",
+    promptRole: "The only permitted final state. Its exact building, materials, lot and half-wireframe composition are locked before animating — the reveal must resolve into exactly this frame, never a generic or approximate version of it.",
+  }],
   instructions: ["Use exatamente o resultado gerado em ‘Building Revealing’ como referência."],
   toolGuide: flowGuide(
     ["Vídeo", "Elementos", "Omni Flash"],
@@ -652,18 +694,32 @@ const buildingRevealingVideo = stub({
   ),
   beginner: [traceSpeedField, musicField, extraDetails],
   advanced: [durationField, soundEffectsField, timeOfDay, glowStyleField],
-  template: `Animate the {{glowStyle}} plane of light sweeping the scene, {{speed}}, until the complete building materializes, exactly as in the reference image.
+  promptRole: "Precision compositing artist revealing a locked final building through a moving plane of light — not a creative generation task.",
+  template: `Animate the {{glowStyle}} plane of light sweeping across the scene, {{speed}}, progressively revealing the complete building exactly as in the reference image.
 Fixed camera from start to finish. {{timeOfDay}}.
-Preserve the building and the lot from the base image exactly — the only thing that changes is the progressive reveal.`,
+Preserve the building, materials and lot from the reference image exactly — the only thing that changes is how much of it has been revealed by the light.`,
   systemRules: [
     "camera 100% locked",
     "the final building must match the reference image exactly, with no redrawing",
+    "the revealed portion always matches the reference image at that point in the sweep — never a different structure",
+    "nothing beyond the light plane is revealed ahead of time",
   ],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "final building different from the reference image"],
+  hardNegatives: [
+    ...DEFAULT_VIDEO_NEGATIVES,
+    "final building different from the reference image",
+    "revealing part of the building ahead of the light plane",
+    "the light plane skipping or leaving gaps in the reveal",
+  ],
   fidelity: { lockedCamera: true, noPropertyChanges: true, noInventedElements: true },
   cameraMode: "locked",
   dependsOn: "building-revealing",
   thumbnailAlt: "Vista aérea de uma propriedade cercada por terras cultivadas ao entardecer",
+  structuredExtras: {
+    compositing: {
+      rule: "the light plane is a mask that progressively reveals the locked reference image — it never generates new building content",
+      reveal_direction: "consistent single direction across the whole sweep, no back-and-forth",
+    },
+  },
 });
 
 /* ============================================================================
@@ -678,8 +734,20 @@ const timelapseConstrucaoSimples = stub({
   type: "video-two-images",
   accessLevel: "pro",
   images: [
-    { key: "empty", label: "Terreno", hint: "Foto do lote vazio.", promptLabel: "Lot" },
-    { key: "final", label: "Projeto finalizado", hint: "Referência de como a obra deve terminar.", promptLabel: "Finished project" },
+    {
+      key: "empty",
+      label: "Terreno",
+      hint: "Foto do lote vazio.",
+      promptLabel: "Lot",
+      promptRole: "Starting state. Camera angle locked permanently to this frame.",
+    },
+    {
+      key: "final",
+      label: "Projeto finalizado",
+      hint: "Referência de como a obra deve terminar.",
+      promptLabel: "Finished project",
+      promptRole: "Ending state and the only permitted final design. The finished building's exact footprint, height, levels, silhouette, roofline and facade come from this image — never a generic or approximate version of it.",
+    },
   ],
   instructions: ["Versão rápida do timelapse — só 3 marcos, sem estágios detalhados."],
   toolGuide: flowGuide(
@@ -698,12 +766,32 @@ const timelapseConstrucaoSimples = stub({
       { value: "4", label: "4", promptValue: "four milestones: foundation, structure, envelope, finished" },
     ],
   }, crewField, soundEffectsField],
-  template: `Short construction timelapse, camera locked, {{speed}}, passing through {{milestones}}, between the lot (first image) and the finished project (second image).
-The final construction must match the second image exactly. Workers and machinery: {{crew}}.`,
-  systemRules: ["camera locked", "the final result matches the \"finished project\" image exactly"],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "final result different from the reference"],
-  fidelity: { lockedCamera: true, noPropertyChanges: true },
+  promptRole:
+    "You are a precision construction-timelapse renderer, not a creative architect. The second image is the only permitted final design. Before animating, silently lock its exact footprint, position, height, number of levels, silhouette, roofline and facade, then reveal only that exact building, stage by stage.",
+  template: `Locked-camera construction timelapse between the two uploaded images, {{speed}}, passing through {{milestones}}.
+Before animating, silently lock the exact building shown in the second image and progressively assemble and reveal only that exact building, stage by stage — never a generic or invented construction concept.
+The structure in progress must align with the second image's footprint and silhouette at every point in the clip, not only at the end. Workers and machinery: {{crew}}.`,
+  systemRules: [
+    "camera locked — no pan, zoom or reframing",
+    "before animating, lock the exact footprint, position, height, number of levels, silhouette, roofline and facade of the building in the second image",
+    "every new structural element occupies its final position from the second image the moment it appears — never a generic or approximate placement",
+    "the final result matches the second image exactly, with no last-second correction or swap",
+  ],
+  hardNegatives: [
+    ...DEFAULT_VIDEO_NEGATIVES,
+    "a different building than the one in the second image — different footprint, height, number of levels or silhouette",
+    "a generic, alternate or invented architecture not shown in the second image",
+    "an extra floor or volume not present in the second image",
+    "demolishing or restarting the structure partway through the clip",
+    "a second, different project appearing at any point",
+    "correcting, replacing or swapping the structure near the end of the clip",
+    "final result different from the reference",
+  ],
+  fidelity: { lockedCamera: true, noPropertyChanges: true, noInventedElements: true },
   cameraMode: "locked",
+  structuredExtras: {
+    continuity_check: "at roughly one quarter, half and three quarters through the clip, the structure in progress must still align exactly with the second image's footprint, edges, height and silhouette",
+  },
 });
 
 /* ============================================================================
@@ -717,10 +805,10 @@ const apresentacaoProfissional = stub({
   category: "imovel-pronto",
   type: "video-multi-image",
   images: [
-    { key: "room1", label: "Ambiente 1", hint: "Ex.: fachada ou sala.", promptLabel: "Room 1" },
-    { key: "room2", label: "Ambiente 2", promptLabel: "Room 2" },
-    { key: "room3", label: "Ambiente 3", promptLabel: "Room 3" },
-    { key: "room4", label: "Ambiente 4 (opcional)", promptLabel: "Room 4 (optional)" },
+    { key: "room1", label: "Ambiente 1", hint: "Ex.: fachada ou sala.", promptLabel: "Room 1", promptRole: "First space in the walkthrough — its real layout, furniture, décor, colors, lighting, windows and outdoor features are preserved exactly, nothing added or redecorated." },
+    { key: "room2", label: "Ambiente 2", promptLabel: "Room 2", promptRole: "Second space in the walkthrough — its real layout, furniture, décor, colors, lighting, windows and outdoor features are preserved exactly, nothing added or redecorated." },
+    { key: "room3", label: "Ambiente 3", promptLabel: "Room 3", promptRole: "Third space in the walkthrough — its real layout, furniture, décor, colors, lighting, windows and outdoor features are preserved exactly, nothing added or redecorated." },
+    { key: "room4", label: "Ambiente 4 (opcional)", promptLabel: "Room 4 (optional)", promptRole: "Fourth space in the walkthrough, if provided — same preservation rule as the other rooms." },
   ],
   minImages: 3,
   allowStructuredJson: true,
@@ -763,15 +851,24 @@ const apresentacaoProfissional = stub({
     stabilizationField,
     extraDetails,
   ],
-  template: `Continuous walkthrough video, moving through the rooms in the order they were uploaded: {{presentationPace}}, with clean cuts.`,
+  promptRole: "Real-estate cinematographer capturing an honest walkthrough for a professional listing — preserving the real layout, furniture, décor, colors, lighting, windows and outdoor features of every room exactly as photographed, without adding or redecorating anything.",
+  template: `Continuous walkthrough video, moving through the rooms in the order they were uploaded, with smooth eye-level handheld camera movement: {{presentationPace}}, with clean cuts.
+Each room's real layout, furniture, décor, colors, lighting, windows and outdoor features stay exactly as photographed — nothing added, removed or redecorated.`,
   systemRules: [
     "follow the exact order of the uploaded images",
     "never mix elements from different rooms in the same frame",
     "keep the same property's visual identity from start to finish (same palette, same finish)",
-    "smooth camera movement — no teleporting between rooms",
+    "preserve each room's real furniture, décor and layout exactly as photographed — no redecorating or staging",
+    "smooth eye-level handheld camera movement — no teleporting between rooms",
   ],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "mixing different rooms", "skipping the uploaded order"],
-  fidelity: { preserveStructure: true, preserveObjectPlacement: true, preserveCamera: true },
+  hardNegatives: [
+    ...DEFAULT_VIDEO_NEGATIVES,
+    "mixing different rooms",
+    "skipping the uploaded order",
+    "adding, removing or restyling furniture or décor",
+    "changing a room's wall color, flooring or finishes",
+  ],
+  fidelity: { preserveStructure: true, preserveObjectPlacement: true, preserveCamera: true, noInventedElements: true },
   cameraMode: "controlled-motion",
   thumbnailAlt: "Quarto amplo com cortina translúcida e luz retroiluminada",
 });
@@ -786,13 +883,13 @@ const entradaCinematografica = stub({
   description: "Plano único de entrada pela porta principal, revelando hall e sala em profundidade.",
   category: "imovel-pronto",
   type: "video-single-image",
-  images: [{ key: "reference", label: "Fachada / entrada do imóvel", hint: "Foto da entrada, porta visível e centralizada.", promptLabel: "Property facade / entrance" }],
+  images: [{ key: "reference", label: "Fachada / entrada do imóvel", hint: "Foto da entrada, porta visível e centralizada.", promptLabel: "Property facade / entrance", promptRole: "Starting frame — the facade, door and entrance are locked to this reference; the door opens naturally as part of the shot, never replaced or redesigned." }],
   instructions: ["Use uma foto com a porta principal centralizada e bem iluminada."],
   toolGuide: flowGuide(
     ["Vídeo", "Elementos", "Omni Flash"],
     ["Modo Vídeo no Google Flow.", "Envie a foto da entrada como primeiro frame.", "Gere um push-in único, sem cortes."],
   ),
-  beginner: [{ ...speedField, label: "Velocidade do push-in" }, soundEffectsField, extraDetails],
+  beginner: [pushInSpeedField, soundEffectsField, extraDetails],
   advanced: [
     durationField,
     {
@@ -813,19 +910,26 @@ const entradaCinematografica = stub({
     stabilizationField,
     timeOfDay,
   ],
-  template: `Single continuous shot entering through this property's main door, {{speed}} push-in at {{intensity}} intensity, revealing the hall and living room in depth.
+  promptRole: "Cinematographer capturing a single unbroken entrance shot — camera and lines stay perfectly straight and stabilized, and the door opens naturally as part of the motion, never cut away or skipped.",
+  template: `Single continuous shot entering through this property's main door: the door opens smoothly and naturally as the camera approaches, {{pushInSpeed}} at {{intensity}} intensity, revealing the hall and living room in depth.
+Perfectly straight vertical and horizontal lines throughout, super-stabilized as if on a gimbal — no tilt, no wobble.
 {{timeOfDay}}. No digital zoom — the advance is physical, real-camera motion.`,
   systemRules: [
     "a single continuous shot, no cuts",
     "physical camera advance — never digital zoom",
     "the axis, lens and architectural reading stay consistent throughout the advance",
     "the facade does not deform during the movement",
+    "the front door opens naturally and smoothly as the camera approaches, on its real hinge",
+    "vertical and horizontal lines stay perfectly straight — no tilt, no wobble, gimbal-level stabilization",
   ],
   hardNegatives: [
     ...DEFAULT_VIDEO_NEGATIVES,
     "artificial digital zoom",
     "facade deformation",
     "lens change mid-shot",
+    "the door staying closed or disappearing instead of opening",
+    "tilted or converging vertical lines",
+    "handheld shake or wobble",
   ],
   fidelity: { preserveStructure: true, preserveCamera: true },
   cameraMode: "controlled-motion",
@@ -844,8 +948,20 @@ const construcaoCompleta = stub({
   type: "video-two-images",
   accessLevel: "premium",
   images: [
-    { key: "start", label: "Ponto de partida", hint: "Depende da etapa: terreno vazio ou obra em estrutura.", promptLabel: "Starting point" },
-    { key: "end", label: "Resultado da etapa", hint: "Como a etapa selecionada deve terminar.", promptLabel: "Stage result" },
+    {
+      key: "start",
+      label: "Ponto de partida",
+      hint: "Depende da etapa: terreno vazio ou obra em estrutura.",
+      promptLabel: "Starting point",
+      promptRole: "Starting state. Camera angle locked permanently to this frame.",
+    },
+    {
+      key: "end",
+      label: "Resultado da etapa",
+      hint: "Como a etapa selecionada deve terminar.",
+      promptLabel: "Stage result",
+      promptRole: "Ending state for this stage, and the only permitted result. Its exact footprint, height, levels, silhouette and facade must be locked before animating — never a generic or invented version of it.",
+    },
   ],
   instructions: [
     "Escolha a etapa abaixo — cada uma gera um prompt próprio, com imagens diferentes.",
@@ -882,15 +998,23 @@ const construcaoCompleta = stub({
     extraDetails,
   ],
   advanced: [durationField, crewField, weatherField, soundEffectsField],
+  promptRole:
+    "You are a precision construction-timelapse renderer, not a creative architect. The second image is the only permitted result for this stage. Before animating, silently lock its exact footprint, height, levels, silhouette and facade, then reveal only that exact structure.",
   template: `Construction timelapse, camera locked, {{speed}}. {{stage}}.
-This stage's final result must match the second uploaded image exactly.
+Before animating, silently lock the exact structure shown in the second image and progressively reveal only that exact result — never a generic or invented construction concept. It must align with the second image's footprint and silhouette at every point in the clip, not only at the end.
 Workers and machinery visible: {{crew}}. Weather: {{weather}}.`,
   systemRules: [
     "camera locked throughout the stage",
+    "before animating, lock the exact footprint, height, levels, silhouette and facade of the structure in the second image",
     "generate only the selected stage — do not progress beyond what the second image shows",
   ],
-  hardNegatives: [...DEFAULT_VIDEO_NEGATIVES, "progressing the construction beyond the second uploaded image"],
-  fidelity: { lockedCamera: true, noPropertyChanges: true },
+  hardNegatives: [
+    ...DEFAULT_VIDEO_NEGATIVES,
+    "progressing the construction beyond the second uploaded image",
+    "a different structure than the one in the second image — different footprint, height or silhouette",
+    "correcting, replacing or swapping the structure near the end of the clip",
+  ],
+  fidelity: { lockedCamera: true, noPropertyChanges: true, noInventedElements: true },
   cameraMode: "locked",
   supportMaterial: [
     {

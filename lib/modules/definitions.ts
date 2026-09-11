@@ -461,22 +461,25 @@ const timelapseConstrucao: ModuleDefinition = {
       type: "multiselect",
       label: "Estágios a mostrar",
       description: "A obra passa por estas fases, em ordem.",
-      defaultValue: ["fundacao", "estrutura", "acabamento"],
+      defaultValue: ["terraplenagem", "fundacao", "estrutura", "cobertura", "acabamento"],
       options: [
-        { value: "terraplenagem", label: "Terraplenagem", promptValue: "site grading and earthwork" },
-        { value: "fundacao", label: "Fundação", promptValue: "foundation pour" },
-        { value: "estrutura", label: "Estrutura", promptValue: "structural framing" },
+        { value: "terraplenagem", label: "Terraplenagem", promptValue: "ground breaking and site excavation" },
+        { value: "fundacao", label: "Fundação", promptValue: "foundation and concrete structure" },
+        { value: "estrutura", label: "Estrutura", promptValue: "structural walls and columns rising" },
         { value: "alvenaria", label: "Alvenaria", promptValue: "masonry walls going up" },
-        { value: "cobertura", label: "Cobertura", promptValue: "roof structure and covering" },
-        { value: "acabamento", label: "Acabamento e pintura", promptValue: "finishing and paint" },
-        { value: "paisagismo", label: "Paisagismo final", promptValue: "final landscaping" },
+        { value: "cobertura", label: "Cobertura", promptValue: "roof assembly" },
+        { value: "acabamento", label: "Acabamento e pintura", promptValue: "facade cladding and exterior finishing" },
+        { value: "paisagismo", label: "Paisagismo final", promptValue: "landscaping and final details" },
       ],
     },
     crewField,
     weatherField,
   ],
-  promptTemplate: `Accelerated timelapse, {{speed}}, building a house from this lot with the camera 100% locked to the photo's framing.
-Visible progression through the stages: {{stages}}.
+  promptRole:
+    "You are a cinematic construction-timelapse director. The reference photo is the starting state; animate a realistic build progressing through the selected stages, in physically logical order.",
+  promptTemplate: `Ultra-realistic accelerated construction timelapse, {{speed}}, building a house from this lot with the camera 100% locked to the photo's framing.
+Visible progression through the stages, each advancing in logical order: {{stages}}.
+Natural time-of-day cycling as construction advances — morning through midday, afternoon and warm sunset — with interior lights gradually turning on and exterior lighting activating as the house nears completion.
 Show workers and machinery in accelerated motion: {{crew}}.
 Sky with moving clouds and shifting shadows, {{weather}}.
 Duration {{duration}}. Soundtrack {{music}}. Sound effects {{soundEffects}}.`,
@@ -484,6 +487,7 @@ Duration {{duration}}. Soundtrack {{music}}. Sound effects {{soundEffects}}.`,
     "static camera — no pan, zoom or reframing",
     "the first frame is identical to the reference photo",
     "lot and surroundings geometry stays constant across frames",
+    "never let the same building style drift or change identity between stages — it is one continuous build, not several different houses",
   ],
   hardNegatives: [
     "structure morphing",
@@ -491,6 +495,7 @@ Duration {{duration}}. Soundtrack {{music}}. Sound effects {{soundEffects}}.`,
     "camera floating or rotating",
     "the house appearing fully built all at once",
     "on-screen text",
+    "an apartment tower, commercial building or any structure inconsistent with a single house",
   ],
   fidelity: {
     lockedCamera: true,
@@ -500,6 +505,12 @@ Duration {{duration}}. Soundtrack {{music}}. Sound effects {{soundEffects}}.`,
   },
   cameraMode: "locked",
   nextModule: "reforma-cinematografica",
+  structuredExtras: {
+    lighting: {
+      transitions: "natural time-of-day cycling — morning through midday, afternoon and warm sunset — as construction advances",
+      final_reveal: "interior lights gradually turn on and exterior lighting activates as the house nears completion",
+    },
+  },
   supportMaterial: [
     {
       kind: "video",
@@ -518,23 +529,36 @@ const mobiliandoComodos: ModuleDefinition = {
   name: "Mobiliando Cômodos",
   slug: "mobiliando-comodos",
   description:
-    "Anime a mobília entrando em um cômodo vazio, peça por peça, até o ambiente ficar completo.",
+    "Anime a mobília entrando em um cômodo vazio, peça por peça, até bater exatamente com uma foto de referência já decorada.",
   longDescription:
-    "A partir da foto de um cômodo vazio, a IA cria um vídeo curto em que os móveis ‘pousam’ em sequência, mantendo paredes, piso e janelas fixos.",
+    "A partir da foto do cômodo vazio e de uma referência decorada (ex.: resultado de 'Decoração de Interiores'), a IA cria um vídeo curto em que os móveis ‘crescem’ do chão em sequência, cada um na posição exata da referência, mantendo paredes, piso e janelas fixos.",
   category: "interiores",
-  type: "video-single-image",
+  type: "video-two-images",
   accessLevel: "pro",
   thumbnailAlt: "Cômodo totalmente mobiliado e iluminado, pronto para anúncio",
   requiredImages: [
-    { key: "reference", label: "Foto do cômodo vazio", hint: "Ambiente sem móveis, com boa luz e ângulo reto.", promptLabel: "Empty room photo" },
+    {
+      key: "empty",
+      label: "Cômodo vazio",
+      hint: "Ambiente sem móveis, com boa luz e ângulo reto.",
+      promptLabel: "Empty room",
+      promptRole: "Starting state and the only source for the environment — walls, floor, ceiling, windows, doors, light and camera perspective are locked to this frame and never change.",
+    },
+    {
+      key: "furnished",
+      label: "Cômodo decorado",
+      hint: "Resultado do módulo Decoração de Interiores, ou qualquer referência de como o ambiente deve ficar mobiliado.",
+      promptLabel: "Furnished room",
+      promptRole: "Ending state and the only source for the furniture — every piece's exact position, size, style, color and material comes from this image. The final frame of the clip must be identical to it.",
+    },
   ],
-  minImages: 1,
+  minImages: 2,
   recommendedTool: "google-flow",
   availableTools: ["google-flow", "runway", "pika"],
   allowStructuredJson: true,
   featured: true,
   instructions: [
-    "Funciona melhor a partir de uma imagem já decorada (ex.: resultado de ‘Decoração de Interiores’).",
+    "Envie o cômodo vazio e uma referência decorada, nessa ordem — o resultado de 'Decoração de Interiores' funciona bem.",
     "Câmera fica parada; só os móveis se movem.",
   ],
   toolGuide: {
@@ -542,7 +566,7 @@ const mobiliandoComodos: ModuleDefinition = {
     path: ["Vídeo", "Elementos", "Omni Flash"],
     steps: [
       "Modo Vídeo no Google Flow.",
-      "Use a foto do cômodo (vazio ou já decorado) como primeiro frame.",
+      "Envie o cômodo vazio como primeiro frame e a versão decorada como referência final.",
       "Cole o prompt e gere entre 6 e 10 segundos.",
     ],
   },
@@ -565,21 +589,12 @@ const mobiliandoComodos: ModuleDefinition = {
   advancedFields: [
     soundEffectsField,
     {
-      key: "furnitureStyle",
-      type: "select",
-      label: "Estilo dos móveis",
-      defaultValue: "contemporaneo",
-      options: styleOptions.filter((o) =>
-        ["contemporaneo", "escandinavo", "organico", "classico"].includes(o.value),
-      ),
-    },
-    {
       key: "entryOrder",
       type: "select",
       label: "Ordem de entrada",
       defaultValue: "grandes-primeiro",
       options: [
-        { value: "grandes-primeiro", label: "Peças grandes primeiro", promptValue: "large pieces land first, then smaller items" },
+        { value: "grandes-primeiro", label: "Peças grandes primeiro", promptValue: "large furniture first, then smaller furniture, then rugs, then lighting, then decorative objects" },
         { value: "fundo-para-frente", label: "Do fundo para a frente", promptValue: "back-to-front entry order, relative to camera" },
         { value: "aleatoria-suave", label: "Aleatória suave", promptValue: "gentle, naturally staggered entry order" },
       ],
@@ -597,19 +612,30 @@ const mobiliandoComodos: ModuleDefinition = {
       },
     },
   ],
-  promptTemplate: `Starting from this room, animate the furniture entering the scene {{animationSpeed}}, {{entryOrder}}, until the room is fully furnished.
-Furniture in {{furnitureStyle}}, landing with realistic weight and a subtle contact shadow.
-Walls, floor, windows and point of view stay fixed.
-Slight camera push-in: {{cameraDrift}}.
+  promptRole:
+    "You are a precision furniture-placement renderer, not a creative interior designer. The first image is the only source for the environment; the second image is the only source for every furniture and decor piece. You are not allowed to interpret, improvise or invent any element.",
+  promptTemplate: `Animate the transition from the empty room (first image) to the fully furnished room (second image): each furniture and decor piece grows smoothly upward from the floor, at its exact final position, size, style, color and material as shown in the second image, {{animationSpeed}}, {{entryOrder}}, until the room matches the second image exactly.
+No sliding, flying in or fading from thin air — growth starts at the base and expands upward to full size only.
+Walls, floor, windows, light and point of view stay exactly as in the first image throughout. Slight camera push-in: {{cameraDrift}}.
 Duration {{duration}}. Soundtrack {{music}}. Sound effects {{soundEffects}}.`,
   systemRules: [
-    "the room's architecture stays motionless throughout the clip",
-    "each object keeps consistent scale and material as it enters",
-    "physically plausible movement, no teleporting",
+    "the room's architecture (walls, floor, ceiling, windows, doors) stays motionless and identical to the first image throughout the clip",
+    "every furniture and decor piece's exact position, size, style, color and material comes from the second image — never invented or approximated",
+    "each piece appears exactly once, growing upward from the floor to full size — never sliding in, flying in or fading from the air",
+    "once placed, a piece never moves, disappears or changes again",
+    "every piece visible in the second image must appear, and nothing is added that isn't in it",
+    "the final frame matches the second image exactly",
   ],
   hardNegatives: [
-    "walls or windows changing position",
+    "walls, floor, ceiling, windows or doors changing position, color or material",
+    "changing the camera angle, perspective or framing at any point",
     "furniture clipping through each other",
+    "a placeholder or draft version of a piece before its final form",
+    "a piece appearing in a different style, color or position before settling into its final one",
+    "any piece moving, disappearing or changing after being placed",
+    "any piece appearing more than once",
+    "an element not visible in the second image",
+    "skipping any element visible in the second image",
     "morphing or flicker",
     "abrupt lighting changes",
     "on-screen text",
@@ -626,9 +652,21 @@ Duration {{duration}}. Soundtrack {{music}}. Sound effects {{soundEffects}}.`,
     {
       kind: "guide",
       label: "Fluxo recomendado",
-      body: "Decoração de Interiores → gere a imagem → traga para cá como primeiro frame → anime a montagem.",
+      body: "Decoração de Interiores → gere a imagem → use aqui como referência decorada, junto com a foto do cômodo vazio.",
     },
   ],
+  structuredExtras: {
+    placement: {
+      order: "large furniture first, then smaller furniture, then rugs, then lighting, then decorative objects",
+      style: "each piece grows smoothly upward from the floor to full size, exactly as it appears in the second image — never sliding, flying in or fading from the air",
+      rules: [
+        "identity lock: each piece appears in its exact final style, color, material and design from the moment it becomes visible — no placeholder or draft version",
+        "position lock: each piece appears at its exact position and scale from the second image — no approximation",
+        "single appearance: each piece appears exactly once and never moves again after being placed",
+        "completeness: every piece visible in the second image appears; nothing is skipped or added",
+      ],
+    },
+  },
 };
 
 export const FULL_MODULES: ModuleDefinition[] = [
