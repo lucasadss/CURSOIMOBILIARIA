@@ -20,7 +20,6 @@ import { ModuleHeader } from "./module-header";
 import { ModuleInstructions } from "./module-instructions";
 import { ToolGuide } from "./tool-guide";
 import { ModuleFieldRenderer } from "./field-renderer";
-import { ImageUploader } from "./image-uploader";
 import { PromptOutput } from "./prompt-output";
 import { NextStepCard } from "./next-step-card";
 
@@ -61,8 +60,10 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
   const [format, setFormat] = React.useState<PromptFormat>(
     module.defaultFormat ?? "plain_text",
   );
-  const [filledImages, setFilledImages] = React.useState<boolean[]>([]);
-  const imageCount = filledImages.filter(Boolean).length;
+  // Photos are prepared and uploaded in the destination tool (Google Flow etc.),
+  // never inside this app — so every declared reference image is treated as
+  // ready by the time the prompt is actually used.
+  const imageCount = module.requiredImages.length;
   const [result, setResult] = React.useState<PromptResult | null>(null);
   const [stale, setStale] = React.useState(false);
   const [savedText, setSavedText] = React.useState<string | null>(null);
@@ -86,20 +87,9 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
       return v === undefined || v === "" || (Array.isArray(v) && v.length === 0);
     });
 
-  const minImages = module.minImages ?? module.requiredImages.length;
-  const imagesMissing = module.requiredImages.length > 0 && imageCount < minImages;
-  const missingImageLabels = module.requiredImages
-    .filter((_, i) => !filledImages[i])
-    .slice(0, Math.max(0, minImages - imageCount))
-    .map((s) => s.label);
-
   const blockReason = requiredMissing
     ? "Preencha os campos obrigatórios."
-    : imagesMissing
-      ? missingImageLabels.length === 1
-        ? `Envie a imagem “${missingImageLabels[0]}” para continuar (opcional para o prompt).`
-        : `Envie as imagens ${missingImageLabels.map((l) => `“${l}”`).join(", ")} para continuar (opcional para o prompt).`
-      : undefined;
+    : undefined;
 
   const canGenerate = !requiredMissing;
 
@@ -177,10 +167,24 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
             {hasImages ? (
               <section>
                 <SectionLabel>Imagens de referência</SectionLabel>
-                <ImageUploader
-                  slots={module.requiredImages}
-                  onFilledChange={setFilledImages}
-                />
+                <p className="mb-3 text-sm text-ink-muted">
+                  Prepare estas fotos para anexar na ferramenta escolhida ao
+                  usar o prompt — o envio não acontece aqui.
+                </p>
+                <ul className="space-y-2">
+                  {module.requiredImages.map((slot) => (
+                    <li
+                      key={slot.key}
+                      className="flex gap-2.5 text-sm leading-relaxed text-ink-muted"
+                    >
+                      <span className="mt-2 size-1 shrink-0 rounded-full bg-ink-faint" />
+                      <span>
+                        <span className="font-medium text-ink">{slot.label}</span>
+                        {slot.hint ? ` — ${slot.hint}` : null}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
               </section>
             ) : null}
 
