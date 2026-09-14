@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { TrainingHero } from "@/components/home/training-hero";
-import { ContinueWatching } from "@/components/home/continue-watching";
 import { QuickTrainingRow } from "@/components/home/quick-training-row";
 import { ToolsDivider } from "@/components/home/tools-divider";
 import { PopularToolsRow } from "@/components/home/popular-tools-row";
@@ -33,7 +32,6 @@ export default function HomePage() {
       {/* Training — editorial, light "members area" band */}
       <section className="zone-light">
         <div className="mx-auto max-w-[1360px] space-y-10 py-14 lg:py-16">
-          <ContinueWatching training={course} />
           <QuickTrainingRow />
         </div>
       </section>
