@@ -64,10 +64,10 @@ describe("Casa em Terreno", () => {
     expect(res.text).toContain("Lot photo");
   });
 
-  it("resolves its guided-flow dependency and next step to real modules", () => {
+  it("resolves its image/video pairing to a real module", () => {
     expect(module.dependsOn).toBeUndefined(); // it's the entry point of its chain
-    expect(module.nextModule).toBe("casa-em-terreno-video");
-    expect(getModuleBySlug(module.nextModule!)).toBeDefined();
+    expect(module.pairedModule).toBe("casa-em-terreno-video");
+    expect(getModuleBySlug(module.pairedModule!)).toBeDefined();
   });
 });
 
@@ -99,9 +99,9 @@ describe("Metragem Animada", () => {
     expect(res.text.toLowerCase()).toContain("locked");
   });
 
-  it("resolves its dependency to a real module", () => {
-    expect(module.dependsOn).toBe("metragem-do-terreno");
-    expect(getModuleBySlug(module.dependsOn!)).toBeDefined();
+  it("resolves its image/video pairing to a real module", () => {
+    expect(module.pairedModule).toBe("metragem-do-terreno");
+    expect(getModuleBySlug(module.pairedModule!)).toBeDefined();
   });
 });
 

@@ -14,11 +14,18 @@ export function ModuleHeader({
   level,
   onLevelChange,
   hasAdvanced,
+  paired,
+  activeKind,
+  onKindChange,
 }: {
   module: ModuleDefinition;
   level: "iniciante" | "avancado";
   onLevelChange: (v: "iniciante" | "avancado") => void;
   hasAdvanced: boolean;
+  /** the module's image/video counterpart, when this pair has been merged into one workspace */
+  paired?: ModuleDefinition;
+  activeKind?: "imagem" | "video";
+  onKindChange?: (v: "imagem" | "video") => void;
 }) {
   const category = getCategory(module.category);
 
@@ -52,6 +59,22 @@ export function ModuleHeader({
             />
           </div>
         </div>
+
+        {paired && onKindChange ? (
+          <div className="mt-5 flex items-center gap-3">
+            <span className="text-xs text-ink-faint">Gerar prompt de</span>
+            <SegmentedControl
+              aria-label="Imagem ou vídeo"
+              size="sm"
+              options={[
+                { value: "imagem", label: "Imagem" },
+                { value: "video", label: "Vídeo" },
+              ]}
+              value={activeKind ?? "imagem"}
+              onValueChange={(v) => onKindChange(v as "imagem" | "video")}
+            />
+          </div>
+        ) : null}
 
         {hasAdvanced ? (
           <div className="mt-5 flex items-center gap-3">

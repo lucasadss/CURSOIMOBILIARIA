@@ -25,6 +25,16 @@ describe("module registry", () => {
     }
   });
 
+  it("pairedModule is bidirectional and links an image module to a video module", () => {
+    for (const m of ALL_MODULES) {
+      if (!m.pairedModule) continue;
+      const partner = getModuleBySlug(m.pairedModule);
+      expect(partner, `${m.slug} → pairedModule "${m.pairedModule}"`).toBeDefined();
+      expect(partner!.pairedModule, `${partner!.slug} should point back to ${m.slug}`).toBe(m.slug);
+      expect(m.type.startsWith("video")).not.toBe(partner!.type.startsWith("video"));
+    }
+  });
+
   it("image labels are specific, never the generic placeholders", () => {
     const generic = /^imagem\s*\d*$/i;
     for (const m of ALL_MODULES) {

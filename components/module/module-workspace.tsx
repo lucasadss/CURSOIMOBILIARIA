@@ -11,7 +11,7 @@ import type {
   TargetTool,
 } from "@/types";
 import { buildPrompt } from "@/lib/prompt-engine";
-import { getModuleBySlug } from "@/lib/modules";
+import { getModuleBySlug, isVideoModule } from "@/lib/modules";
 import { cn } from "@/lib/utils";
 import { useHistory } from "@/lib/storage/history";
 import { useUI } from "@/lib/storage/ui";
@@ -44,41 +44,70 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
   const recordVisit = useHistory((s) => s.recordVisit);
   const recordPrompt = useHistory((s) => s.recordPrompt);
 
-  const allFields = React.useMemo(
-    () => [...module.beginnerFields, ...module.advancedFields],
-    [module],
+  // The image/video counterpart, when this pair was merged into one
+  // workspace — fixed for the life of this page (see the `key` on the route
+  // page, which remounts on navigation between the two slugs).
+  const paired = React.useMemo(
+    () => (module.pairedModule ? getModuleBySlug(module.pairedModule) : undefined),
+    [module.pairedModule],
   );
-  const hasAdvanced = module.advancedFields.length > 0;
+
+  const [active, setActive] = React.useState<ModuleDefinition>(module);
+  const activeKind: "imagem" | "video" = isVideoModule(active) ? "video" : "imagem";
+
+  const allFields = React.useMemo(
+    () => [...active.beginnerFields, ...active.advancedFields],
+    [active],
+  );
+  const hasAdvanced = active.advancedFields.length > 0;
   const effectiveLevel = hasAdvanced ? level : "iniciante";
   const visibleFields =
-    effectiveLevel === "avancado" ? allFields : module.beginnerFields;
+    effectiveLevel === "avancado" ? allFields : active.beginnerFields;
 
   const [values, setValues] = React.useState<FieldValues>(() =>
     initialValues(allFields),
   );
-  const [tool, setTool] = React.useState<TargetTool>(module.recommendedTool);
+  const [tool, setTool] = React.useState<TargetTool>(active.recommendedTool);
   const [format, setFormat] = React.useState<PromptFormat>(
-    module.defaultFormat ?? "plain_text",
+    active.defaultFormat ?? "plain_text",
   );
   // Photos are prepared and uploaded in the destination tool (Google Flow etc.),
   // never inside this app — so every declared reference image is treated as
   // ready by the time the prompt is actually used.
-  const imageCount = module.requiredImages.length;
+  const imageCount = active.requiredImages.length;
   const [result, setResult] = React.useState<PromptResult | null>(null);
   const [stale, setStale] = React.useState(false);
   const [savedText, setSavedText] = React.useState<string | null>(null);
 
-  const tools = module.availableTools ?? [module.recommendedTool];
+  const tools = active.availableTools ?? [active.recommendedTool];
+
+  function switchKind(kind: "imagem" | "video") {
+    // `paired` is a fixed reference (the counterpart of the slug this page
+    // loaded with) — pick whichever of {module, paired} actually matches the
+    // requested kind, rather than toggling relative to the current state.
+    const target = [module, paired]
+      .filter((m): m is ModuleDefinition => Boolean(m))
+      .find((m) => (isVideoModule(m) ? "video" : "imagem") === kind);
+    if (!target || target === active) return;
+    setActive(target);
+    const fields = [...target.beginnerFields, ...target.advancedFields];
+    setValues(initialValues(fields));
+    setTool(target.recommendedTool);
+    setFormat(target.defaultFormat ?? "plain_text");
+    setResult(null);
+    setStale(false);
+    setSavedText(null);
+  }
 
   React.useEffect(() => {
     recordVisit({
-      slug: module.slug,
-      name: module.name,
-      category: module.category,
-      type: module.type,
-      thumbnail: module.thumbnail,
+      slug: active.slug,
+      name: active.name,
+      category: active.category,
+      type: active.type,
+      thumbnail: active.thumbnail,
     });
-  }, [module, recordVisit]);
+  }, [active, recordVisit]);
 
   const requiredMissing = visibleFields
     .filter((f) => f.required)
@@ -103,7 +132,7 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
 
   function generate() {
     if (!canGenerate) return;
-    const res = buildPrompt({ module, values, tool, format, imageCount });
+    const res = buildPrompt({ module: active, values, tool, format, imageCount });
     setResult(res);
     setStale(false);
     setSavedText(null);
@@ -112,8 +141,8 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
   function save() {
     if (!result || savedText === result.text) return;
     recordPrompt({
-      moduleSlug: module.slug,
-      moduleName: module.name,
+      moduleSlug: active.slug,
+      moduleName: active.name,
       tool: result.tool,
       format: result.format,
       kind: result.kind,
@@ -122,23 +151,28 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
     setSavedText(result.text);
   }
 
-  const prerequisite = module.dependsOn
-    ? getModuleBySlug(module.dependsOn)
+  // Once merged into one workspace, the pair's own dependsOn/nextModule link
+  // is redundant — the Imagem/Vídeo switch above already covers it.
+  const prerequisite = active.dependsOn
+    ? getModuleBySlug(active.dependsOn)
     : undefined;
 
   const hasContext = Boolean(
-    prerequisite || module.instructions?.length || module.toolGuide,
+    prerequisite || active.instructions?.length || active.toolGuide,
   );
-  const hasImages = module.requiredImages.length > 0;
+  const hasImages = active.requiredImages.length > 0;
   const hasFields = visibleFields.length > 0;
 
   return (
     <div>
       <ModuleHeader
-        module={module}
+        module={active}
         level={hydrated ? level : "iniciante"}
         onLevelChange={setLevel}
         hasAdvanced={hasAdvanced}
+        paired={paired}
+        activeKind={activeKind}
+        onKindChange={switchKind}
       />
 
       <div className="mx-auto max-w-[1200px] px-4 py-8 sm:px-6 lg:px-8">
@@ -159,8 +193,8 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
                     . Gere aquela imagem primeiro e use como referência aqui.
                   </p>
                 ) : null}
-                <ModuleInstructions items={module.instructions} />
-                <ToolGuide guide={module.toolGuide} />
+                <ModuleInstructions items={active.instructions} />
+                <ToolGuide guide={active.toolGuide} />
               </div>
             )}
 
@@ -172,7 +206,7 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
                   usar o prompt — o envio não acontece aqui.
                 </p>
                 <ul className="space-y-2">
-                  {module.requiredImages.map((slot) => (
+                  {active.requiredImages.map((slot) => (
                     <li
                       key={slot.key}
                       className="flex gap-2.5 text-sm leading-relaxed text-ink-muted"
@@ -225,7 +259,7 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
                   setTool(t);
                   setStale(true);
                 }}
-                allowStructured={Boolean(module.allowStructuredJson)}
+                allowStructured={Boolean(active.allowStructuredJson)}
                 format={format}
                 onFormatChange={(f) => {
                   setFormat(f);
@@ -238,7 +272,7 @@ export function ModuleWorkspace({ module }: { module: ModuleDefinition }) {
                 stale={stale}
                 saved={Boolean(result && savedText === result.text)}
               />
-              <NextStepCard module={module} />
+              <NextStepCard module={active} />
             </div>
           </div>
         </div>

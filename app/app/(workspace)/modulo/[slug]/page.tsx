@@ -29,5 +29,5 @@ export default async function ModulePage({
   const module = getModuleBySlug(slug);
   if (!module) notFound();
 
-  return <ModuleWorkspace module={module} />;
+  return <ModuleWorkspace key={module.slug} module={module} />;
 }

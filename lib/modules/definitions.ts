@@ -271,11 +271,7 @@ Photorealistic finish, {{quality}} quality.`,
     noInventedElements: true,
   },
   cameraMode: "static",
-  nextModule: "casa-em-terreno-video",
-  steps: [
-    { label: "Casa no terreno (imagem)", moduleSlug: "casa-em-terreno" },
-    { label: "Casa no terreno (vídeo)", moduleSlug: "casa-em-terreno-video" },
-  ],
+  pairedModule: "casa-em-terreno-video",
   supportMaterial: [
     {
       kind: "guide",
@@ -412,16 +408,12 @@ Do not alter anything in the original image — only overlay the outline and the
     preserveCamera: true,
   },
   cameraMode: "static",
-  nextModule: "metragem-animada",
-  steps: [
-    { label: "Criar metragem", moduleSlug: "metragem-do-terreno" },
-    { label: "Animar metragem", moduleSlug: "metragem-animada" },
-  ],
+  pairedModule: "metragem-animada",
   supportMaterial: [
     {
       kind: "walkthrough",
       label: "Passo a passo: overlay de metragem",
-      body: "1. Consiga a foto aérea. 2. Defina cor e estilo do traço. 3. Gere. 4. Leve o resultado para o módulo ‘Metragem Animada’.",
+      body: "1. Consiga a foto aérea. 2. Defina cor e estilo do traço. 3. Gere. 4. Troque para o modo Vídeo aqui mesmo para animar o contorno.",
     },
   ],
 };

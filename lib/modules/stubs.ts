@@ -73,6 +73,7 @@ interface StubInput {
   promptRole?: string;
   structuredExtras?: Record<string, unknown>;
   hidden?: boolean;
+  pairedModule?: string;
 }
 
 const DEFAULT_VIDEO_NEGATIVES = [
@@ -125,6 +126,7 @@ function stub(i: StubInput): ModuleDefinition {
     promptRole: i.promptRole,
     structuredExtras: i.structuredExtras,
     hidden: i.hidden,
+    pairedModule: i.pairedModule,
   };
 }
 
@@ -300,12 +302,8 @@ The finished house must remain strictly faithful to the second image — same fa
     noPropertyChanges: true,
   },
   cameraMode: "locked",
-  dependsOn: "casa-em-terreno",
+  pairedModule: "casa-em-terreno",
   nextModule: "voo-de-drone",
-  steps: [
-    { label: "Casa no terreno (imagem)", moduleSlug: "casa-em-terreno" },
-    { label: "Casa no terreno (vídeo)", moduleSlug: "casa-em-terreno-video" },
-  ],
   structuredExtras: {
     construction: {
       phases: [
@@ -410,11 +408,7 @@ The background aerial photo stays 100% static and pixel-identical to the source 
     noInventedElements: true,
   },
   cameraMode: "locked",
-  dependsOn: "metragem-do-terreno",
-  steps: [
-    { label: "Criar metragem", moduleSlug: "metragem-do-terreno" },
-    { label: "Animar metragem", moduleSlug: "metragem-animada" },
-  ],
+  pairedModule: "metragem-do-terreno",
   structuredExtras: {
     compositing: {
       mode: "progressive reveal mask along existing pixels, not a newly generated or redrawn line",
@@ -668,11 +662,7 @@ Do not alter the building or the lot — only compose the reveal effect over the
   hardNegatives: ["redrawing the lot", "altering the neighborhood", "text or watermark"],
   fidelity: { noPropertyChanges: true, preserveCamera: true },
   cameraMode: "static",
-  nextModule: "building-revealing-video",
-  steps: [
-    { label: "Criar revelação (imagem)", moduleSlug: "building-revealing" },
-    { label: "Animar revelação (vídeo)", moduleSlug: "building-revealing-video" },
-  ],
+  pairedModule: "building-revealing-video",
 });
 
 /* ============================================================================
@@ -718,7 +708,7 @@ Preserve the building, materials and lot from the reference image exactly — th
   ],
   fidelity: { lockedCamera: true, noPropertyChanges: true, noInventedElements: true },
   cameraMode: "locked",
-  dependsOn: "building-revealing",
+  pairedModule: "building-revealing",
   thumbnailAlt: "Vista aérea de uma propriedade cercada por terras cultivadas ao entardecer",
   structuredExtras: {
     compositing: {

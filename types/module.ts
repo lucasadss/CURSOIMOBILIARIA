@@ -148,6 +148,14 @@ export interface ModuleDefinition {
   nextModule?: string;
   /** this module needs the output of another one first */
   dependsOn?: string;
+  /**
+   * Slug of this module's image/video counterpart for the exact same
+   * subject (e.g. "Casa em Terreno" <-> "Casa em Terreno (Vídeo)"). Must be
+   * set on both sides. When present, the module workspace shows an
+   * Imagem/Vídeo switch that swaps the whole form in place instead of
+   * requiring a separate page visit.
+   */
+  pairedModule?: string;
 
   supportMaterial?: SupportMaterial[];
   examples?: { label: string; body: string }[];
