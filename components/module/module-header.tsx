@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Image as ImageIcon, Video } from "lucide-react";
 import type { ModuleDefinition } from "@/types";
 import { getCategory } from "@/lib/categories";
+import { cn } from "@/lib/utils";
 import { SegmentedControl } from "@/components/ui/segmented";
 import { AccessBadge } from "@/components/common/access-badge";
 import { FavoriteButton } from "@/components/common/favorite-button";
@@ -61,18 +62,42 @@ export function ModuleHeader({
         </div>
 
         {paired && onKindChange ? (
-          <div className="mt-5 flex items-center gap-3">
-            <span className="text-xs text-ink-faint">Gerar prompt de</span>
-            <SegmentedControl
+          <div className="mt-5">
+            <p className="mb-2 text-xs font-medium text-ink-muted">
+              O que você quer gerar?
+            </p>
+            <div
+              role="radiogroup"
               aria-label="Imagem ou vídeo"
-              size="sm"
-              options={[
-                { value: "imagem", label: "Imagem" },
-                { value: "video", label: "Vídeo" },
-              ]}
-              value={activeKind ?? "imagem"}
-              onValueChange={(v) => onKindChange(v as "imagem" | "video")}
-            />
+              className="inline-flex gap-2"
+            >
+              {(
+                [
+                  { value: "imagem" as const, label: "Prompt de Imagem", Icon: ImageIcon },
+                  { value: "video" as const, label: "Prompt de Vídeo", Icon: Video },
+                ]
+              ).map(({ value, label, Icon }) => {
+                const isActive = (activeKind ?? "imagem") === value;
+                return (
+                  <button
+                    key={value}
+                    type="button"
+                    role="radio"
+                    aria-checked={isActive}
+                    onClick={() => onKindChange(value)}
+                    className={cn(
+                      "flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand",
+                      isActive
+                        ? "border-brand-border bg-brand text-brand-ink shadow-[0_1px_2px_rgba(0,0,0,0.3)]"
+                        : "border-hairline-strong bg-panel-2 text-ink-muted hover:text-ink",
+                    )}
+                  >
+                    <Icon className="size-4" />
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         ) : null}
 
