@@ -340,7 +340,13 @@ const metragemDoTerreno: ModuleDefinition = {
       unit: "%",
       defaultValue: 55,
     },
-    showAreaField,
+    {
+      ...showAreaField,
+      booleanText: {
+        on: "write only the exact area value given in the additional details below, inside the lot — never invent, estimate or approximate a number that wasn't provided",
+        off: "no area text of any kind",
+      },
+    },
     extraDetails,
   ],
   advancedFields: [
@@ -379,19 +385,25 @@ const metragemDoTerreno: ModuleDefinition = {
     },
     { ...cameraAngle, defaultValue: "aerea" },
   ],
+  promptRole:
+    "You are an aerial real-estate image analyst and precision boundary-visualization specialist — your only job is to trace the lot's true perimeter exactly as it appears in the photo, never to invent, approximate or reinterpret it.",
   promptTemplate: `Over this aerial photo, trace the lot's exact perimeter with a {{beamColor}} light beam, {{outlineStyle}} style, {{lineWeight}} thickness and {{glowIntensity}} glow intensity.
-Write the approximate area in {{areaUnit}} inside the lot: {{showArea}}.
+Area label in {{areaUnit}}: {{showArea}}.
 Do not alter anything in the original image — only overlay the outline and the text.`,
   systemRules: [
     "the aerial photo stays 100% intact under the overlay",
     "the outline follows the real boundaries visible on the lot",
     "clean, legible typography, no heavy serif",
+    "the overlay blends seamlessly with the original photo's lighting, shadow direction and resolution — no artificial distortion",
+    "outline edges stay sharp and high-definition",
   ],
   hardNegatives: [
     "redrawing the lot or the neighborhood",
     "fake shadows or reflections from the beam on the ground",
     "multiple overlapping outlines",
     "watermark",
+    "writing a placeholder or invented area value, unit or label (e.g. \"XXX m²\", \"ÁREA:\") when no exact value was provided",
+    "approximating, estimating or calculating a measurement that wasn't explicitly given",
   ],
   fidelity: {
     preserveStructure: true,

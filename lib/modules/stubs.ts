@@ -380,7 +380,7 @@ const metragemAnimada = stub({
   advanced: [durationField, beamColorField],
   promptRole:
     "You are a precision frame-compositing renderer, not a creative scene generator. Your only job is to reveal, over time, the exact overlay that already exists in the second image — never redraw, restyle or reinterpret it.",
-  template: `This is a compositing reveal, not a new generation: progressively reveal the exact contour already visible in the second image over the first image, using a reveal mask along its existing pixels.
+  template: `This is a compositing reveal, not a new generation: progressively reveal the exact contour already visible in the second image over the first image, using a reveal mask along its existing pixels, sweeping continuously from one corner around the full perimeter until it closes.
 Sample the beam's path, thickness, color and glow directly from the second image and keep them identical from the first visible pixel to the final frame — color {{beamColor}}, pace {{speed}}.
 On closing, {{showArea}}.
 The background aerial photo stays 100% static and pixel-identical to the source images throughout the clip — camera locked, nothing else in the scene changes.`,
@@ -388,6 +388,7 @@ The background aerial photo stays 100% static and pixel-identical to the source 
     "camera fully locked — no pan, zoom or reframing",
     "this is a compositing reveal of existing pixels from the second image, not a newly generated or redrawn line",
     "the beam's path, thickness, color and glow are sampled from the second image and never vary during the reveal",
+    "the reveal sweeps continuously in one direction around the perimeter, from a single starting corner to closure — never jumping or revealing out of order",
     "revealed pixels stay visible and lit once the beam passes them — nothing fades or disappears after being drawn",
     "hold the exact, unmodified second image for the final moment of the clip so the ending is verifiably identical to it",
   ],
@@ -399,6 +400,7 @@ The background aerial photo stays 100% static and pixel-identical to the source 
     "inventing, estimating, calculating or translating the area value or unit",
     "writing any area label, unit or text not already present in the second image",
     "any revealed line or label disappearing again before the clip ends",
+    "revealing the perimeter out of order or from multiple starting points at once",
     "ending on anything other than the exact, unmodified second image",
   ],
   fidelity: {
