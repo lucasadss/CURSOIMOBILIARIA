@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { OFFER } from "@/lib/product";
 import { cn } from "@/lib/utils";
 import { AutoplayVideo } from "./autoplay-video";
 import { Section, SectionHead, Cta, C, Hl } from "./landing-ui";
@@ -91,7 +90,7 @@ export function LandingExamples() {
       </Link>
 
       <Cta href="#oferta" tone="dark" className="mt-8">
-        {OFFER.ctaSection}
+        Quero criar os meus vídeos
       </Cta>
     </Section>
   );

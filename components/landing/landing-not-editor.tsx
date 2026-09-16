@@ -1,4 +1,3 @@
-import { OFFER } from "@/lib/product";
 import { Section, SectionHead, Cta, ImpactLine, C } from "./landing-ui";
 
 const HOURS = [
@@ -43,7 +42,7 @@ export function LandingNotEditor() {
       </div>
 
       <Cta href="#oferta" tone="light" className="mt-8">
-        {OFFER.ctaSection}
+        Quero simplificar minha rotina
       </Cta>
     </Section>
   );

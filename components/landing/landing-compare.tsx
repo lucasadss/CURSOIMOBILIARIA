@@ -1,5 +1,4 @@
 import { X, Check } from "lucide-react";
-import { OFFER } from "@/lib/product";
 import { Section, SectionHead, Cta, ImpactLine, C } from "./landing-ui";
 
 const WITHOUT = [
@@ -64,7 +63,7 @@ export function LandingCompare() {
       </div>
 
       <Cta href="#oferta" tone="dark" className="mt-8">
-        {OFFER.ctaSection}
+        Quero o caminho mais fácil
       </Cta>
     </Section>
   );

@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { ArrowRight, Eye } from "lucide-react";
-import { OFFER } from "@/lib/product";
 import { AutoplayVideo } from "./autoplay-video";
 import { Section, SectionHead, Cta, Hl, C } from "./landing-ui";
 
@@ -81,7 +80,7 @@ export function LandingPatternBreak() {
           geram mais engajamento no Instagram.
         </p>
         <Cta href="#oferta" tone="light" className="mt-6">
-          {OFFER.ctaSection}
+          Quero impressionar meus clientes
         </Cta>
       </div>
     </Section>

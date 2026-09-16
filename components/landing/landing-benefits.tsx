@@ -1,5 +1,4 @@
 import { Clock, Laptop, Smartphone } from "lucide-react";
-import { OFFER } from "@/lib/product";
 import { AutoplayVideo } from "./autoplay-video";
 import { Section, SectionHead, Cta, C } from "./landing-ui";
 
@@ -56,7 +55,7 @@ export function LandingBenefits() {
       </div>
 
       <Cta href="#oferta" tone="light" className="mt-10">
-        {OFFER.ctaSection}
+        Quero essa praticidade
       </Cta>
     </Section>
   );

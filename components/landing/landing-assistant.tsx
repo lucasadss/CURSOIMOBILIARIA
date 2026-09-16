@@ -1,5 +1,4 @@
 import { ArrowDown } from "lucide-react";
-import { OFFER } from "@/lib/product";
 import { Section, SectionHead, Cta, C } from "./landing-ui";
 
 export function LandingAssistant() {
@@ -32,7 +31,7 @@ export function LandingAssistant() {
       </div>
 
       <Cta href="#oferta" tone="dark" className="mt-10">
-        {OFFER.ctaSection}
+        Quero meu assistente de criação
       </Cta>
     </Section>
   );

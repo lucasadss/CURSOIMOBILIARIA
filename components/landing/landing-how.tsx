@@ -1,4 +1,3 @@
-import { OFFER } from "@/lib/product";
 import { Section, SectionHead, Card, Cta, ImpactLine, C } from "./landing-ui";
 
 const STEPS = [
@@ -46,7 +45,7 @@ export function LandingHow() {
       </div>
 
       <Cta href="#oferta" tone="dark" className="mt-8">
-        {OFFER.ctaSection}
+        Quero começar agora
       </Cta>
     </Section>
   );

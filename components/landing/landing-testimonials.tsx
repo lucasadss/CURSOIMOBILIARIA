@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { OFFER } from "@/lib/product";
 import { Section, SectionHead, Cta } from "./landing-ui";
 
 const ITEMS = [1, 2, 3, 4, 5];
@@ -39,7 +38,7 @@ export function LandingTestimonials() {
       </div>
 
       <Cta href="#oferta" tone="light" className="mt-10">
-        {OFFER.ctaSection}
+        Quero resultados assim
       </Cta>
     </Section>
   );

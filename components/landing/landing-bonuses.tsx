@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { BONUSES, OFFER } from "@/lib/product";
+import { BONUSES } from "@/lib/product";
 import { Section, SectionHead, Cta, C } from "./landing-ui";
 
 export function LandingBonuses() {
@@ -55,7 +55,7 @@ export function LandingBonuses() {
       </div>
 
       <Cta href="#oferta" tone="dark" className="mt-10">
-        {OFFER.ctaSection}
+        Quero garantir meus bônus
       </Cta>
     </Section>
   );
