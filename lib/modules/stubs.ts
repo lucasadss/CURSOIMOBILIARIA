@@ -652,7 +652,7 @@ const buildingRevealing = stub({
     { ...beamColorField, label: "Cor (opcional)", required: false },
     { ...cameraAngle, defaultValue: "nivel-olhos" },
   ],
-  template: `Compose a building being "revealed" by a {{glowStyle}} plane of light over the reference lot, {{coverageIntensity}} coverage.
+  template: `Compose a building being "revealed" by a moving plane of light over the reference lot, {{coverageIntensity}} coverage. Glow style: {{glowStyle}}.
 Half built in photorealistic detail, half still in {{beamColor|amber}} light wireframe.
 Do not alter the building or the lot — only compose the reveal effect over the real scene.`,
   systemRules: [
@@ -691,7 +691,7 @@ const buildingRevealingVideo = stub({
   beginner: [traceSpeedField, musicField, extraDetails],
   advanced: [durationField, soundEffectsField, timeOfDay, glowStyleField],
   promptRole: "Precision compositing artist revealing a locked final building through a moving plane of light — not a creative generation task.",
-  template: `Animate the {{glowStyle}} plane of light sweeping across the scene, {{speed}}, progressively revealing the complete building exactly as in the reference image.
+  template: `Animate a plane of light sweeping across the scene, {{speed}}, progressively revealing the complete building exactly as in the reference image. Glow style: {{glowStyle}}.
 Fixed camera from start to finish. {{timeOfDay}}.
 Preserve the building, materials and lot from the reference image exactly — the only thing that changes is how much of it has been revealed by the light.`,
   systemRules: [
@@ -1308,7 +1308,7 @@ const contornoDaCasa = stub({
   promptRole:
     "You are a precision frame-compositing renderer, not a creative scene generator. Your only job is to reveal, over time, the exact light trace that already exists in the second image — never redraw, restyle or reinterpret it.",
   template: `This is a compositing reveal, not a new generation: progressively reveal the exact light trace already visible in the second image over the first image, following every corner and curve of its path in one continuous fluid motion — starting at the ground-level property boundary, then the roofline, then any secondary structures or pathways already outlined there.
-Sample the trace's color, thickness and glow directly from the second image and keep them identical throughout — color {{beamColor}}, {{glowStyle}} style, pace {{speed}}.
+Sample the trace's color, thickness and glow directly from the second image and keep them identical throughout — color {{beamColor}}, pace {{speed}}. Glow style: {{glowStyle}}.
 Once a segment is revealed it stays lit for the rest of the clip — nothing fades or disappears as the trace continues.
 Static background from start to finish. Do not redraw the outline, change its color or create any text.`,
   systemRules: [

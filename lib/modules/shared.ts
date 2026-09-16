@@ -261,9 +261,9 @@ export const glowStyleField: FieldConfig = {
   label: "Estilo do brilho",
   defaultValue: "neon-suave",
   options: [
-    { value: "neon-suave", label: "Neon suave", promptValue: "soft neon glow, gentle bloom" },
-    { value: "laser", label: "Laser fino", promptValue: "thin crisp laser-line, minimal bloom" },
-    { value: "energia", label: "Energia difusa", promptValue: "diffuse energy-particle glow, slight flicker" },
+    { value: "neon-suave", label: "Neon suave", promptValue: "vibrant saturated neon glow with a bright luminous core, soft outer bloom and subtle color bleed onto nearby surfaces" },
+    { value: "laser", label: "Laser fino", promptValue: "thin crisp laser-line with a sharp saturated core, almost no bloom or color bleed" },
+    { value: "energia", label: "Energia difusa", promptValue: "diffuse energy-particle glow with soft flicker and faint sparkle trailing the light" },
   ],
 };
 

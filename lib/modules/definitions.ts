@@ -204,6 +204,7 @@ const casaEmTerreno: ModuleDefinition = {
         { value: "moderna-caixa", label: "Moderna em volumes", promptValue: "modern boxy-volumes architectural style" },
         { value: "contemporanea-madeira", label: "Contemporânea com madeira", promptValue: "contemporary style with wood cladding accents" },
         { value: "colonial-atualizada", label: "Colonial atualizada", promptValue: "updated colonial style with contemporary finishes" },
+        { value: "alto-padrao", label: "Alto padrão", promptValue: "premium high-end residence with upscale finishes and generous proportions" },
       ],
     },
     {
