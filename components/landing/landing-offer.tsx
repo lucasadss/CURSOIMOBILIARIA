@@ -65,7 +65,8 @@ export function LandingOffer() {
 
           <div className="px-6 py-6 sm:px-8 sm:py-7">
             <p className="text-center text-xs" style={{ color: "var(--muted)" }}>
-              Você poderia gastar esse valor em um único vídeo. Aqui você cria quantos quiser.
+              Um vídeo profissional com drone custa de R$ 800 a R$ 2.000 por filmagem. Aqui
+              você paga uma vez e cria quantos quiser.
             </p>
 
             <ul className="mt-5">
