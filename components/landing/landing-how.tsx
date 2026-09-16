@@ -1,4 +1,5 @@
-import { Section, SectionHead, Card, ImpactLine, C } from "./landing-ui";
+import { OFFER } from "@/lib/product";
+import { Section, SectionHead, Card, Cta, ImpactLine, C } from "./landing-ui";
 
 const STEPS = [
   {
@@ -43,6 +44,10 @@ export function LandingHow() {
           A parte difícil fica com <span style={{ color: C.brand }}>a plataforma</span>.
         </ImpactLine>
       </div>
+
+      <Cta href="#oferta" tone="dark" className="mt-8">
+        {OFFER.ctaSection}
+      </Cta>
     </Section>
   );
 }

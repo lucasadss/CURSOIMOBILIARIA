@@ -45,6 +45,8 @@ export const BONUSES = [
 export const OFFER = {
   cta: "Quero acessar a IMOVIX agora",
   ctaHero: "Quero criar meu primeiro vídeo",
+  /** Short repeated nudge used at the end of most landing sections, scrolling to #oferta. */
+  ctaSection: "Ver planos",
   reassurance: ["Pagamento único", "Sem mensalidade", "Acesso vitalício"],
   includes: [
     "Mais de 20 modelos de criação",

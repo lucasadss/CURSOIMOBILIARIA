@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { Section, C } from "./landing-ui";
+import { OFFER } from "@/lib/product";
+import { Section, Cta, C } from "./landing-ui";
 
 const LIST = [
   "Sem edição",
@@ -48,6 +49,10 @@ export function LandingNoAi() {
           </li>
         ))}
       </ul>
+
+      <Cta href="#oferta" tone="light" className="mt-8">
+        {OFFER.ctaSection}
+      </Cta>
     </Section>
   );
 }

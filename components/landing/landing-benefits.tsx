@@ -1,6 +1,7 @@
 import { Clock, Laptop, Smartphone } from "lucide-react";
+import { OFFER } from "@/lib/product";
 import { AutoplayVideo } from "./autoplay-video";
-import { Section, SectionHead, C } from "./landing-ui";
+import { Section, SectionHead, Cta, C } from "./landing-ui";
 
 const CARDS = [
   {
@@ -53,6 +54,10 @@ export function LandingBenefits() {
           </div>
         ))}
       </div>
+
+      <Cta href="#oferta" tone="light" className="mt-10">
+        {OFFER.ctaSection}
+      </Cta>
     </Section>
   );
 }

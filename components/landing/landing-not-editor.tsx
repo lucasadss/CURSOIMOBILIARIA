@@ -1,4 +1,5 @@
-import { Section, SectionHead, ImpactLine, C } from "./landing-ui";
+import { OFFER } from "@/lib/product";
+import { Section, SectionHead, Cta, ImpactLine, C } from "./landing-ui";
 
 const HOURS = [
   "qual ferramenta usar",
@@ -40,6 +41,10 @@ export function LandingNotEditor() {
           Você escolhe. <span style={{ color: C.brand }}>A IMOVIX prepara.</span> Você gera.
         </ImpactLine>
       </div>
+
+      <Cta href="#oferta" tone="light" className="mt-8">
+        {OFFER.ctaSection}
+      </Cta>
     </Section>
   );
 }

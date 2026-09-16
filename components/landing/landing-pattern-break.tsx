@@ -1,7 +1,8 @@
 import Image from "next/image";
 import { ArrowRight, Eye } from "lucide-react";
+import { OFFER } from "@/lib/product";
 import { AutoplayVideo } from "./autoplay-video";
-import { Section, SectionHead, Hl, C } from "./landing-ui";
+import { Section, SectionHead, Cta, Hl, C } from "./landing-ui";
 
 export function LandingPatternBreak() {
   return (
@@ -79,6 +80,9 @@ export function LandingPatternBreak() {
           <b style={{ color: C.textDark }}>fechar mais vendas</b> e publicar conteúdos que
           geram mais engajamento no Instagram.
         </p>
+        <Cta href="#oferta" tone="light" className="mt-6">
+          {OFFER.ctaSection}
+        </Cta>
       </div>
     </Section>
   );

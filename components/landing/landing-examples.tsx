@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { OFFER } from "@/lib/product";
 import { cn } from "@/lib/utils";
 import { AutoplayVideo } from "./autoplay-video";
-import { Section, SectionHead, C, Hl } from "./landing-ui";
+import { Section, SectionHead, Cta, C, Hl } from "./landing-ui";
 
 const BIG = [
   { file: "exemplo-possibilidade-de-um-terreno", name: "Possibilidade de um terreno" },
@@ -88,6 +89,10 @@ export function LandingExamples() {
         Ver todas as possibilidades
         <ArrowRight className="size-4" />
       </Link>
+
+      <Cta href="#oferta" tone="dark" className="mt-8">
+        {OFFER.ctaSection}
+      </Cta>
     </Section>
   );
 }

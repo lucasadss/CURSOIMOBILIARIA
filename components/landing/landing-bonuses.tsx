@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { BONUSES } from "@/lib/product";
-import { Section, SectionHead, C } from "./landing-ui";
+import { BONUSES, OFFER } from "@/lib/product";
+import { Section, SectionHead, Cta, C } from "./landing-ui";
 
 export function LandingBonuses() {
   return (
@@ -53,6 +53,10 @@ export function LandingBonuses() {
           </div>
         ))}
       </div>
+
+      <Cta href="#oferta" tone="dark" className="mt-10">
+        {OFFER.ctaSection}
+      </Cta>
     </Section>
   );
 }

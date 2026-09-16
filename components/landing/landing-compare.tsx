@@ -1,5 +1,6 @@
 import { X, Check } from "lucide-react";
-import { Section, SectionHead, ImpactLine, C } from "./landing-ui";
+import { OFFER } from "@/lib/product";
+import { Section, SectionHead, Cta, ImpactLine, C } from "./landing-ui";
 
 const WITHOUT = [
   "Pesquisar tutorial",
@@ -61,6 +62,10 @@ export function LandingCompare() {
           <span style={{ color: C.brand }}>Mais tempo para vender.</span>
         </ImpactLine>
       </div>
+
+      <Cta href="#oferta" tone="dark" className="mt-8">
+        {OFFER.ctaSection}
+      </Cta>
     </Section>
   );
 }
