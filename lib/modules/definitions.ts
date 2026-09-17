@@ -10,7 +10,6 @@ import {
   oneReferenceImage,
   paletteOptions,
   qualityField,
-  showAreaField,
   soundEffectsField,
   styleOptions,
   timeOfDay,
@@ -308,7 +307,7 @@ const metragemDoTerreno: ModuleDefinition = {
   startHere: true,
   instructions: [
     "Use uma imagem aérea com o lote inteiro e alguma folga nas bordas.",
-    "Se souber a metragem exata, informe em ‘Detalhes extras’.",
+    "Se souber a metragem exata, informe no campo ‘Metragem’ — sem isso, nenhum texto de área é escrito.",
   ],
   toolGuide: {
     tool: "google-flow",
@@ -338,11 +337,11 @@ const metragemDoTerreno: ModuleDefinition = {
       defaultValue: 55,
     },
     {
-      ...showAreaField,
-      booleanText: {
-        on: "write only the exact area value given in the additional details below, inside the lot — never invent, estimate or approximate a number that wasn't provided",
-        off: "no area text of any kind",
-      },
+      key: "areaValue",
+      type: "input",
+      label: "Metragem (opcional)",
+      placeholder: "Ex.: 360",
+      description: "Se preenchido, esse valor aparece escrito dentro do lote. Deixe em branco para não escrever nenhum texto de área.",
     },
     extraDetails,
   ],
@@ -385,7 +384,7 @@ const metragemDoTerreno: ModuleDefinition = {
   promptRole:
     "You are an aerial real-estate image analyst and precision boundary-visualization specialist — your only job is to trace the lot's true perimeter exactly as it appears in the photo, never to invent, approximate or reinterpret it.",
   promptTemplate: `Over this aerial photo, trace the lot's exact perimeter with a {{beamColor}} light beam, {{outlineStyle}} style, {{lineWeight}} thickness and {{glowIntensity}} glow intensity.
-Area label in {{areaUnit}}: {{showArea}}.
+Area label in {{areaUnit}}: {{areaValue|do not display any area label, number or unit}}.
 Do not alter anything in the original image — only overlay the outline and the text.`,
   systemRules: [
     "the aerial photo stays 100% intact under the overlay",
