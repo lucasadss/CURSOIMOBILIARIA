@@ -10,11 +10,11 @@ const fundamentos: Training = {
   title: "Treinamento rápido",
   headline: "Domine a criação de conteúdos imobiliários com IA",
   description:
-    "Aprenda a usar a plataforma e criar seus primeiros resultados — 5 vídeos curtos.",
+    "Aprenda a usar a plataforma e criar seus primeiros resultados — 2 vídeos curtos.",
   level: "Introdução",
   scene: "outros",
   thumbnailAlt: "Plantas baixas e laptop sobre uma mesa de mármore",
-  totalLessons: 5,
+  totalLessons: 2,
   // A single sequence — the UI treats this course as one short playlist.
   modules: [
     {
@@ -22,39 +22,18 @@ const fundamentos: Training = {
       title: "Treinamento rápido",
       lessons: [
         {
-          slug: "como-funciona-a-plataforma",
-          title: "Como funciona a plataforma",
-          summary: "Visão geral da IMOVIX e onde encontrar cada recurso.",
-          duration: 240,
-          thumbnail: "/thumbnails/treinamento-fundamentos-imovel-ia-como-funciona-a-plataforma.jpg",
-        },
-        {
-          slug: "gerando-seu-primeiro-prompt",
-          title: "Gerando seu primeiro prompt",
-          summary: "Como escolher um módulo, preencher os campos e gerar o prompt.",
-          duration: 300,
-          thumbnail: "/thumbnails/treinamento-fundamentos-imovel-ia-gerando-seu-primeiro-prompt.jpg",
-        },
-        {
-          slug: "criando-imagens",
-          title: "Criando imagens",
-          summary: "Como usar o prompt gerado para criar imagens com IA.",
-          duration: 360,
-          thumbnail: "/thumbnails/treinamento-fundamentos-imovel-ia-criando-imagens.jpg",
-        },
-        {
           slug: "criando-videos",
-          title: "Criando vídeos",
-          summary: "Como usar imagens e prompts para gerar vídeos.",
+          title: "Módulo 01 · Criando vídeos",
+          summary: "Transforme imagens em vídeos de alto impacto.",
           duration: 360,
           thumbnail: "/thumbnails/treinamento-fundamentos-imovel-ia-criando-videos.jpg",
         },
         {
-          slug: "melhorando-resultados",
-          title: "Melhorando resultados",
-          summary: "Como corrigir resultados ruins e refinar uma geração.",
-          duration: 300,
-          thumbnail: "/thumbnails/treinamento-fundamentos-imovel-ia-melhorando-resultados.jpg",
+          slug: "casa-no-terreno",
+          title: "Módulo 02 · Casa no terreno",
+          summary: "Aprenda a transformar terrenos em projetos visuais realistas.",
+          duration: 360,
+          thumbnail: "/thumbnails/treinamento-fundamentos-imovel-ia-casa-no-terreno.jpg",
         },
       ],
     },
