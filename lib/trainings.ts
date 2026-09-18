@@ -25,7 +25,8 @@ const fundamentos: Training = {
           slug: "criando-videos",
           title: "Módulo 01 · Criando vídeos",
           summary: "Transforme imagens em vídeos de alto impacto.",
-          duration: 360,
+          duration: 1006,
+          videoUrl: "https://youtu.be/sWObSpVXLFo",
           thumbnail: "/thumbnails/treinamento-fundamentos-imovel-ia-criando-videos.jpg",
         },
         {

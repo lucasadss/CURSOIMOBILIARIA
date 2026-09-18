@@ -6,7 +6,7 @@ export interface Lesson {
   summary?: string;
   /** real cover path once it exists; falls back to the training scene */
   thumbnail?: string;
-  /** playback source — not wired to a real player yet */
+  /** YouTube link (watch, youtu.be or embed) — played inline in the lesson player */
   videoUrl?: string;
 }
 

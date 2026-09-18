@@ -14,6 +14,15 @@ import { Button } from "@/components/ui/button";
 import { ProgressBar } from "@/components/common/progress-bar";
 import { FavoriteButton } from "@/components/common/favorite-button";
 
+/** Extracts the 11-char video id from any common YouTube URL shape. */
+function youtubeId(url: string | undefined): string | null {
+  if (!url) return null;
+  const m = url.match(
+    /(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/))([\w-]{11})/,
+  );
+  return m ? m[1] : null;
+}
+
 export function TrainingPlayer({
   training,
   initialLesson,
@@ -27,6 +36,7 @@ export function TrainingPlayer({
     flat.some((l) => l.slug === initialLesson) ? initialLesson! : flat[0]?.slug,
   );
   const active = flat.find((l) => l.slug === activeSlug) ?? flat[0];
+  const videoId = youtubeId(active?.videoUrl);
 
   const isDone = useProgress((s) => s.isDone);
   const toggleLesson = useProgress((s) => s.toggleLesson);
@@ -57,19 +67,36 @@ export function TrainingPlayer({
 
       <div className="mt-4 grid gap-6 lg:grid-cols-3">
         <div className="space-y-4 lg:col-span-2">
-          <div className="relative aspect-video overflow-hidden rounded-lg border border-hairline">
-            <CoverImage
-              cover={trainingCover(training)}
-              seed={`treinamento-${training.slug}-${active?.slug ?? ""}`}
-              sizes="(max-width: 1024px) 100vw, 760px"
-              priority
-              showSceneLabel={false}
-            />
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span className="flex size-14 items-center justify-center rounded-full border border-white/20 bg-canvas/60 text-ink backdrop-blur">
-                <Play className="size-5 translate-x-0.5" />
-              </span>
-            </div>
+          <div className="relative aspect-video overflow-hidden rounded-lg border border-hairline bg-black">
+            {videoId ? (
+              <iframe
+                key={videoId}
+                src={`https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`}
+                title={active?.title}
+                className="absolute inset-0 size-full"
+                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              />
+            ) : (
+              <>
+                <CoverImage
+                  cover={{ ...trainingCover(training), src: active?.thumbnail ?? trainingCover(training).src }}
+                  seed={`treinamento-${training.slug}-${active?.slug ?? ""}`}
+                  sizes="(max-width: 1024px) 100vw, 760px"
+                  priority
+                  showSceneLabel={false}
+                />
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/40">
+                  <span className="flex size-14 items-center justify-center rounded-full border border-white/20 bg-canvas/60 text-ink backdrop-blur">
+                    <Play className="size-5 translate-x-0.5" />
+                  </span>
+                  <span className="rounded-full bg-canvas/70 px-3 py-1 text-xs text-ink-muted backdrop-blur">
+                    Vídeo em breve
+                  </span>
+                </div>
+              </>
+            )}
           </div>
 
           <div className="flex items-start justify-between gap-3">
