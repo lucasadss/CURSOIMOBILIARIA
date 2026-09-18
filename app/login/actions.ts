@@ -31,7 +31,7 @@ export async function requestMagicLink(
   const callbackUrl = new URL("/auth/callback", siteUrl);
   if (safeNext) callbackUrl.searchParams.set("next", safeNext);
 
-  // shouldCreateUser: false — only emails the Cakto webhook already
+  // shouldCreateUser: false — only emails the Payt webhook already
   // provisioned (real buyers) can ever receive a link. An unknown email
   // returns an error here, which we deliberately swallow into the same
   // generic message above.

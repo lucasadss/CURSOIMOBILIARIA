@@ -12,7 +12,7 @@ const PUBLIC_PATHS = [
   "/", // landing page
   "/login",
   "/auth/callback",
-  "/api/webhooks/", // Cakto calls this directly, no user session involved
+  "/api/webhooks/", // Payt calls this directly, no user session involved
 ];
 
 function isPublicPath(pathname: string): boolean {

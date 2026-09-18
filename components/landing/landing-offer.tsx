@@ -138,7 +138,7 @@ export function LandingOffer() {
                 Economize {PRICE.savings}
               </span>
 
-              <Cta href="/app" className="mt-5 w-full !py-4 !text-base">
+              <Cta href={OFFER.checkoutUrl} className="mt-5 w-full !py-4 !text-base">
                 {OFFER.cta}
                 <ArrowRight className="size-4" />
               </Cta>

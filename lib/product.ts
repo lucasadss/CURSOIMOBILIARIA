@@ -45,6 +45,8 @@ export const BONUSES = [
 export const OFFER = {
   cta: "Quero acessar a IMOVIX agora",
   ctaHero: "Quero criar meu primeiro vídeo",
+  /** Hosted Payt checkout — where the final "buy" buttons go. */
+  checkoutUrl: "https://checkout.payt.com.br/0b6686069f20b8f3291f6c2d7dd0ce03",
   reassurance: ["Pagamento único", "Sem mensalidade", "Acesso vitalício"],
   includes: [
     "Mais de 20 modelos de criação",

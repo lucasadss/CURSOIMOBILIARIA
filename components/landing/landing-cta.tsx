@@ -13,7 +13,7 @@ export function LandingCta() {
         mostrar.
       </p>
       <div className="mt-8">
-        <Cta href="/app" className="!py-4 !text-base">
+        <Cta href={OFFER.checkoutUrl} className="!py-4 !text-base">
           {OFFER.cta}
         </Cta>
       </div>

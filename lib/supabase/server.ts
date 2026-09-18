@@ -31,7 +31,7 @@ export async function createServerSupabaseClient() {
 
 /**
  * Admin client with the service_role key — bypasses RLS entirely. Only ever
- * call this from trusted server code (the Cakto webhook handler), never in
+ * call this from trusted server code (the Payt webhook handler), never in
  * response to a request whose caller isn't independently verified first.
  */
 export function createAdminSupabaseClient() {
