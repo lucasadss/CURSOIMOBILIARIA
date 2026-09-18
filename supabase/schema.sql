@@ -11,6 +11,8 @@ create table if not exists public.authorized_buyers (
   product text,
   transaction_id text,
   purchased_at timestamptz,
+  -- Último link de acesso enviado (throttle por e-mail contra spam de e-mails).
+  last_link_sent_at timestamptz,
   updated_at timestamptz not null default now()
 );
 

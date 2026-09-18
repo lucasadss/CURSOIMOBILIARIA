@@ -11,7 +11,8 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./env";
 const PUBLIC_PATHS = [
   "/", // landing page
   "/login",
-  "/auth/callback",
+  "/auth/confirm",
+  "/auth/confirm/verify",
   "/api/webhooks/", // Payt calls this directly, no user session involved
 ];
 
