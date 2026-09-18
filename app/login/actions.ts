@@ -17,6 +17,18 @@ const THROTTLE_MS = 60_000;
 const GENERIC_MESSAGE =
   "Se esse e-mail tiver uma compra aprovada, você vai receber um link de acesso em instantes.";
 
+// Production always links to the real domain — a stray localhost value in the
+// env (or none at all) must never end up in an email sent to a buyer.
+const PRODUCTION_URL = "https://www.imovixai.site";
+
+function resolveSiteUrl(): string {
+  if (process.env.NODE_ENV !== "production") {
+    return process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  }
+  const configured = process.env.NEXT_PUBLIC_SITE_URL;
+  return configured && !/localhost|127.0.0.1/.test(configured) ? configured : PRODUCTION_URL;
+}
+
 /**
  * Generates a one-time login token for an active buyer and emails it through
  * Resend. Runs in the background (`after`) so the response time is identical
@@ -46,7 +58,7 @@ async function sendAccessLink(email: string, next: string | undefined) {
 
   // The link goes to OUR confirm page (which needs a click), not straight to
   // Supabase: email scanners pre-fetch URLs and would burn a one-time link.
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+  const siteUrl = resolveSiteUrl();
   const link = new URL("/auth/confirm", siteUrl);
   link.searchParams.set("token_hash", tokenHash);
   if (next) link.searchParams.set("next", next);
