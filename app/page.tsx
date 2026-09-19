@@ -18,6 +18,7 @@ import { LandingSupport } from "@/components/landing/landing-support";
 import { LandingFaq } from "@/components/landing/landing-faq";
 import { LandingCta } from "@/components/landing/landing-cta";
 import { LandingFooter } from "@/components/landing/landing-footer";
+import { MetaPixel } from "@/components/landing/meta-pixel";
 
 export const metadata: Metadata = {
   title: { absolute: "IMOVIX · Venda mais apresentando melhor os seus imóveis" },
@@ -31,6 +32,7 @@ export default function LandingPage() {
       className="bg-[#0D0D0D]"
       style={{ fontFamily: 'var(--font-manrope), "Manrope", system-ui, sans-serif' }}
     >
+      <MetaPixel />
       <main>
         <LandingHero />
         <LandingPatternBreak />
