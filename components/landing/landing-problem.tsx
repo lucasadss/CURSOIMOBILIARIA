@@ -28,7 +28,7 @@ const PROBLEMS = [
 
 export function LandingProblem() {
   return (
-    <Section tone="light">
+    <Section tone="dark">
       <div className="mx-auto max-w-[40rem] text-center">
         <h2 className="text-balance text-2xl font-bold leading-[1.2] tracking-[-0.01em] sm:text-3xl">
           Se seus posts ainda se parecem com esses...

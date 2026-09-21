@@ -2,12 +2,9 @@ import type { Metadata } from "next";
 import { LandingHero } from "@/components/landing/landing-hero";
 import { LandingPatternBreak } from "@/components/landing/landing-pattern-break";
 import { LandingExamples } from "@/components/landing/landing-examples";
-import { LandingNotEditor } from "@/components/landing/landing-not-editor";
 import { LandingHow } from "@/components/landing/landing-how";
 import { LandingBenefits } from "@/components/landing/landing-benefits";
-import { LandingCompare } from "@/components/landing/landing-compare";
 import { LandingNoAi } from "@/components/landing/landing-no-ai";
-import { LandingAssistant } from "@/components/landing/landing-assistant";
 import { LandingProblem } from "@/components/landing/landing-problem";
 import { LandingBonuses } from "@/components/landing/landing-bonuses";
 import { LandingTestimonials } from "@/components/landing/landing-testimonials";
@@ -37,12 +34,9 @@ export default function LandingPage() {
         <LandingHero />
         <LandingPatternBreak />
         <LandingExamples />
-        <LandingNotEditor />
         <LandingHow />
         <LandingBenefits />
-        <LandingCompare />
         <LandingNoAi />
-        <LandingAssistant />
         <LandingProblem />
         <LandingBonuses />
         <LandingTestimonials />

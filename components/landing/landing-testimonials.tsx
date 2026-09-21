@@ -8,7 +8,7 @@ export function LandingTestimonials() {
   const loop = [...ITEMS, ...ITEMS];
 
   return (
-    <Section tone="light">
+    <Section tone="dark">
       <SectionHead
         kicker="Depoimentos"
         title="Quem começa a usar entende rápido o porquê"
@@ -37,7 +37,7 @@ export function LandingTestimonials() {
         </div>
       </div>
 
-      <Cta href="#oferta" tone="light" className="mt-10">
+      <Cta href="#oferta" tone="dark" className="mt-10">
         Quero resultados assim
       </Cta>
     </Section>

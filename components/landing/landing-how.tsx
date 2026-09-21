@@ -21,7 +21,7 @@ const STEPS = [
 
 export function LandingHow() {
   return (
-    <Section tone="dark" id="como-funciona">
+    <Section tone="light" id="como-funciona">
       <SectionHead kicker="Como funciona" title="Da foto ao conteúdo em poucos passos" />
 
       <div className="mt-12 grid gap-4 sm:grid-cols-2">
@@ -44,7 +44,7 @@ export function LandingHow() {
         </ImpactLine>
       </div>
 
-      <Cta href="#oferta" tone="dark" className="mt-8">
+      <Cta href="#oferta" tone="light" className="mt-8">
         Quero começar agora
       </Cta>
     </Section>

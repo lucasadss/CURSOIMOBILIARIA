@@ -4,7 +4,7 @@ import { Section, SectionHead, C } from "./landing-ui";
 
 export function LandingIncluded() {
   return (
-    <Section tone="dark">
+    <Section tone="light">
       <SectionHead title="Tudo que você precisa para parar de depender de foto parada" />
 
       <ul className="mt-10 grid gap-x-10 gap-y-3 sm:grid-cols-2">

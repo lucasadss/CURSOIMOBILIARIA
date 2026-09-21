@@ -4,7 +4,7 @@ import { Section, SectionHead, Cta, C } from "./landing-ui";
 
 export function LandingBonuses() {
   return (
-    <Section tone="dark" id="bonus">
+    <Section tone="light" id="bonus">
       <SectionHead kicker="Para turbinar seus resultados" title="Bônus exclusivos" />
 
       <div className="mx-auto mt-10 grid max-w-[860px] gap-5">
@@ -54,7 +54,7 @@ export function LandingBonuses() {
         ))}
       </div>
 
-      <Cta href="#oferta" tone="dark" className="mt-10">
+      <Cta href="#oferta" tone="light" className="mt-10">
         Quero garantir meus bônus
       </Cta>
     </Section>

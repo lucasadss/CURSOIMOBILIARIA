@@ -22,7 +22,7 @@ const CARDS = [
 
 export function LandingBenefits() {
   return (
-    <Section tone="light">
+    <Section tone="dark">
       <SectionHead
         kicker="Simples de aplicar"
         title="Feito para quem não tem tempo a perder com ferramentas complicadas"
@@ -54,7 +54,7 @@ export function LandingBenefits() {
         ))}
       </div>
 
-      <Cta href="#oferta" tone="light" className="mt-10">
+      <Cta href="#oferta" tone="dark" className="mt-10">
         Quero essa praticidade
       </Cta>
     </Section>
