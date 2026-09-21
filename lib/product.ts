@@ -10,14 +10,14 @@ export const BRAND = {
 
 export const PRICE = {
   /** Visible price. */
-  display: "R$ 47",
+  display: "R$ 37",
   /** Optional line under the price, e.g. "ou 12x de R$ X,XX". Empty = hidden. */
   note: "",
   model: "Pagamento único",
   /** Anchor price shown struck through, to frame the real price as a discount. */
   anchor: "R$ 197",
   /** Difference between anchor and display, shown as a savings badge. */
-  savings: "R$ 150",
+  savings: "R$ 160",
 };
 
 /** Bonus items shown as "incluso grátis" next to their individual value, to build perceived value. */
