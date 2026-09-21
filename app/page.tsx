@@ -8,7 +8,6 @@ import { LandingNoAi } from "@/components/landing/landing-no-ai";
 import { LandingProblem } from "@/components/landing/landing-problem";
 import { LandingBonuses } from "@/components/landing/landing-bonuses";
 import { LandingTestimonials } from "@/components/landing/landing-testimonials";
-import { LandingIncluded } from "@/components/landing/landing-included";
 import { LandingOffer } from "@/components/landing/landing-offer";
 import { LandingGuarantee } from "@/components/landing/landing-guarantee";
 import { LandingSupport } from "@/components/landing/landing-support";
@@ -40,7 +39,6 @@ export default function LandingPage() {
         <LandingProblem />
         <LandingBonuses />
         <LandingTestimonials />
-        <LandingIncluded />
         <LandingOffer />
         <LandingGuarantee />
         <LandingSupport />
